@@ -2,7 +2,6 @@
 #include "model/matrix_model.h"
 #include "lib/m_time.h"
 
-// typedef double type;
 using namespace s21;
 
 int main() {
@@ -13,7 +12,17 @@ int main() {
 
     size_vector layer_sizes1{Const::max_layer, 200, 150, 100, 50, Const::min_layer};
     fp_type learning_rate = 0.0075;
-    MatrixModel MM(layer_sizes1, learning_rate);
+    // MatrixModel MM(layer_sizes1, learning_rate);
+
+    PerceptronSettings ps;
+    ps.activation = Func::ActivationSiLU;
+    ps.derivative_activation = Func::DerivativeActivationSiLU;
+    ps.layers = layer_sizes1;
+    ps.learning_rate = learning_rate;
+    ps.weight_init = Func::XavierWeightsInit;
+    ps.momentum = 0.15;
+
+    MatrixModel MM(ps);
 
     auto time_point = s21::Time::Now();
 

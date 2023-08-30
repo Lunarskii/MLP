@@ -1,12 +1,25 @@
 #pragma once
 
-// #include "types.h"
+#include "types.h"
 #include <math.h>
 #include "../lib/random.h"
 // #include <iostream>
 #include "types.h"
+#include <functional>
 
 namespace s21 {
+
+struct PerceptronSettings {
+    size_vector layers;
+    fp_type learning_rate;
+    std::function<fp_type(fp_type)> activation;
+    std::function<fp_type(fp_type)> derivative_activation;
+    std::function<fp_type(int, int)> weight_init;
+    fp_type weight_mean, weight_sd;
+    fp_type momentum;
+    fp_type lr_epoch_k;
+    fp_type lr_layers_k;
+};
 
 struct Const {
     constexpr static int letter_width = 28;
@@ -33,34 +46,30 @@ struct Const {
 
 struct Func {
 
-    static fp_type WeightsInit(int rows, int cols) {
+    static fp_type XavierWeightsInit(int rows, int cols) {
         fp_type variance = std::sqrt(Const::xavier / (fp_type)(rows + cols));
         return s21::Random::Normal<fp_type>(0.0, variance);
-        // return s21::Random::Normal<fp_type>(Const::w_mean, Const::w_sd);
     }
-    static fp_type Activation(const fp_type x) {
-
+    static fp_type NormalWeightsInit(fp_type mean, fp_type sd) {
+        return s21::Random::Normal<fp_type>(mean, sd);
+    }
+    static fp_type ActivationReLU(const fp_type x) {
+        return x > 0 ? x : 0;
+    }
+    static fp_type DerivativeActivationReLU(const fp_type x) {
+        return x > 0 ? 1 : 0;
+    }
+    static fp_type ActivationSigmoid(const fp_type x) {
+        return 1.0 / (1.0 + std::exp(-1.0 * x));
+    }
+    static fp_type DerivativeActivationSigmoid(const fp_type x) {
+        return std::exp(-1.0 * x) / std::pow(std::exp(-1.0 * x) + 1.0, 2.0);
+    }
+    static fp_type ActivationSiLU(const fp_type x) {
         return x / (1.0 + std::exp(-1.0 * x));
-
-        // return Const::SiLU_k1 * x / (1.0 + std::exp(Const::SiLU_k2 * x));
-
-        // return 1.0 / (1.0 + std::exp(-1.0 * x));
-
-        // return x > 0 ? x : Const::ReLU_alpha * x;
-
-        // return x > 0 ? x : 0;
     }
-    static fp_type DerivativeActivation(const fp_type x) {
+    static fp_type DerivativeActivationSiLU(const fp_type x) {
         return (1.0 + std::exp(-1.0 * x) + x * std::exp(-1.0 * x)) / std::pow(1.0 + std::exp(-1.0 * x), 2.0);
-
-        // return (ConstT<T>::SiLU_k1  * (1.0 + std::exp(ConstT<T>::SiLU_k2 * x) + ConstT<T>::SiLU_k2 * x * std::exp(ConstT<T>::SiLU_k2 * x))) /
-        //                     std::pow(1.0 + std::exp(ConstT<T>::SiLU_k2 * x), 2.0);
-
-        // return std::exp(-1.0 * x) / std::pow(std::exp(-1.0 * x) + 1.0, 2.0);
-
-        // return x > 0 ? 1 : Const::ReLU_alpha;
-
-        // return x > 0 ? 1 : 0;
     }
 
     static int LayerReduction(fp_type k, int x, int count) {

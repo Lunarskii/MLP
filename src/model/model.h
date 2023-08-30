@@ -21,8 +21,7 @@ class Model {
                     // metrics(GetResult(), name);
                     // if (((++count) % (letters.Size() / 5)) == 0) {
                     //     std::cout << metrics().accuracy << " accuracy\n";
-                    //     metrics.Clear();
-                        
+                    //     metrics.Clear();            
                     // }
 
                     Backward(name);
@@ -60,7 +59,7 @@ class Model {
         virtual void Forward() = 0;
         virtual void Backward(int answer) = 0;
         virtual int GetResult() = 0;
-        virtual void UpdateLR() = 0;
+        virtual void UpdateLR() {}
 
     protected:
         data_vector *letter_;
