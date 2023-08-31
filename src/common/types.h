@@ -4,7 +4,8 @@
 #include "../lib/blas_matrix.h"
 // #include "../lib/cl_matrix.h"
 
-namespace s21 {
+namespace s21 
+{
 
 typedef double fp_type;
 

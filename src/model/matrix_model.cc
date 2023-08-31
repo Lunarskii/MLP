@@ -5,16 +5,30 @@ using namespace s21;
 /////////////////////////////////////////////////////////////////////
 // CONSTRUCTORS
 
-MatrixLayer::MatrixLayer(size_t rows, size_t cols, fp_type learning_rate) :
-        weights_(rows, cols, [&] { return Func::WeightsInit(rows, cols); }),
-        delta_weights_(rows, cols, 0), destination_(cols), biases_(cols), gradients_(cols), error_(cols),
-        learning_rate_(learning_rate) {}
+// MatrixLayer::MatrixLayer(size_t rows, size_t cols, fp_type learning_rate) :
+//         weights_(rows, cols, [&] { return Func::WeightsInit(rows, cols); }),
+//         delta_weights_(rows, cols, 0), destination_(cols), biases_(cols), gradients_(cols), error_(cols),
+//         learning_rate_(learning_rate) {}
+    
+MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &settings) :
+        weights_(rows, cols, [&] { return settings.weight_init(rows, cols); }),
+        delta_weights_(rows, cols, 0), destination_(cols), biases_(cols), gradients_(cols), error_(cols), settings_(settings) {
 
-MatrixModel::MatrixModel(const size_vector &layer_sizes, fp_type learning_rate) :
-        target_output_(layer_sizes.back(), Const::target.first) {
+}
 
-    for (int k = 0; k < layer_sizes.size() - 1; ++k) {
-        layers_.emplace_back(layer_sizes[k], layer_sizes[k + 1], learning_rate);
+// MatrixModel::MatrixModel(const size_vector &layer_sizes, fp_type learning_rate) :
+//         target_output_(layer_sizes.back(), Const::target.first) {
+
+//     for (int k = 0; k < layer_sizes.size() - 1; ++k) {
+//         layers_.emplace_back(layer_sizes[k], layer_sizes[k + 1], learning_rate);
+//     }
+// }
+
+MatrixModel::MatrixModel(const PerceptronSettings &settings) :
+        target_output_(settings.layers.back(), Const::target.first), settings_(settings) {
+
+    for (int k = 0; k < settings_.layers.size() - 1; ++k) {
+        layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], settings_);
     }
 }
 
@@ -25,7 +39,8 @@ void MatrixLayer::Signal(const std::vector<fp_type> *source) {
     Arithmetic<fp_type>::Mul(*source, weights_, destination_);
 
     for (size_t g = 0; g < weights_.GetCols(); ++g) {
-        destination_[g] = Func::Activation(destination_[g] + biases_[g]);
+        // destination_[g] = Func::Activation(destination_[g] + biases_[g]);
+        destination_[g] = settings_.activation(destination_[g] + biases_[g]);
     }
 
 }
@@ -58,7 +73,7 @@ void MatrixLayer::UpdateWeights(const std::vector<fp_type> *source) {
     for (int k = 0; k < weights_.GetRows(); ++k) {
         for (int g = 0; g < weights_.GetCols(); ++g) {
             delta_weights_(k, g) = delta_weights_(k, g) * Const::momentum +
-                            learning_rate_ * gradients_[g] * (*source)[k] * (1.0 - Const::momentum);
+                            settings_.learning_rate * gradients_[g] * (*source)[k] * (1.0 - settings_.momentum);
             weights_(k, g) += delta_weights_(k, g);
             // weights_(k, g) += learning_rate_ * gradients_[g] * (*source)[k];
         }
@@ -74,15 +89,20 @@ void MatrixLayer::UpdateError(const std::vector<fp_type> &target) {
 void MatrixLayer::UpdateGradientsBiases() {
     fp_type gradient_sum = 0.0;
     for (int g = 0; g < destination_.size(); ++g) {
-        gradients_[g] = Func::DerivativeActivation(destination_[g]) * error_[g];
+        // gradients_[g] = Func::DerivativeActivation(destination_[g]) * error_[g];
+        gradients_[g] = settings_.derivative_activation(destination_[g]) * error_[g];
 
         gradient_sum += std::pow(gradients_[g], 2);
 
-        biases_[g] += learning_rate_ * error_[g];
+        biases_[g] += settings_.learning_rate * error_[g];
     }
     fp_type l = std::pow(gradient_, 2) * (fp_type)count_ + gradient_sum / gradients_.size();
+
+
+
     ++count_;
     gradient_ = std::sqrt(l / count_);
+
     if (count_ > std::numeric_limits<int>::max() - 5) {
         std::cout << count_ << " COUNT ERROR\n";
     }
