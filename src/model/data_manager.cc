@@ -2,24 +2,39 @@
 
 using namespace s21;
 
-DataManager::DataManager(const std::string &file_path, int bias) :
+void DataManager::Read(std::fstream &file, data_vector &letter) {
+    for (auto &i : letter) {
+        file >> i;
+        i /= 256.0;
+        file.ignore();
+    }
+}
+
+void DataManager::ReadRotate(std::fstream &file, data_vector &letter) {
+    for (int k = 0; k < Const::letter_height; ++k) {
+        for (int g = 0; g < Const::letter_width; ++g) {
+            file >> letter[g * Const::letter_height + k];
+            letter[g * Const::letter_height + k] /= 256.0;
+            file.ignore();
+        }
+    }
+}
+
+DataManager::DataManager(const std::string &file_path, int bias, int rotate) :
         letters_(Const::min_layer) {
     std::fstream file(file_path);
+    auto read_func = rotate == 0 ? Read : ReadRotate;
     while (file) {
         int name;
         file >> name;
         name += bias;
         file.ignore();
         letters_[name].emplace_back(Const::max_layer);
-        Read(file, letters_[name].back());
+        read_func(file, letters_[name].back());
         ++size_;
     }
     file.close();
 
-    // for (int k = 0; k < 10; ++k) {
-    //     int name = Random::Int<int>(0, Const::min_layer - 1);
-    //     PrintLetter(letters_[name][Random::Int<int>(0, letters_[name].size() * train_proportion_)]);
-    // }
 }
 
 void DataManager::ForTest(const std::function<void(data_vector&, int)> func) {
@@ -108,12 +123,21 @@ void DataManager::PrintLetter(const data_vector &one) {
                 printf("\033[0;31m");
             else
                 printf("\033[0m");
-            printf("%2.2f", *iter);
+            printf("%2.2f|", *iter);
             ++iter;
         }
         std::cout << "\n";
     }
     std::cout << "\n";
+}
+
+void DataManager::Printn(int n) {
+    for (int k = 0; k < n; ++k) {
+        int l = Random::Int<int>(0, 25);
+        std::cout << (char)('a' + l) << '\n';
+        PrintLetter(letters_[l][Random::Int<int>(0, letters_[l].size() - 1)]);
+        std::cout << '\n';
+    }
 }
 
 

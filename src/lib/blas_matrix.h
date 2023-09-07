@@ -47,6 +47,7 @@ class Matrix {
             for (auto &i : matrix_) {
                 file >> i;
             }
+            file.ignore();
         }
 
         Matrix(std::initializer_list<std::initializer_list<T>> const &items) :
@@ -94,10 +95,10 @@ class Matrix {
         friend std::ostream& operator<<(std::ostream& os, const Matrix<T>& m) {
             os << m.rows_ << ' ' << m.cols_ << '\n';
             for (size_t i = 0; i < m.rows_; ++i) {
-                for (size_t j = 0; j < m.cols_; ++j) {
+                for (size_t j = 0; j < m.cols_ - 1; ++j) {
                     os << m(i, j) << ' ';
                 }
-                os << '\n';
+                os << m(i, m.cols_ - 1) << '\n';
             }
             return os;
         }

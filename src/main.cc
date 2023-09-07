@@ -15,23 +15,25 @@ int main() {
     // MatrixModel MM(layer_sizes1, learning_rate);
 
     PerceptronSettings ps;
-    ps.activation = Func::ActivationSiLU;
-    ps.derivative_activation = Func::DerivativeActivationSiLU;
+    // ps.activation = Func::ActivationSiLU;
+    // ps.derivative_activation = Func::DerivativeActivationSiLU;
+    ps.SetActivation(SILU);
     ps.layers = layer_sizes1;
     ps.learning_rate = learning_rate;
-    ps.weight_init = Func::XavierWeightsInit;
+    // ps.weight_init = Func::XavierWeightsInit;
+    ps.SetWeightInit(XAVIER);
     ps.momentum = 0.15;
 
-    MatrixModel MM(ps);
 
     auto time_point = s21::Time::Now();
 
 
-
-
+    MatrixModel MM(ps);
     // Learn
     {
-        DataManager letters_train("../datasets/emnist-letters-train.csv", -1);
+        DataManager letters_train("../datasets/emnist-letters-train.csv", -1, -1);
+        // DataManager letters_train("../datasets/a_z_data.csv", 0, 0);
+
         letters_train.Shuffle();
         letters_train.Split(CROSS);
         std::cout << "Dataset time = " << s21::Time::Duration(time_point) << '\n';
@@ -41,11 +43,15 @@ int main() {
 
         // auto metrics = MM.Test(letters_test1); //
     }
+    MM.ToFile("perceptron-q_z_data-1.prcp");
+
+
+    // MatrixModel MM("perceptron1.prcp");
 
     //Test
     {
         time_point = s21::Time::Now();
-        DataManager letters_test1("../datasets/emnist-letters-test.csv", -1);
+        DataManager letters_test1("../datasets/emnist-letters-test.csv", -1, -1);
         auto metrics = MM.Test(letters_test1);
         std::cout << metrics.accuracy << '\n';
         s21::SStr::Print(metrics.precision, metrics.recall, metrics.F1);

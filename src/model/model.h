@@ -10,7 +10,6 @@ class Model {
     public:
         Model() {}
         void Learn(DataManager &letters, int epoch_count) {
-            // MetricsMaker metrics;
 
             int count = 0;
             for (int k = 0; k < epoch_count; ++k) {
@@ -55,6 +54,11 @@ class Model {
                 metrics(GetResult(), name);
             });
             return metrics();
+        }
+        int Predict(data_vector &letter) {
+            letter_ = &letter;
+            Forward();
+            return GetResult();
         }
         virtual void Forward() = 0;
         virtual void Backward(int answer) = 0;
