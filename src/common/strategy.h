@@ -11,11 +11,11 @@
 namespace s21 {
 
 enum ActivationFunctions {
-    SIGMOID, SILU, RELU
+    kSigmoid, kSiLU, kReLU
 };
 
 enum WightInitFunctions {
-    NORMAL, XAVIER
+    kNormal, kXavier
 };
 
 struct Const {

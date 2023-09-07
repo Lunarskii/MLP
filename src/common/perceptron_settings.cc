@@ -2,31 +2,31 @@
 
 using namespace s21;
 
-void PerceptronSettings::SetActivation(int index) {
+void PerceptronSettings::SetActivation(ActivationFunctions index) {
     activation_i = index;
     switch (index) {
-        case SIGMOID:
+        case kSigmoid:
             activation = Func::ActivationSigmoid;
             derivative_activation = Func::DerivativeActivationSigmoid;
             break;
-        case SILU:
+        case kSiLU:
             activation = Func::ActivationSiLU;
             derivative_activation = Func::DerivativeActivationSiLU;
             break;
-        case RELU:
+        case kReLU:
             activation = Func::ActivationReLU;
             derivative_activation = Func::DerivativeActivationReLU;
             break;
     }
 }
 
-void PerceptronSettings::SetWeightInit(int index) {
+void PerceptronSettings::SetWeightInit(WightInitFunctions index) {
     weight_init_i = index;
     switch (index) {
-        case NORMAL:
+        case kNormal:
             weight_init = Func::NormalWeightsInit;
             break;
-        case XAVIER:
+        case kXavier:
             weight_init = Func::XavierWeightsInit;
             break;
     }
@@ -80,8 +80,8 @@ PerceptronSettings::PerceptronSettings(std::ifstream &os) {
         }
     });
     learning_rate = parse_double("\tlearning rate ");
-    activation_i = parse_int("\tactivation function ");
-    weight_init_i = parse_int("\tweight init function ");
+    activation_i = ActivationFunctions(parse_int("\tactivation function "));
+    weight_init_i = WightInitFunctions(parse_int("\tweight init function "));
     Func::w_mean = parse_double("\tweight mean ");
     Func::w_sd = parse_double("\tweight sd ");
     Func::xavier = parse_double("\tweight xavier k ");
