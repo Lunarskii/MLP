@@ -1,38 +1,44 @@
 #include "mainwindow.h"
 
+#include <iostream>
+
+namespace s21
+{
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui_(new Ui::MainWindow)
     , graph_widget_(new GraphWidget(this))
     , paint_widget_(new PaintWidget(this))
 {
-    ui->setupUi(this);
+    ui_->setupUi(this);
     InitDefaultUISettings_();
+    ConnectUISlots_();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete ui_;
     delete graph_widget_;
     delete paint_widget_;
 }
 
 void MainWindow::on_openSettings_clicked()
 {
-    ui->applicationTabWidget->setCurrentIndex(1);
+    ui_->applicationTabWidget->setCurrentIndex(1);
 }
 
 
 void MainWindow::on_exitSettings_clicked()
 {
-    ui->applicationTabWidget->setCurrentIndex(0);
+    ui_->applicationTabWidget->setCurrentIndex(0);
 }
 
-void MainWindow::on_pushButtonRealTime_clicked()
+void MainWindow::ReadModelSettings_()
 {
     s21::PerceptronSettings settings;
 
-    switch(ui->activationFunction->currentIndex())
+    switch(ui_->activationFunction->currentIndex())
     {
         case 0:
             settings.activation = s21::Func::ActivationSigmoid;
@@ -48,7 +54,7 @@ void MainWindow::on_pushButtonRealTime_clicked()
             break;
     }
 
-    switch(ui->weightFunction->currentIndex())
+    switch(ui_->weightFunction->currentIndex())
     {
         case 0:
             settings.weight_init = s21::Func::XavierWeightsInit;
@@ -58,9 +64,9 @@ void MainWindow::on_pushButtonRealTime_clicked()
             break;
     }
 
-    settings.momentum = ui->momentum->text().toDouble();
-    settings.lr_epoch_k = ui->learningRateEpochK->text().toDouble();
-    settings.lr_layers_k = ui->learningRateLayerK->text().toDouble();
+    settings.momentum = ui_->momentum->text().toDouble();
+    settings.lr_epoch_k = ui_->learningRateEpochK->text().toDouble();
+    settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
 
     emit StartTraining(settings);
 }
@@ -68,11 +74,50 @@ void MainWindow::on_pushButtonRealTime_clicked()
 
 void MainWindow::on_selectPaint_clicked()
 {
-    ui->tabDisplayWidget->setCurrentIndex(1);
+    ui_->tabDisplayWidget->setCurrentIndex(1);
 }
 
 
 void MainWindow::on_selectGraph_clicked()
 {
-    ui->tabDisplayWidget->setCurrentIndex(0);
+    ui_->tabDisplayWidget->setCurrentIndex(0);
 }
+
+
+void MainWindow::AddLayer_()
+{
+    int row = ui_->layersListWidget->currentRow();
+
+    if (row == 0)
+    {
+        ++row;
+    }
+    else if (row == -1)
+    {
+        row = ui_->layersListWidget->count() - 2;
+    }
+
+    ui_->layersListWidget->insertItem(row, "0");
+    QListWidgetItem* item = ui_->layersListWidget->item(row);
+    item->setFlags(item->flags() | Qt::ItemIsEditable);
+}
+
+void MainWindow::RemoveLayer_()
+{
+    int row = ui_->layersListWidget->currentRow();
+    std::size_t size = ui_->layersListWidget->count();
+
+    if (row != 0 && row != size - 1 && size != 2)
+    {
+        if (row != -1)
+        {
+            ui_->layersListWidget->takeItem(row);
+        }
+        else
+        {
+            ui_->layersListWidget->takeItem(size - 2);
+        }
+    }
+}
+
+} // namespace s21
