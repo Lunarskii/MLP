@@ -113,3 +113,6 @@ void PerceptronSettings::ToFile(std::ostream& os) {
     os << "\n\tlr layers k " << lr_layers_k;
     os << "\n}\n";
 }
+
+
+

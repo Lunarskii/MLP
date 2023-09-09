@@ -142,4 +142,3 @@ struct Arithmetic::functions<double> {
 };
 
 } // namespace CL
-
