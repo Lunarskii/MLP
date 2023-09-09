@@ -20,7 +20,7 @@ void PerceptronSettings::SetActivation(ActivationFunctions index) {
     }
 }
 
-void PerceptronSettings::SetWeightInit(WightInitFunctions index) {
+void PerceptronSettings::SetWeightInit(WeightInitFunctions index) {
     weight_init_i = index;
     switch (index) {
         case kNormal:
@@ -81,7 +81,7 @@ PerceptronSettings::PerceptronSettings(std::ifstream &os) {
     });
     learning_rate = parse_double("\tlearning rate ");
     activation_i = ActivationFunctions(parse_int("\tactivation function "));
-    weight_init_i = WightInitFunctions(parse_int("\tweight init function "));
+    weight_init_i = WeightInitFunctions(parse_int("\tweight init function "));
     Func::w_mean = parse_double("\tweight mean ");
     Func::w_sd = parse_double("\tweight sd ");
     Func::xavier = parse_double("\tweight xavier k ");

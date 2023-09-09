@@ -15,7 +15,7 @@ struct PerceptronSettings {
         std::function<fp_type(fp_type)> derivative_activation;
         std::function<fp_type(int, int)> weight_init;
         ActivationFunctions activation_i;
-        WightInitFunctions weight_init_i;
+        WeightInitFunctions weight_init_i;
     
     public:
         PerceptronSettings() = default;
@@ -27,7 +27,7 @@ struct PerceptronSettings {
         
 
         void SetActivation(ActivationFunctions index);
-        void SetWeightInit(WightInitFunctions index);
+        void SetWeightInit(WeightInitFunctions index);
         
 
 

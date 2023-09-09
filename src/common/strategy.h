@@ -14,18 +14,18 @@ enum ActivationFunctions {
     kSigmoid, kSiLU, kReLU
 };
 
-enum WightInitFunctions {
+enum WeightInitFunctions {
     kNormal, kXavier
 };
 
 struct Const {
-    constexpr static int letter_width = 28;
-    constexpr static int letter_height = 28;
-    constexpr static int max_layer = letter_width * letter_height;
-    constexpr static int min_layer = 26;
-    constexpr static int start_layer_count = 5;
-    constexpr static int max_layer_count = 5;
-    constexpr static int min_layer_count = 2;
+    constexpr static size_t letter_width = 28;
+    constexpr static size_t letter_height = 28;
+    constexpr static size_t max_layer = letter_width * letter_height;
+    constexpr static size_t min_layer = 26;
+    // constexpr static int start_layer_count = 5;
+    // constexpr static int max_layer_count = 5;
+    // constexpr static int min_layer_count = 2;
     inline static std::pair<fp_type, fp_type> target =
                 std::pair<fp_type, fp_type>(0.0, 1.0);
 };
@@ -39,7 +39,7 @@ struct Func {
         fp_type variance = std::sqrt(xavier / (fp_type)(rows + cols));
         return s21::Random::Normal<fp_type>(0.0, variance);
     }
-    static fp_type NormalWeightsInit(int rows, int cols) {
+    static fp_type NormalWeightsInit(int rows [[maybe_unused]], int cols [[maybe_unused]]) {
         return s21::Random::Normal<fp_type>(w_mean, w_sd);
     }
     static fp_type ActivationReLU(const fp_type x) {

@@ -77,8 +77,8 @@ class Matrix {
         void Update(const std::vector<T> &vec) {
             matrix_ = vec;
         }
-        const size_t GetCols() const { return cols_; }
-        const size_t GetRows() const { return rows_; }
+        size_t GetCols() const { return cols_; }
+        size_t GetRows() const { return rows_; }
 
         const std::vector<T> &ToVector() const { return matrix_; }
         std::vector<T> &ToVector() { return matrix_; }

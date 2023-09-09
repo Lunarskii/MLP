@@ -27,7 +27,7 @@ int main() {
     MatrixModel MM(ps);
     // Learn
     {
-        DataManager letters_train("../datasets/emnist-letters-train.csv", -1, -1);
+        DataManager letters_train("../datasets/emnist-letters-train.csv", -1, k90Rotate);
         // DataManager letters_train("../datasets/a_z_data.csv", 0, 0);
 
         letters_train.Shuffle();
@@ -47,7 +47,7 @@ int main() {
     //Test
     {
         time_point = s21::Time::Now();
-        DataManager letters_test1("../datasets/emnist-letters-test.csv", -1, -1);
+        DataManager letters_test1("../datasets/emnist-letters-test.csv", -1, k90Rotate);
         auto metrics = MM.Test(letters_test1);
         std::cout << metrics.accuracy << '\n';
         s21::SStr::Print(metrics.precision, metrics.recall, metrics.F1);

@@ -69,7 +69,7 @@ class MatrixModel : public Model {
     private:
         std::vector<MatrixLayer> layers_;
         // std::vector<fp_type> target_output_;
-        PerceptronSettings settings_;
+        // PerceptronSettings settings_;
         int count_ = 0;
 
 };

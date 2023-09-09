@@ -11,41 +11,25 @@ class Model {
         Model() {}
         void Learn(DataManager &letters, int epoch_count) {
 
-            int count = 0;
             for (int k = 0; k < epoch_count; ++k) {
                 letters.ForTrain([&] (data_vector &letter, int name) {
                     letter_ = &letter;
                     Forward();
-
-                    // metrics(GetResult(), name);
-                    // if (((++count) % (letters.Size() / 5)) == 0) {
-                    //     std::cout << metrics().accuracy << " accuracy\n";
-                    //     metrics.Clear();            
-                    // }
-
                     Backward(name);
-                    
                 });
-    
-                // if (k != epoch_count - 1) {
-                    MetricsMaker epoch_metrics;
-                    letters.ForTest([&] (data_vector &letter, int name) {
-                        letter_ = &letter;
-                        Forward();
-                        epoch_metrics(GetResult(), name);
-                    });
-                    const auto &m = epoch_metrics();
-                    std::cout << m.accuracy << "; ";
-                    for (auto i : m.precision) printf("%.3lf ", i);
-                    std::cout << '\n';
-                    // letters.SetMetric(m.precision);
-                    // UpdateLR();
-                // }
+
+                auto epoch_metrics = Test(letters);
+                std::cout << epoch_metrics.accuracy << "; ";
+                for (auto i : epoch_metrics.precision) printf("%.3lf ", i);
+                std::cout << '\n';
+                // letters.SetMetric(m.precision);
+                // UpdateLR();
             }
             
         }
         virtual ~Model() = default;
         Metrics Test(DataManager &letters) {
+            letters.Validate(settings_.layers.front(), settings_.layers.back());
             MetricsMaker metrics;
 
             letters.ForTest([&] (data_vector &letter, int name) {
@@ -56,6 +40,9 @@ class Model {
             return metrics();
         }
         int Predict(data_vector &letter) {
+            if (letter.size() != settings_.layers.front()) {
+                throw std::runtime_error("Model: incorrect letter size");
+            }
             letter_ = &letter;
             Forward();
             return GetResult();
@@ -65,8 +52,10 @@ class Model {
         virtual int GetResult() = 0;
         virtual void UpdateLR() {}
 
+
     protected:
         data_vector *letter_;
+        PerceptronSettings settings_;
 };
 
 } // namespace s21

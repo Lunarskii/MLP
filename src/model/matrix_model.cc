@@ -7,10 +7,11 @@ using namespace s21;
 
 MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &settings) :
         weights_(rows, cols, [&] { return settings.weight_init(rows, cols); }),
-        delta_weights_(rows, cols, 0), destination_(cols), biases_(cols), gradients_(cols), error_(cols), settings_(settings) {}
+        delta_weights_(rows, cols, 0), biases_(cols), destination_(cols), gradients_(cols), error_(cols), settings_(settings) {}
 
 
-MatrixModel::MatrixModel(const PerceptronSettings &settings) : settings_(settings) {
+MatrixModel::MatrixModel(const PerceptronSettings &settings) {
+    settings_ = settings;
 
     for (int k = 0; k < settings_.layers.size() - 1; ++k) {
         layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], settings_);
