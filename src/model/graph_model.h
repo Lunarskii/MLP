@@ -9,6 +9,8 @@
 namespace s21
 {
 
+class GraphModel;
+
 class GraphLayer
 {
 	friend GraphModel;
