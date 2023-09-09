@@ -6,11 +6,13 @@
 namespace s21 {
 
 class MatrixLayer;
+class GraphModel;
 
 struct PerceptronSettings {
     
     private:
         friend class MatrixLayer;
+        friend class GraphModel;
         std::function<fp_type(fp_type)> activation;
         std::function<fp_type(fp_type)> derivative_activation;
         std::function<fp_type(int, int)> weight_init;

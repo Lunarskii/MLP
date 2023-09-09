@@ -1,5 +1,6 @@
 #include "model/data_manager.h"
 #include "model/matrix_model.h"
+#include "model/graph_model.h"
 #include "lib/m_time.h"
 
 using namespace s21;
@@ -24,7 +25,7 @@ int main() {
     auto time_point = s21::Time::Now();
 
 
-    MatrixModel MM(ps);
+    GraphModel MM(ps);
     // Learn
     {
         DataManager letters_train("../datasets/emnist-letters-train.csv", -1, k90Rotate);
@@ -49,7 +50,7 @@ int main() {
         std::cout << "Test time = " << s21::Time::Duration(time_point) << "\n\n";
 
     }
-    MM.ToFile("perceptron-q_z_data-1.prcp");
+    // MM.ToFile("perceptron-q_z_data-1.prcp");
 
 
     // MatrixModel MM("perceptron1.prcp");

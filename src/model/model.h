@@ -3,6 +3,7 @@
 #include <vector>
 #include "data_manager.h"
 #include "../common/metrics.h"
+#include "../common/perceptron_settings.h"
 
 namespace s21 {
 
@@ -10,7 +11,7 @@ class Model {
     public:
         Model() {}
         void Learn(DataManager &letters, int epoch_count) {
-            letters.Validate(settings_.layers.front(), settings_.layers.back());
+            // letters.Validate(settings_.layers.front(), settings_.layers.back());
 
             for (int k = 0; k < epoch_count; ++k) {
                 letters.ForTrain([&] (data_vector &letter, int name) {
