@@ -70,7 +70,7 @@ struct Graph final
 
 	Edge& GetEdge(std::size_t vertex1_id, std::size_t vertex2_id)
 	{
-		for (auto edge : edges)
+		for (auto& edge : edges)
 		{
 			if (edge.vertex1.id == vertex1_id && edge.vertex2.id == vertex2_id
 				|| edge.vertex1.id == vertex2_id && edge.vertex2.id == vertex1_id)

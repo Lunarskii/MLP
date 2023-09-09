@@ -1,5 +1,8 @@
 #include "graphwidget.h"
 
+namespace s21
+{
+
 GraphWidget::GraphWidget(QWidget* parent)
     : QWidget(parent)
     , custom_plot_(new QCustomPlot(this))
@@ -30,3 +33,5 @@ void GraphWidget::LoadEpochs(std::vector<double>* errors)
     custom_plot_->addGraph()->setData(a1, a2);
     custom_plot_->replot();
 }
+
+} // namespace s21

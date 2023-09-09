@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 
-#include <iostream>
-
 namespace s21
 {
 
@@ -10,17 +8,21 @@ MainWindow::MainWindow(QWidget *parent)
     , ui_(new Ui::MainWindow)
     , graph_widget_(new GraphWidget(this))
     , paint_widget_(new PaintWidget(this))
+    , view_settings_(new Settings("School21", "MLP"))
 {
     ui_->setupUi(this);
     InitDefaultUISettings_();
     ConnectUISlots_();
+    RestoreViewSettings_();
 }
 
 MainWindow::~MainWindow()
 {
+    SaveViewSettings_();
     delete ui_;
     delete graph_widget_;
     delete paint_widget_;
+    delete view_settings_;
 }
 
 void MainWindow::on_openSettings_clicked()
@@ -86,20 +88,23 @@ void MainWindow::on_selectGraph_clicked()
 
 void MainWindow::AddLayer_()
 {
-    int row = ui_->layersListWidget->currentRow();
-
-    if (row == 0)
+    if (ui_->layersListWidget->count() != 7)
     {
-        ++row;
-    }
-    else if (row == -1)
-    {
-        row = ui_->layersListWidget->count() - 2;
-    }
+        int row = ui_->layersListWidget->currentRow();
 
-    ui_->layersListWidget->insertItem(row, "0");
-    QListWidgetItem* item = ui_->layersListWidget->item(row);
-    item->setFlags(item->flags() | Qt::ItemIsEditable);
+        if (row == 0)
+        {
+            ++row;
+        }
+        else if (row == -1)
+        {
+            row = ui_->layersListWidget->count() - 2;
+        }
+
+        ui_->layersListWidget->insertItem(row, "0");
+        QListWidgetItem* item = ui_->layersListWidget->item(row);
+        item->setFlags(item->flags() | Qt::ItemIsEditable);
+    }
 }
 
 void MainWindow::RemoveLayer_()
