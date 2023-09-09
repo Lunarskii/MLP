@@ -6,6 +6,9 @@
 #include <vector>
 #include "../QCustomPlot/qcustomplot.h"
 
+namespace s21
+{
+
 class GraphWidget : public QWidget
 {
 public:
@@ -15,5 +18,7 @@ public:
 private:
     QCustomPlot* custom_plot_{ nullptr };
 };
+
+} // namespace s21
 
 #endif  // CPP7_MLP_VIEW_GRAPH_GRAPHWIDGET_H_

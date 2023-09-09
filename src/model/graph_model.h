@@ -4,6 +4,7 @@
 #include "model.h"
 #include "graph.h"
 #include "../common/strategy.h"
+#include "../common/perceptron_settings.h"
 
 namespace s21
 {
@@ -29,6 +30,7 @@ public:
 	GraphModel(const PerceptronSettings& settings);
 	void Forward() override;
 	void Backward(int answer) override;
+	int GetResult() override;
 
 private:
 	void UpdateOutputLayer(std::size_t answer);

@@ -1,5 +1,7 @@
 #include "graph_model.h"
 
+#include <iostream>
+
 namespace s21
 {
 
@@ -38,15 +40,18 @@ GraphModel::GraphModel(const PerceptronSettings& settings)
     {
         layers_[i].LinkLayers(layers_[i + 1]);
     }
-
-    for (unsigned int i = 0; i < (*letter_).size(); ++i)
-    {
-        graph_(i).value = (*letter_)[i];
-    }
 }
 
 void GraphModel::Forward()
 {
+    std::cout << "first_layer_size = " << layers_[0].vertex_indexes_.size() << std::endl;
+    std::cout << "letter_size = " << letter_->size() << std::endl;
+    for (unsigned int i = 0; i < letter_->size(); ++i)
+    {
+        graph_(i).value = (*letter_)[i];
+    }
+    std::cout << "first layer done" << std::endl;
+
     for (std::size_t i = 0; i < layers_.size() - 1; ++i)
     {
         for (auto output_vertex : layers_[i + 1].vertex_indexes_)
@@ -65,6 +70,25 @@ void GraphModel::Backward(int answer)
     UpdateOutputLayer(answer);
     UpdateHiddenLayers();
     UpdateWeights();
+}
+
+int GraphModel::GetResult()
+{
+    fp_type max = -std::numeric_limits<fp_type>::infinity();
+    fp_type result = 0;
+    int k = 0;
+
+    for (auto vertex : layers_[layers_.size() - 1].vertex_indexes_)
+    {
+        if (max < graph_(vertex).value)
+        {
+            max = graph_(vertex).value;
+            result = k;
+        }
+        ++k;
+    }
+
+    return result;
 }
 
 void GraphModel::UpdateOutputLayer(std::size_t answer)

@@ -11,26 +11,15 @@
 
 namespace s21 {
 
-// struct Parser {
-//     static void CSV() {
-
-//     }
-// }
+enum LetterRotate {
+    kNoRotate, k90Rotate
+};
 
 class DataManager {
-    dataset_t letters_;
-    int size_ = 0, cross_k_;
-    fp_type test_proportion_ = 1.0, train_proportion_ = 0.0;
-    std::vector<fp_type> metric_;
-    fp_type metric_sum_;
-    fp_type d_angel_;
-
-    static void PrintLetter(const data_vector &one);
-
     public:
 
-        // angel = d_angel * 90
-        DataManager(const std::string &file_path, int bias = 0);
+        DataManager(const std::string &file_path, int bias = 0, LetterRotate rotate = kNoRotate,
+                    size_t width = Const::letter_width, size_t height = Const::letter_height, int classes = Const::min_layer);
         DataManager() = default;
         void Shuffle();
         void ForTest(const std::function<void(data_vector&, int)> func);
@@ -41,14 +30,25 @@ class DataManager {
         void CrossUpdate();
         int Size() { return size_; }
 
+        // throw an error if the dataset is of a different size
+        void Validate(size_t letter_size, int classes);
 
-        static void Read(std::fstream &file, data_vector &letter) {
-            for (auto &i : letter) {
-                file >> i;
-                i /= 256.0;
-                file.ignore();
-            }
-        }
+        static void PrintLetter(const data_vector &one);
+        void Printn(int n);
+    
+    private:
+        void ReadNoRotate(std::fstream &file, data_vector &letter);
+        void Read90Rotate(std::fstream &file, data_vector &letter);
+        void Read180Rotate(std::fstream &file, data_vector &letter);
+        void Read270Rotate(std::fstream &file, data_vector &letter);
+        auto ReadFunctionSwitch(LetterRotate rotate);
+
+        dataset_t letters_;
+        int cross_k_, classes_;
+        size_t width_, height_, size_ = 0;
+        fp_type test_proportion_, train_proportion_;
+        std::vector<fp_type> metric_;
+        fp_type metric_sum_;
 };
 
 } // namespace s21

@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -60,40 +60,8 @@
         <string>Tab 1</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="2" column="2">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="0" column="3">
          <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="1">
-         <spacer name="horizontalSpacer_5">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -157,6 +125,22 @@
            </attribute>
           </widget>
          </widget>
+        </item>
+        <item row="2" column="2">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="1" column="0">
          <widget class="QWidget" name="informationWIdget" native="true">
@@ -281,6 +265,22 @@
           </layout>
          </widget>
         </item>
+        <item row="0" column="1">
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item row="0" column="2" rowspan="2">
          <widget class="QWidget" name="mainWidget" native="true">
           <property name="sizePolicy">
@@ -394,8 +394,8 @@ QComboBox::hover
            <property name="geometry">
             <rect>
              <x>90</x>
-             <y>200</y>
-             <width>81</width>
+             <y>320</y>
+             <width>51</width>
              <height>17</height>
             </rect>
            </property>
@@ -438,69 +438,11 @@ QComboBox::hover
             <string>Paint</string>
            </property>
           </widget>
-          <widget class="QLabel" name="labelNumberOfEpochs">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>120</y>
-             <width>131</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Number of epochs</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="labelNumberOfGroups">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>160</y>
-             <width>141</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Number of groups</string>
-           </property>
-          </widget>
-          <widget class="QSpinBox" name="numberOfEpochs">
-           <property name="geometry">
-            <rect>
-             <x>190</x>
-             <y>120</y>
-             <width>44</width>
-             <height>26</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-          </widget>
-          <widget class="QSpinBox" name="numberOfGroups">
-           <property name="geometry">
-            <rect>
-             <x>190</x>
-             <y>160</y>
-             <width>44</width>
-             <height>26</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-          </widget>
           <widget class="QPushButton" name="learningStartButton">
            <property name="geometry">
             <rect>
-             <x>30</x>
-             <y>390</y>
+             <x>40</x>
+             <y>480</y>
              <width>181</width>
              <height>31</height>
             </rect>
@@ -604,10 +546,10 @@ QComboBox::hover
           <widget class="QListWidget" name="layersListWidget">
            <property name="geometry">
             <rect>
-             <x>30</x>
-             <y>230</y>
+             <x>20</x>
+             <y>350</y>
              <width>170</width>
-             <height>97</height>
+             <height>78</height>
             </rect>
            </property>
            <property name="palette">
@@ -773,43 +715,9 @@ QListWidget::item::selected
            </item>
            <item>
             <property name="text">
-             <string>0</string>
-            </property>
-            <property name="flags">
-             <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>26</string>
             </property>
            </item>
-          </widget>
-          <widget class="QPushButton" name="addLayerButton">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>230</y>
-             <width>20</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>+</string>
-           </property>
-          </widget>
-          <widget class="QPushButton" name="removeLayerButton">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>260</y>
-             <width>20</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>-</string>
-           </property>
           </widget>
           <widget class="QComboBox" name="learningType">
            <property name="geometry">
@@ -856,6 +764,200 @@ QListWidget::item::selected
             <string>Learning</string>
            </property>
           </widget>
+          <widget class="QTabWidget" name="learningTypeWidget">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>130</y>
+             <width>211</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">border: 0px;</string>
+           </property>
+           <property name="inputMethodHints">
+            <set>Qt::ImhNone</set>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="tabBarAutoHide">
+            <bool>false</bool>
+           </property>
+           <widget class="QWidget" name="standardType">
+            <attribute name="title">
+             <string>Tab 1</string>
+            </attribute>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="labelNumberOfEpochs">
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Number of epochs</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="numberOfEpochs">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="crossValidationType">
+            <attribute name="title">
+             <string>Tab 2</string>
+            </attribute>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLabel" name="labelNumberOfGroups">
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Number of groups</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="numberOfGroups">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>80</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>350</y>
+             <width>22</width>
+             <height>48</height>
+            </rect>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QPushButton" name="addLayerButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>+</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="removeLayerButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>20</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>-</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -871,7 +973,13 @@ QListWidget::item::selected
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
+        <property name="leftMargin">
+         <number>15</number>
+        </property>
         <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
          <number>0</number>
         </property>
         <property name="bottomMargin">
@@ -880,28 +988,6 @@ QListWidget::item::selected
         <property name="verticalSpacing">
          <number>0</number>
         </property>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="exitSettings">
-          <property name="minimumSize">
-           <size>
-            <width>190</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}</string>
-          </property>
-          <property name="text">
-           <string>Exit settings</string>
-          </property>
-         </widget>
-        </item>
         <item row="4" column="0" colspan="2">
          <widget class="QWidget" name="momentumWidget" native="true">
           <property name="minimumSize">
@@ -990,6 +1076,214 @@ QListWidget::item::selected
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="descriptionMomentum">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+}</string>
+              </property>
+              <property name="text">
+               <string>description</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>50</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QWidget" name="learningRateWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>140</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}</string>
+          </property>
+          <widget class="QLabel" name="labelLearningRate">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>221</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>Learning rate reduction ratio</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="learningRateEpochK">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>60</y>
+             <width>201</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="learningRateLayerK">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>90</y>
+             <width>201</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="labelLearningRateEpochs">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>60</y>
+             <width>51</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>Epochs</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="labelLearningRateLayers">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>90</y>
+             <width>51</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>Layers</string>
+           </property>
+          </widget>
+          <widget class="QWidget" name="horizontalLayoutWidget_4">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>30</y>
+             <width>471</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="descriptionLearningRate">
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
@@ -1145,230 +1439,6 @@ QComboBox::hover
            </layout>
           </widget>
          </widget>
-        </item>
-        <item row="6" column="3">
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>70</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="5" column="0" colspan="2">
-         <widget class="QWidget" name="learningRateWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>120</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>140</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QWidget::hover
-{
-	border: 0.5px solid #6495ED;
-}</string>
-          </property>
-          <widget class="QLabel" name="labelLearningRate">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Learning rate reduction ratio</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="learningRateEpochK">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>60</y>
-             <width>201</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>0.75</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="learningRateLayerK">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>90</y>
-             <width>201</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>0.75</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="labelLearningRateEpochs">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>60</y>
-             <width>51</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Epochs</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="labelLearningRateLayers">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>90</y>
-             <width>51</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Layers</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_4">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>30</y>
-             <width>471</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="descriptionLearningRate">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-}</string>
-              </property>
-              <property name="text">
-               <string>description</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>50</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item row="2" column="0" colspan="2">
          <widget class="QWidget" name="activationWidget" native="true">
@@ -1539,8 +1609,444 @@ QComboBox::hover
           </widget>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="7" column="2">
+         <widget class="QPushButton" name="exitSettings">
+          <property name="minimumSize">
+           <size>
+            <width>190</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}</string>
+          </property>
+          <property name="text">
+           <string>Exit settings</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>70</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <widget class="QWidget" name="datasetDirectoriesWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>130</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>140</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}</string>
+          </property>
+          <widget class="QLabel" name="labelDatasetDirectories">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>221</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>Dataset directories</string>
+           </property>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>40</y>
+             <width>501</width>
+             <height>81</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <property name="verticalSpacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="labelMomentum_2">
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+	margin-left: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Training</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QPushButton" name="learningStartButton_5">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}
+
+QPushButton::hover
+{
+	background-color: rgb(78, 80, 89);
+}
+
+QPushButton::pressed
+{
+	background-color:  #40424B;
+}</string>
+              </property>
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="labelMomentum_4">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+	margin-left: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Mapping</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QPushButton" name="learningStartButton_4">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}
+
+QPushButton::hover
+{
+	background-color: rgb(78, 80, 89);
+}
+
+QPushButton::pressed
+{
+	background-color:  #40424B;
+}</string>
+              </property>
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QPushButton" name="learningStartButton_3">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}
+
+QPushButton::hover
+{
+	background-color: rgb(78, 80, 89);
+}
+
+QPushButton::pressed
+{
+	background-color:  #40424B;
+}</string>
+              </property>
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="labelMomentum_3">
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+	margin-left: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string>Testing</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <widget class="QLineEdit" name="datasetTrainingDirectory">
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-right: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="cursorPosition">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Enter the path to the dataset for training</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLineEdit" name="datasetTestsDirectory">
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-right: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="cursorPosition">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Enter the path to the dataset for testing</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="2">
+             <widget class="QLineEdit" name="datasetMappingDirectory">
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-right: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="cursorPosition">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Enter the mapping path</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item row="7" column="1">
          <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="6" column="2">
+         <spacer name="horizontalSpacer_7">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -1571,7 +2077,15 @@ QComboBox::hover
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionOpenFIle"/>
+    <widget class="QMenu" name="menuOpen_file">
+     <property name="title">
+      <string>Open...</string>
+     </property>
+     <addaction name="actionOpenADatasetForTraining"/>
+     <addaction name="actionOpenADatasetForTests"/>
+     <addaction name="actionOpenAMappingFile"/>
+    </widget>
+    <addaction name="menuOpen_file"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
@@ -1579,11 +2093,6 @@ QComboBox::hover
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionOpenFIle">
-   <property name="text">
-    <string>Open file...</string>
-   </property>
-  </action>
   <action name="actionSaveAs">
    <property name="text">
     <string>Save as...</string>
@@ -1592,6 +2101,26 @@ QComboBox::hover
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open...</string>
+   </property>
+  </action>
+  <action name="actionOpenADatasetForTraining">
+   <property name="text">
+    <string>dataset for training</string>
+   </property>
+  </action>
+  <action name="actionOpenADatasetForTests">
+   <property name="text">
+    <string>dataset for tests</string>
+   </property>
+  </action>
+  <action name="actionOpenAMappingFile">
+   <property name="text">
+    <string>mapping file</string>
    </property>
   </action>
  </widget>

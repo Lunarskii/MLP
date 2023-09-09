@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Graph/graphwidget.h"
 #include "Paint/paint_widget.h"
+#include "settings.h"
 #include "../common/strategy.h"
 #include "./ui_mainwindow.h"
 
@@ -29,6 +30,7 @@ private slots:
     void ReadModelSettings_();
     void AddLayer_();
     void RemoveLayer_();
+    void ChangeTypeOfLearning_(int index);
 
     void on_openSettings_clicked();
     void on_exitSettings_clicked();
@@ -39,9 +41,15 @@ private:
     Ui::MainWindow* ui_;
     GraphWidget* graph_widget_;
     PaintWidget* paint_widget_;
+    Settings* view_settings_;
+    std::string dataset_training_directory;
+    std::string dataset_tests_directory;
+    std::string dataset_mapping_directory;
 
     void InitDefaultUISettings_();
     void ConnectUISlots_();
+    void SaveViewSettings_();
+    void RestoreViewSettings_();
 };
 
 } // namespace s21
