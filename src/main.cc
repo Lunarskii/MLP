@@ -31,13 +31,23 @@ int main() {
         // DataManager letters_train("../datasets/a_z_data.csv", 0, 0);
 
         letters_train.Shuffle();
-        letters_train.Split(CROSS);
+
+        // при вызове метода Split получаем долю тестовой выборки = 1/CROSS
+        // letters_train.Split(CROSS);
+
         std::cout << "Dataset time = " << s21::Time::Duration(time_point) << '\n';
         time_point = s21::Time::Now();
+        // обучение с использованием letters_train датасета и его обучающей доли (default 80%).
         MM.Learn(letters_train, 5);
         std::cout << "Learn time = " << s21::Time::Duration(time_point) << "\n\n";
 
-        // auto metrics = MM.Test(letters_test1); //
+
+        // TEST с использованием letters_train датасета и его тестовой доли (default 20%).
+        auto metrics = MM.Test(letters_train);
+        std::cout << metrics.accuracy << '\n';
+        s21::SStr::Print(metrics.precision, metrics.recall, metrics.F1);
+        std::cout << "Test time = " << s21::Time::Duration(time_point) << "\n\n";
+
     }
     MM.ToFile("perceptron-q_z_data-1.prcp");
 

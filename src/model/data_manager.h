@@ -46,7 +46,7 @@ class DataManager {
         dataset_t letters_;
         int cross_k_, classes_;
         size_t width_, height_, size_ = 0;
-        fp_type test_proportion_ = 1.0, train_proportion_ = 0.0;
+        fp_type test_proportion_, train_proportion_;
         std::vector<fp_type> metric_;
         fp_type metric_sum_;
 };

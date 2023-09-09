@@ -28,6 +28,7 @@ struct Const {
     // constexpr static int min_layer_count = 2;
     inline static std::pair<fp_type, fp_type> target =
                 std::pair<fp_type, fp_type>(0.0, 1.0);
+    inline static int default_train_proportion = 8;
 };
 
 struct Func {

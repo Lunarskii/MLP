@@ -50,6 +50,8 @@ DataManager::DataManager(const std::string &file_path, int bias, LetterRotate ro
     }
     file.close();
 
+    Split(Const::default_train_proportion);
+
 }
 
 void DataManager::ForTest(const std::function<void(data_vector&, int)> func) {
