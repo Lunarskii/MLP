@@ -29,8 +29,9 @@ void GraphLayer::LinkLayers(GraphLayer& next_layer)
 }
 
 GraphModel::GraphModel(const PerceptronSettings& settings)
-    : settings_(settings)
+    
 {
+    settings_ = settings;
     for (auto layer_size : settings_.layers)
     {
         layers_.emplace_back(&graph_, layer_size);

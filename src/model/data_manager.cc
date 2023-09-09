@@ -49,6 +49,9 @@ DataManager::DataManager(const std::string &file_path, int bias, LetterRotate ro
         ++size_;
     }
     file.close();
+    if (size_ == 0) {
+        throw std::runtime_error("DataManager: empty file");
+    }
 
     Split(Const::default_train_proportion);
 
