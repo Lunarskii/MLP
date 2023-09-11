@@ -6,6 +6,7 @@
 #include "../lib/random.h"
 #include "../lib/m_sstr.h"
 #include "model.h"
+#include <numeric>
 
 // #include "../lib/cl_matrix.h"
 
@@ -53,7 +54,7 @@ class MatrixModel : public Model {
 
         int GetResult() override;
 
-        void ToFile(const std::string &file_name);
+        void ToFile(const std::string &file_name) override;
 
         void UpdateLR() override {
             // for (auto &i : layers_) {
@@ -71,6 +72,10 @@ class MatrixModel : public Model {
         // std::vector<fp_type> target_output_;
         // PerceptronSettings settings_;
         int count_ = 0;
+
+        const std::vector<fp_type> & GetErrorVector() override {
+            return layers_.back().error_;
+        }
 
 };
 

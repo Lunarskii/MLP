@@ -7,6 +7,7 @@
 #include "types.h"
 // #include <functional>
 #include <fstream>
+#include <numeric>
 
 namespace s21 {
 
@@ -29,6 +30,7 @@ struct Const {
     inline static std::pair<fp_type, fp_type> target =
                 std::pair<fp_type, fp_type>(0.0, 1.0);
     inline static int default_train_proportion = 8;
+    inline static int period_error_update = 8000;
 };
 
 struct Func {
@@ -60,6 +62,11 @@ struct Func {
     }
     static fp_type DerivativeActivationSiLU(const fp_type x) {
         return (1.0 + std::exp(-1.0 * x) + x * std::exp(-1.0 * x)) / std::pow(1.0 + std::exp(-1.0 * x), 2.0);
+    }
+    static fp_type MeanError(const std::vector<fp_type> &error) {
+        return std::sqrt(std::accumulate(error.begin(), error.end(), 0.0, [](fp_type a, fp_type b) {
+            return a + std::pow(b, 2);
+        }) / (fp_type)error.size());
     }
 };
 
