@@ -4,6 +4,7 @@
 #include "data_manager.h"
 #include "../common/metrics.h"
 #include "../common/perceptron_settings.h"
+#include "../common/error_thread.h"
 
 namespace s21 {
 
@@ -43,10 +44,13 @@ public:
     virtual void Backward(int answer) = 0;
     virtual int GetResult() = 0;
     virtual void UpdateLR() {}
+    virtual void ToFile(const std::string &filename) = 0;
+    virtual const std::vector<fp_type> &GetErrorVector() = 0;
 
 protected:
     data_vector *letter_;
     PerceptronSettings settings_;
+    Error error_;
 };
 
 } // namespace s21
