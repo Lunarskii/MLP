@@ -34,9 +34,6 @@ class DataManager {
         // throw an error if the dataset is of a different size
         void Validate(size_t letter_size, int classes);
 
-        // throw an error if the dataset is of a different size
-        void Validate(size_t letter_size, int classes);
-
         static void PrintLetter(const data_vector &one);
         void Printn(int n);
     
