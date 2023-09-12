@@ -8,7 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui_(new Ui::MainWindow)
     , graph_widget_(new GraphWidget(this))
     , paint_widget_(new PaintWidget(this))
-    , view_settings_(new Settings("School21", "MLP"))
+    , view_settings_(new QSettings("School21", "MLP"))
+    , fp_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"), this))
+    , int_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*"), this))
 {
     ui_->setupUi(this);
     InitDefaultUISettings_();
@@ -23,68 +25,28 @@ MainWindow::~MainWindow()
     delete graph_widget_;
     delete paint_widget_;
     delete view_settings_;
-}
-
-void MainWindow::on_openSettings_clicked()
-{
-    ui_->applicationTabWidget->setCurrentIndex(1);
-}
-
-
-void MainWindow::on_exitSettings_clicked()
-{
-    ui_->applicationTabWidget->setCurrentIndex(0);
+    delete fp_type_validator_;
+    delete int_type_validator_;
 }
 
 void MainWindow::ReadModelSettings_()
 {
-    s21::PerceptronSettings settings;
+    PerceptronSettings settings;
 
-    switch(ui_->activationFunction->currentIndex())
+    for (auto item : ui_->layersListWidget->findItems("*", Qt::MatchWildcard))
     {
-        case 0:
-            settings.activation = s21::Func::ActivationSigmoid;
-            settings.derivative_activation = s21::Func::DerivativeActivationSigmoid;
-            break;
-        case 1:
-            settings.activation = s21::Func::ActivationSiLU;
-            settings.derivative_activation = s21::Func::DerivativeActivationSiLU;
-            break;
-        case 2:
-            settings.activation = s21::Func::ActivationReLU;
-            settings.derivative_activation = s21::Func::DerivativeActivationReLU;
-            break;
+        settings.layers.push_back(item->text().toInt());
     }
 
-    switch(ui_->weightFunction->currentIndex())
-    {
-        case 0:
-            settings.weight_init = s21::Func::XavierWeightsInit;
-            break;
-        case 1:
-            settings.weight_init = s21::Func::NormalWeightsInit;
-            break;
-    }
-
+    settings.SetActivation(static_cast<ActivationFunctions>(ui_->activationFunction->currentIndex()));
+    settings.SetWeightInit(static_cast<WeightInitFunctions>(ui_->weightFunction->currentIndex()));
+    settings.learning_rate = ui_->learningRate->text().toDouble();
     settings.momentum = ui_->momentum->text().toDouble();
     settings.lr_epoch_k = ui_->learningRateEpochK->text().toDouble();
     settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
 
-    emit StartTraining(settings);
+    emit SetModelSettings(settings, static_cast<ModelType>(ui_->modelType->currentIndex()));
 }
-
-
-void MainWindow::on_selectPaint_clicked()
-{
-    ui_->tabDisplayWidget->setCurrentIndex(1);
-}
-
-
-void MainWindow::on_selectGraph_clicked()
-{
-    ui_->tabDisplayWidget->setCurrentIndex(0);
-}
-
 
 void MainWindow::AddLayer_()
 {
@@ -98,7 +60,7 @@ void MainWindow::AddLayer_()
         }
         else if (row == -1)
         {
-            row = ui_->layersListWidget->count() - 2;
+            row = ui_->layersListWidget->count() - 1;
         }
 
         ui_->layersListWidget->insertItem(row, "0");
@@ -123,6 +85,35 @@ void MainWindow::RemoveLayer_()
             ui_->layersListWidget->takeItem(size - 2);
         }
     }
+}
+
+void MainWindow::EmitStartTraining_()
+{
+    if (ui_->datasetTrainingPath->text().isEmpty())
+    {
+        ui_->browseDatasetForTraining->click();
+    }
+    else
+    {
+        emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), ui_->numberOfEpochs->text().toInt());
+    }
+}
+
+void MainWindow::EmitStartTesting_()
+{
+    if (ui_->datasetTestsPath->text().isEmpty())
+    {
+        ui_->browseDatasetForTesting->click();
+    }
+    else
+    {
+        emit StartTesting(ui_->datasetTestsPath->text().toStdString());
+    }
+}
+
+void MainWindow::AddErrorToGraph(fp_type error, unsigned int epoch)
+{
+    graph_widget_->LoadEpoch(error);
 }
 
 } // namespace s21
