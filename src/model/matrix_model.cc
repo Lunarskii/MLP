@@ -11,9 +11,10 @@ MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &set
 
 
 MatrixModel::MatrixModel(const PerceptronSettings &settings) {
+    settings.Validate();
     settings_ = settings;
 
-    for (int k = 0; k < settings_.layers.size() - 1; ++k) {
+    for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
         layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], settings_);
     }
 }
@@ -26,7 +27,7 @@ void MatrixLayer::Signal(const std::vector<fp_type> *source) {
     Arithmetic<fp_type>::MulClassic(*source, weights_, destination_);
     // std::cout << "2\n";
 
-    for (size_t g = 0; g < weights_.GetCols(); ++g) {
+    for (unsigned int g = 0; g < weights_.GetCols(); ++g) {
         destination_[g] = settings_.activation(destination_[g] + biases_[g]);
     }
 
@@ -48,8 +49,8 @@ void MatrixModel::Forward() {
 // BACKWARD
 
 void MatrixLayer::UpdateWeights(const std::vector<fp_type> *source) {
-    for (int k = 0; k < weights_.GetRows(); ++k) {
-        for (int g = 0; g < weights_.GetCols(); ++g) {
+    for (unsigned int k = 0; k < weights_.GetRows(); ++k) {
+        for (unsigned int g = 0; g < weights_.GetCols(); ++g) {
             delta_weights_(k, g) = delta_weights_(k, g) * settings_.momentum +
                             settings_.learning_rate * gradients_[g] * (*source)[k] * (1.0 - settings_.momentum);
             weights_(k, g) += delta_weights_(k, g);
@@ -58,14 +59,14 @@ void MatrixLayer::UpdateWeights(const std::vector<fp_type> *source) {
 }
 
 void MatrixLayer::UpdateError(const std::vector<fp_type> &target) {
-    for (int g = 0; g < error_.size(); ++g) {
+    for (unsigned int g = 0; g < error_.size(); ++g) {
         error_[g] = target[g] - destination_[g];
     }
 }
 
 void MatrixLayer::UpdateGradientsBiases() {
     fp_type gradient_sum = 0.0;
-    for (int g = 0; g < destination_.size(); ++g) {
+    for (unsigned int g = 0; g < destination_.size(); ++g) {
         gradients_[g] = settings_.derivative_activation(destination_[g]) * error_[g];
 
         gradient_sum += std::pow(gradients_[g], 2);
@@ -115,7 +116,7 @@ void MatrixModel::Backward(int answer) {
 int MatrixModel::GetResult() {
     fp_type max = -std::numeric_limits<fp_type>::infinity(), result = 0.0;
     const auto &output = layers_.back().destination_;
-    for (int k = 0; k < output.size(); ++k) {
+    for (unsigned int k = 0; k < output.size(); ++k) {
         if (max < output[k]) {
             max = output[k];
             result = k;
@@ -130,8 +131,8 @@ int MatrixModel::GetResult() {
 
 
 MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &settings, std::ifstream &file) :
-        weights_(file), delta_weights_(rows, cols, 0), destination_(cols),
-        biases_(cols), gradients_(cols), error_(cols), settings_(settings) {
+        weights_(file), delta_weights_(rows, cols, 0), biases_(cols),
+        destination_(cols), gradients_(cols), error_(cols), settings_(settings) {
         
     std::string line;
     std::getline(file, line);
@@ -149,7 +150,7 @@ MatrixModel::MatrixModel(const std::string &file_name) {
     std::ifstream file(file_name);
     settings_ = PerceptronSettings(file);
 
-    for (int k = 0; k < settings_.layers.size() - 1; ++k) {
+    for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
         std::string line;
         std::getline(file, line);
         if (line != "layer " + std::to_string(k) + " weights:") {
@@ -166,11 +167,11 @@ void MatrixModel::ToFile(const std::string &file_name) {
     std::ofstream file(file_name);
     settings_.ToFile(file);
 
-    for (int k = 0; k < layers_.size(); ++k) {
+    for (unsigned int k = 0; k < layers_.size(); ++k) {
         file << "layer " << k << " weights:\n";
         file << layers_[k].weights_;
         file << "biases:\n";
-        int g = 0;
+        unsigned int g = 0;
         for ( ; g < layers_[k].biases_.size() - 1; ++g) {
             file << layers_[k].biases_[g] << ' ';
         }

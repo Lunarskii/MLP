@@ -21,33 +21,46 @@ void Error::Send() {
         std::cout << "NAN! Count: " << count << '\n';
     }
     ready = true;
+    
     cv.notify_all();
 }
+
 void Error::StopThread() {
     std::unique_lock<std::mutex> lock(mutex);
-    stopThread = true;
+    stop = true;
     cv.notify_all();
+    // std::cout << "AAA\n";
 }
+
 void Error::Wait() {
-    std::thread errorThread([&] {
+    auto reset = [&] {
+        value = 0.0;
+        count = 0;
+        ready = false;
+    };
+
+    std::thread error_thread([&] {
         while (true) {
             std::unique_lock<std::mutex> lock(mutex);
-            cv.wait(lock, [this] { return stopThread || ready; });
-            if (stopThread) {
+
+            cv.wait(lock, [&] { return stop || ready; });
+            // std::cout << stop << ' ' << ready << '\n';
+            if (stop) {
+                // std::cout << "BREAK\n";
+                reset();
+                stop = false;
                 break;
             }
-
             func(value, epoch);
-
-            value = 0.0;
-            count = 0;
-            ready = false;
+            reset();
         }
+        std::cout << "Error thread stopped\n";
     });
 
-    errorThread.detach();
+    error_thread.detach();
 }
+
 Error::~Error() {
-    std::cout << "Error destructor\n";
+    // std::cout << "Error destructor\n";
     StopThread();
 }

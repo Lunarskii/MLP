@@ -17,7 +17,7 @@ class Model {
             letters.Validate(settings_.layers.front(), settings_.layers.back());
             int letters_count = 0;
 
-            for (int k = 0; k < epoch_count; ++k) {
+            for (unsigned int k = 0; k < epoch_count; ++k) {
 
                 error_.SetEpoch(k);
 
@@ -45,11 +45,10 @@ class Model {
             }
             
         }
-        virtual ~Model() = default;
         Metrics Test(DataManager &letters) {
             letters.Validate(settings_.layers.front(), settings_.layers.back());
 
-            MetricsMaker metrics;
+            MetricsMaker metrics(settings_.layers.back());
 
             letters.ForTest([&] (data_vector &letter, int name) {
                 letter_ = &letter;
@@ -76,6 +75,8 @@ class Model {
             
             return &error_;
         }
+
+        virtual ~Model() = default;
 
 
     protected:

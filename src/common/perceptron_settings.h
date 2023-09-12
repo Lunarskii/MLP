@@ -30,6 +30,8 @@ struct PerceptronSettings {
 
         void SetActivation(ActivationFunctions index);
         void SetWeightInit(WeightInitFunctions index);
+
+        void Validate() const;
         
 
 

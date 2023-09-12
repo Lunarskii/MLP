@@ -32,17 +32,6 @@ void PerceptronSettings::SetWeightInit(WeightInitFunctions index) {
     }
 }
 
-// struct chlit {
-//     chlit(char c) : c_(c) { }
-//     char c_;
-// };
-// inline std::istream& operator>>(std::istream& os, chlit x) {
-//     char c;
-//     if (os >> c && c != x.c_)
-//         os.setstate(std::iostream::failbit);
-//     return os;
-// }
-
 PerceptronSettings::PerceptronSettings(std::ifstream &os) {
     std::string line;
 
@@ -97,7 +86,7 @@ PerceptronSettings::PerceptronSettings(std::ifstream &os) {
 void PerceptronSettings::ToFile(std::ostream& os) {
     os << "PerceptronSettings {\n";
     os << "\tlayers [";
-    int i = 0;
+    unsigned int i = 0;
     for ( ; i < layers.size() - 1; ++i) {
         os << layers[i] << ", ";
     }
@@ -114,6 +103,14 @@ void PerceptronSettings::ToFile(std::ostream& os) {
     os << "\n}\n";
 }
 
+void PerceptronSettings::Validate() const {
+    if (learning_rate <= 0.0 || layers.size() == 0 ||
+            lr_epoch_k < 0.0 || lr_layers_k < 0.0 ||
+            !activation || !derivative_activation || !weight_init ||
+            std::find(layers.begin(), layers.end(), 0) != layers.end()) {
+        throw std::runtime_error("Incorrect struct PerceptronSettings");
+    }
+}
 
 
 

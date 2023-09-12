@@ -25,7 +25,7 @@ class Error {
         std::condition_variable cv;
         unsigned int epoch;
         std::mutex mutex;
-        bool stopThread = false;
+        bool stop = false;
         int count = 0;
         bool ready = false;
         std::function<void(fp_type, unsigned int)> func;
