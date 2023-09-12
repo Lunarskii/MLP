@@ -1,0 +1,23 @@
+{
+	"BUILD_DIR" : "/home/alexey/projects/MLP/src/build/MLP_autogen",
+	"CMAKE_BINARY_DIR" : "/home/alexey/projects/MLP/src/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/alexey/projects/MLP/src/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/alexey/projects/MLP/src",
+	"CMAKE_SOURCE_DIR" : "/home/alexey/projects/MLP/src",
+	"INCLUDE_DIR" : "/home/alexey/projects/MLP/src/build/MLP_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/alexey/projects/MLP/src/view/resources/images/down-arrow.png",
+		"/home/alexey/projects/MLP/src/view/resources/images/Icons8_flat_expand.svg.png"
+	],
+	"LOCK_FILE" : "/home/alexey/projects/MLP/src/build/CMakeFiles/MLP_autogen.dir/AutoRcc_resources_OTUN7GXZT4_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "OTUN7GXZT4",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "/usr/lib/qt5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/alexey/projects/MLP/src/build/CMakeFiles/MLP_autogen.dir/AutoRcc_resources_OTUN7GXZT4_Used.txt",
+	"SOURCE" : "/home/alexey/projects/MLP/src/view/resources.qrc",
+	"VERBOSITY" : 0
+}

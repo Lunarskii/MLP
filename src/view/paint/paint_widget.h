@@ -10,12 +10,7 @@
 #include <QPainterPath>
 #include <QFileDialog>
 #include <QMessageBox>
-#include "../common/types.h"
-
-
-#include "../model/matrix_model.h"
-
-#include <iostream>
+#include "../../common/types.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PaintWidget; }
@@ -48,11 +43,7 @@ class ImageWidget : public QWidget {
         QImage image_, prev_image_;
         QPainter painter_;
         QPainterPath path_;
-        QPen pen_;
-
-        // TEST
-        MatrixModel mm = MatrixModel("../perceptron1.prcp");
-        
+        QPen pen_;  
 };
 
 class PaintWidget : public QWidget {
@@ -64,7 +55,6 @@ class PaintWidget : public QWidget {
 
     private:
         Ui::PaintWidget *ui_;
-
 };
 
 

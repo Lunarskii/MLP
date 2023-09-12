@@ -8,6 +8,12 @@ namespace s21 {
 class MatrixLayer;
 class GraphModel;
 
+enum ModelType
+{
+    kMatrix,
+    kGraph
+};
+
 struct PerceptronSettings {
     
     private:

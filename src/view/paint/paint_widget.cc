@@ -1,7 +1,8 @@
 #include "paint_widget.h"
 #include "./ui_widget.h"
 
-using namespace s21;
+namespace s21
+{
 
 PaintWidget::PaintWidget(QWidget *parent) :
         QWidget(parent) , ui_(new Ui::PaintWidget) {
@@ -22,27 +23,27 @@ ImageWidget::ImageWidget(QWidget* parent) :
 void ImageWidget::SetUi(Ui::PaintWidget* ui) {
     ui_ = ui;
 
-    connect(ui_->brush_button, &QPushButton::clicked, [&]() {
+    connect(ui_->brush_button, &QPushButton::clicked, this, [&]() {
         pen_.setColor(Qt::black);
     });
-    connect(ui_->erase_button, &QPushButton::clicked, [&]() {
+    connect(ui_->erase_button, &QPushButton::clicked, this, [&]() {
         pen_.setColor(Qt::white);
     });
-    connect(ui_->size_slider, &QSlider::valueChanged, [&](int value) {
+    connect(ui_->size_slider, &QSlider::valueChanged, this, [&](int value) {
         pen_.setWidth(value);
     });
-    connect(ui_->opacity_slider, &QSlider::valueChanged, [&](int value) {
+    connect(ui_->opacity_slider, &QSlider::valueChanged, this, [&](int value) {
         auto c = pen_.color();
         c.setAlpha(value);
         pen_.setColor(c);
     });
 
-    connect(ui_->clear_button, &QPushButton::clicked, [&]() {
+    connect(ui_->clear_button, &QPushButton::clicked, this, [&]() {
         image_.fill(Qt::white);
         update();
     });
 
-    connect(ui_->load_button, &QPushButton::clicked, [&]() {
+    connect(ui_->load_button, &QPushButton::clicked, this, [&]() {
         QString file_path = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("BMP Files (*.bmp);;All Files (*)"));
 
         if (file_path.isEmpty() || !image_.load(file_path)) {
@@ -52,7 +53,7 @@ void ImageWidget::SetUi(Ui::PaintWidget* ui) {
         }
     });
 
-    connect(ui_->save_button, &QPushButton::clicked, [&]() {
+    connect(ui_->save_button, &QPushButton::clicked, this, [&]() {
         QString file_path = QFileDialog::getSaveFileName(this, tr("Save Image"), "", tr("BMP Files (*.bmp)"));
 
         if (file_path.isEmpty() || ! image_.save(file_path + ".bmp", "BMP")) {
@@ -60,24 +61,24 @@ void ImageWidget::SetUi(Ui::PaintWidget* ui) {
         }
     });
 
-    connect(ui_->predict_button, &QPushButton::clicked, [&]() {
-        auto image = image_.scaled(28, 28, Qt::KeepAspectRatio);
-        std::vector<fp_type> input;
-        for (int i = 0; i < image.height(); ++i) {
-            for (int j = 0; j < image.width(); ++j) {
-                input.push_back(1 - qGray(image.pixel(j, i)) / 255.0);
-            }
-        }
+    // connect(ui_->predict_button, &QPushButton::clicked, [&]() {
+    //     auto image = image_.scaled(28, 28, Qt::KeepAspectRatio);
+    //     std::vector<fp_type> input;
+    //     for (int i = 0; i < image.height(); ++i) {
+    //         for (int j = 0; j < image.width(); ++j) {
+    //             input.push_back(1 - qGray(image.pixel(j, i)) / 255.0);
+    //         }
+    //     }
 
-        // TEST
-        auto output = mm.Predict(input);
+    //     // TEST
+    //     auto output = mm.Predict(input);
 
-        // DEBUG
-        DataManager::PrintLetter(input);
+    //     // DEBUG
+    //     DataManager::PrintLetter(input);
 
-        // TEST
-        ui_->predict_label->setText(QString((char)('a' + output)));
-    });
+    //     // TEST
+    //     ui_->predict_label->setText(QString((char)('a' + output)));
+    // });
 
     SetPen();
 }
@@ -155,3 +156,4 @@ PaintWidget::~PaintWidget() {
     delete ui_;
 }
 
+} // namespace s21
