@@ -17,8 +17,7 @@
    <string notr="true">QMainWindow
 {
 	background-color: #474953;
-}
-</string>
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -75,56 +74,6 @@
            </size>
           </property>
          </spacer>
-        </item>
-        <item row="0" column="0">
-         <widget class="QTabWidget" name="tabDisplayWidget">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>500</width>
-            <height>500</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: #1E1E1E;</string>
-          </property>
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <widget class="QWidget" name="graphWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>500</width>
-             <height>525</height>
-            </size>
-           </property>
-           <attribute name="title">
-            <string>Tab 1</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="paintWidget">
-           <attribute name="title">
-            <string>Tab 2</string>
-           </attribute>
-          </widget>
-         </widget>
         </item>
         <item row="2" column="2">
          <spacer name="verticalSpacer">
@@ -313,6 +262,15 @@ QLabel
 	color: #B4B4B4;
 }
 
+QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
 QPushButton
 {
 	background-color:  #40424B;
@@ -406,7 +364,7 @@ QComboBox::hover
             <string>Layers</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="selectGraph">
+          <widget class="QPushButton" name="openGraphTabButton">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -421,8 +379,11 @@ QComboBox::hover
            <property name="text">
             <string>Graph</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">widgetDisplayButtonGroup</string>
+           </attribute>
           </widget>
-          <widget class="QPushButton" name="selectPaint">
+          <widget class="QPushButton" name="openPaintTabButton">
            <property name="geometry">
             <rect>
              <x>138</x>
@@ -437,12 +398,15 @@ QComboBox::hover
            <property name="text">
             <string>Paint</string>
            </property>
+           <attribute name="buttonGroup">
+            <string notr="true">widgetDisplayButtonGroup</string>
+           </attribute>
           </widget>
-          <widget class="QPushButton" name="learningStartButton">
+          <widget class="QPushButton" name="startTrainingButton">
            <property name="geometry">
             <rect>
              <x>40</x>
-             <y>480</y>
+             <y>440</y>
              <width>181</width>
              <height>31</height>
             </rect>
@@ -451,10 +415,10 @@ QComboBox::hover
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Start the learning</string>
+            <string>Start training</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="openSettings">
+          <widget class="QPushButton" name="openApplicationSettingsTabButton">
            <property name="geometry">
             <rect>
              <x>80</x>
@@ -486,40 +450,12 @@ QComboBox::hover
             <string>Learning rate</string>
            </property>
           </widget>
-          <widget class="QDoubleSpinBox" name="learningRate">
-           <property name="geometry">
-            <rect>
-             <x>170</x>
-             <y>80</y>
-             <width>65</width>
-             <height>26</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="decimals">
-            <number>2</number>
-           </property>
-           <property name="minimum">
-            <double>0.000000000000000</double>
-           </property>
-           <property name="maximum">
-            <double>1.000000000000000</double>
-           </property>
-           <property name="singleStep">
-            <double>0.050000000000000</double>
-           </property>
-           <property name="value">
-            <double>0.050000000000000</double>
-           </property>
-          </widget>
           <widget class="QComboBox" name="modelType">
            <property name="geometry">
             <rect>
-             <x>90</x>
+             <x>120</x>
              <y>20</y>
-             <width>151</width>
+             <width>121</width>
              <height>25</height>
             </rect>
            </property>
@@ -681,7 +617,7 @@ QListWidget::item::selected
            </item>
            <item>
             <property name="text">
-             <string>0</string>
+             <string>400</string>
             </property>
             <property name="background">
              <brush brushstyle="NoBrush">
@@ -707,7 +643,7 @@ QListWidget::item::selected
            </item>
            <item>
             <property name="text">
-             <string>0</string>
+             <string>200</string>
             </property>
             <property name="flags">
              <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
@@ -722,9 +658,9 @@ QListWidget::item::selected
           <widget class="QComboBox" name="learningType">
            <property name="geometry">
             <rect>
-             <x>90</x>
+             <x>120</x>
              <y>50</y>
-             <width>151</width>
+             <width>121</width>
              <height>25</height>
             </rect>
            </property>
@@ -753,7 +689,7 @@ QListWidget::item::selected
             <rect>
              <x>10</x>
              <y>50</y>
-             <width>71</width>
+             <width>101</width>
              <height>20</height>
             </rect>
            </property>
@@ -761,7 +697,7 @@ QListWidget::item::selected
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Learning</string>
+            <string>Learning type</string>
            </property>
           </widget>
           <widget class="QTabWidget" name="learningTypeWidget">
@@ -769,8 +705,8 @@ QListWidget::item::selected
             <rect>
              <x>20</x>
              <y>130</y>
-             <width>211</width>
-             <height>41</height>
+             <width>201</width>
+             <height>91</height>
             </rect>
            </property>
            <property name="styleSheet">
@@ -792,6 +728,12 @@ QListWidget::item::selected
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
               <widget class="QLabel" name="labelNumberOfEpochs">
+               <property name="minimumSize">
+                <size>
+                 <width>125</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -805,18 +747,21 @@ QListWidget::item::selected
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
+               <property name="sizeType">
+                <enum>QSizePolicy::Expanding</enum>
+               </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>40</width>
+                 <width>10</width>
                  <height>20</height>
                 </size>
                </property>
               </spacer>
              </item>
              <item>
-              <widget class="QSpinBox" name="numberOfEpochs">
+              <widget class="QLineEdit" name="numberOfEpochs">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -829,12 +774,15 @@ QListWidget::item::selected
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
-                 <height>40</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
-               <property name="styleSheet">
-                <string notr="true"/>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <bold>true</bold>
+                </font>
                </property>
               </widget>
              </item>
@@ -847,6 +795,12 @@ QListWidget::item::selected
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="QLabel" name="labelNumberOfGroups">
+               <property name="minimumSize">
+                <size>
+                 <width>125</width>
+                 <height>0</height>
+                </size>
+               </property>
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -869,13 +823,7 @@ QListWidget::item::selected
               </spacer>
              </item>
              <item>
-              <widget class="QSpinBox" name="numberOfGroups">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
+              <widget class="QLineEdit" name="numberOfGroups">
                <property name="minimumSize">
                 <size>
                  <width>40</width>
@@ -884,12 +832,15 @@ QListWidget::item::selected
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>80</width>
-                 <height>40</height>
+                 <width>40</width>
+                 <height>20</height>
                 </size>
                </property>
-               <property name="styleSheet">
-                <string notr="true"/>
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                 <bold>true</bold>
+                </font>
                </property>
               </widget>
              </item>
@@ -958,6 +909,125 @@ QListWidget::item::selected
             </item>
            </layout>
           </widget>
+          <widget class="QLineEdit" name="learningRate">
+           <property name="geometry">
+            <rect>
+             <x>130</x>
+             <y>80</y>
+             <width>100</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>100</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>0.1</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="setModelButton">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>250</y>
+             <width>121</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Set up model</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="startTestButton">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>480</y>
+             <width>181</width>
+             <height>31</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Start test</string>
+           </property>
+          </widget>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="tabDisplayWidget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>500</width>
+            <height>500</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: #1E1E1E;</string>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="graphWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>500</width>
+             <height>525</height>
+            </size>
+           </property>
+           <attribute name="title">
+            <string>Tab 1</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="paintWidget">
+           <attribute name="title">
+            <string>Tab 2</string>
+           </attribute>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -988,6 +1058,261 @@ QListWidget::item::selected
         <property name="verticalSpacing">
          <number>0</number>
         </property>
+        <item row="7" column="1">
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="6" column="0" colspan="2">
+         <widget class="QWidget" name="datasetDirectoriesWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>120</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}</string>
+          </property>
+          <widget class="QLabel" name="labelDatasetDirectories">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>221</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+           </property>
+           <property name="text">
+            <string>Dataset directories</string>
+           </property>
+          </widget>
+          <widget class="QWidget" name="gridLayoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>40</y>
+             <width>501</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <property name="verticalSpacing">
+             <number>0</number>
+            </property>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="datasetTrainingPath">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-right: 5px;
+}</string>
+              </property>
+              <property name="inputMask">
+               <string/>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="cursorPosition">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>false</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Enter the path to the dataset for training</string>
+              </property>
+              <property name="cursorMoveStyle">
+               <enum>Qt::LogicalMoveStyle</enum>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QPushButton" name="browseDatasetForTraining">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}
+
+QPushButton::hover
+{
+	background-color: rgb(78, 80, 89);
+}
+
+QPushButton::pressed
+{
+	background-color:  #40424B;
+}</string>
+              </property>
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="datasetTestsPath">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>9</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-right: 5px;
+}</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="frame">
+               <bool>true</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Normal</enum>
+              </property>
+              <property name="cursorPosition">
+               <number>0</number>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+              <property name="placeholderText">
+               <string>Enter the path to the dataset for testing</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="browseDatasetForTesting">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}
+
+QPushButton::hover
+{
+	background-color: rgb(78, 80, 89);
+}
+
+QPushButton::pressed
+{
+	background-color:  #40424B;
+}</string>
+              </property>
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
         <item row="4" column="0" colspan="2">
          <widget class="QWidget" name="momentumWidget" native="true">
           <property name="minimumSize">
@@ -1063,6 +1388,15 @@ QListWidget::item::selected
            <property name="text">
             <string>0.2</string>
            </property>
+           <property name="frame">
+            <bool>true</bool>
+           </property>
+           <property name="echoMode">
+            <enum>QLineEdit::Normal</enum>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
           </widget>
           <widget class="QWidget" name="horizontalLayoutWidget_3">
            <property name="geometry">
@@ -1097,18 +1431,46 @@ QListWidget::item::selected
           </widget>
          </widget>
         </item>
-        <item row="8" column="2">
-         <spacer name="verticalSpacer_2">
+        <item row="7" column="2">
+         <widget class="QPushButton" name="exitApplicationSettingsTabButton">
+          <property name="minimumSize">
+           <size>
+            <width>190</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>190</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}</string>
+          </property>
+          <property name="text">
+           <string>Exit settings</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="4">
+         <spacer name="horizontalSpacer_4">
           <property name="orientation">
-           <enum>Qt::Vertical</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
            <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
-            <height>50</height>
+            <width>70</width>
+            <height>20</height>
            </size>
           </property>
          </spacer>
@@ -1398,12 +1760,12 @@ QComboBox::hover
            </property>
            <item>
             <property name="text">
-             <string>Xavier</string>
+             <string>Normal</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Normal</string>
+             <string>Xavier</string>
             </property>
            </item>
           </widget>
@@ -1439,6 +1801,22 @@ QComboBox::hover
            </layout>
           </widget>
          </widget>
+        </item>
+        <item row="8" column="2">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>50</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="2" column="0" colspan="2">
          <widget class="QWidget" name="activationWidget" native="true">
@@ -1609,455 +1987,6 @@ QComboBox::hover
           </widget>
          </widget>
         </item>
-        <item row="7" column="2">
-         <widget class="QPushButton" name="exitSettings">
-          <property name="minimumSize">
-           <size>
-            <width>190</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}</string>
-          </property>
-          <property name="text">
-           <string>Exit settings</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>70</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="6" column="0" colspan="2">
-         <widget class="QWidget" name="datasetDirectoriesWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>130</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>140</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QWidget::hover
-{
-	border: 0.5px solid #6495ED;
-}</string>
-          </property>
-          <widget class="QLabel" name="labelDatasetDirectories">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Dataset directories</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="gridLayoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>40</y>
-             <width>501</width>
-             <height>81</height>
-            </rect>
-           </property>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <property name="verticalSpacing">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QLabel" name="labelMomentum_2">
-              <property name="minimumSize">
-               <size>
-                <width>60</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-	margin-left: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string>Training</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QPushButton" name="learningStartButton_5">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}
-
-QPushButton::hover
-{
-	background-color: rgb(78, 80, 89);
-}
-
-QPushButton::pressed
-{
-	background-color:  #40424B;
-}</string>
-              </property>
-              <property name="text">
-               <string>Browse</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="labelMomentum_4">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-	margin-left: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string>Mapping</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QPushButton" name="learningStartButton_4">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}
-
-QPushButton::hover
-{
-	background-color: rgb(78, 80, 89);
-}
-
-QPushButton::pressed
-{
-	background-color:  #40424B;
-}</string>
-              </property>
-              <property name="text">
-               <string>Browse</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QPushButton" name="learningStartButton_3">
-              <property name="minimumSize">
-               <size>
-                <width>80</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}
-
-QPushButton::hover
-{
-	background-color: rgb(78, 80, 89);
-}
-
-QPushButton::pressed
-{
-	background-color:  #40424B;
-}</string>
-              </property>
-              <property name="text">
-               <string>Browse</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="labelMomentum_3">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-	margin-left: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string>Testing</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <widget class="QLineEdit" name="datasetTrainingDirectory">
-              <property name="minimumSize">
-               <size>
-                <width>300</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-	margin-right: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="echoMode">
-               <enum>QLineEdit::Normal</enum>
-              </property>
-              <property name="cursorPosition">
-               <number>0</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Enter the path to the dataset for training</string>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QLineEdit" name="datasetTestsDirectory">
-              <property name="minimumSize">
-               <size>
-                <width>300</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-	margin-right: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="echoMode">
-               <enum>QLineEdit::Normal</enum>
-              </property>
-              <property name="cursorPosition">
-               <number>0</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Enter the path to the dataset for testing</string>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="2">
-             <widget class="QLineEdit" name="datasetMappingDirectory">
-              <property name="minimumSize">
-               <size>
-                <width>300</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-	margin-right: 5px;
-}</string>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-              <property name="frame">
-               <bool>true</bool>
-              </property>
-              <property name="echoMode">
-               <enum>QLineEdit::Normal</enum>
-              </property>
-              <property name="cursorPosition">
-               <number>0</number>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-              <property name="readOnly">
-               <bool>false</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Enter the mapping path</string>
-              </property>
-              <property name="clearButtonEnabled">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="6" column="2">
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
        </layout>
       </widget>
      </widget>
@@ -2126,4 +2055,7 @@ QPushButton::pressed
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="widgetDisplayButtonGroup"/>
+ </buttongroups>
 </ui>
