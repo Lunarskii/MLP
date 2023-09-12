@@ -31,14 +31,14 @@ auto DataManager::ReadFunctionSwitch(LetterRotate rotate) {
 }
 
 DataManager::DataManager(const std::string &file_path, int bias, LetterRotate rotate,
-                        size_t width, size_t height, int classes) :
+                        size_t width, size_t height, unsigned int classes) :
         letters_(classes), width_(width), height_(height), classes_(classes) {
 
     std::fstream file(file_path);
 
     auto read_func = ReadFunctionSwitch(rotate);
 
-    int len = width_ * height_;
+    unsigned int len = width_ * height_;
     while (file) {
         int name;
         file >> name;
@@ -101,7 +101,7 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
     std::cout << '\n';
 }
 
-void DataManager::Split(int proportion) {
+void DataManager::Split(unsigned int proportion) {
     metric_ = std::vector<fp_type>(classes_, 1.0);
     metric_sum_ = classes_;
     test_proportion_ = 1.0 / (fp_type)proportion;

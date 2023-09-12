@@ -30,7 +30,9 @@ struct Const {
     inline static std::pair<fp_type, fp_type> target =
                 std::pair<fp_type, fp_type>(0.0, 1.0);
     inline static int default_train_proportion = 8;
-    inline static int period_error_update = 8000;
+    
+    // number of updates in one epoch
+    inline static int error_updates = 10;
 };
 
 struct Func {

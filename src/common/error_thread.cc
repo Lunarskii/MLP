@@ -3,56 +3,58 @@
 using namespace s21;
 
 void Error::SetFunc(const std::function<void(fp_type, unsigned int)> &f) {
-    func = f;
+    func_ = f;
 }
 
 void Error::SetEpoch(unsigned int epoch) {
-    this->epoch = epoch;
+    epoch_ = epoch;
+    Reset();
 }
 
-void Error::Accumulate(const std::vector<fp_type> &error) {
-    value *= count;
-    value += Func::MeanError(error);
-    value /= ++count;
+void Error::SetDatasetSize(unsigned int size) {
+    period_ = size / Const::error_updates;
+}
+
+void Error::Reset() {
+    value_ = 0.0;
+    count_ = 0;
+    ready_ = false;
+}
+
+void Error::Collect(const std::vector<fp_type> &error) {
+    value_ *= count_;
+    value_ += Func::MeanError(error);
+    value_ /= ++count_;
+
+    if (count_ == period_) {
+        Send();
+    }
 }
 
 void Error::Send() {
-    if (isnan(value)) {
-        std::cout << "NAN! Count: " << count << '\n';
-    }
-    ready = true;
-    
-    cv.notify_all();
+    ready_ = true;
+    cv_.notify_all();
 }
 
 void Error::StopThread() {
-    std::unique_lock<std::mutex> lock(mutex);
-    stop = true;
-    cv.notify_all();
-    // std::cout << "AAA\n";
+    std::unique_lock<std::mutex> lock(mutex_);
+    stop_ = true;
+    cv_.notify_all();
 }
 
 void Error::Wait() {
-    auto reset = [&] {
-        value = 0.0;
-        count = 0;
-        ready = false;
-    };
-
     std::thread error_thread([&] {
         while (true) {
-            std::unique_lock<std::mutex> lock(mutex);
+            std::unique_lock<std::mutex> lock(mutex_);
 
-            cv.wait(lock, [&] { return stop || ready; });
-            // std::cout << stop << ' ' << ready << '\n';
-            if (stop) {
-                // std::cout << "BREAK\n";
-                reset();
-                stop = false;
+            cv_.wait(lock, [&] { return stop_ || ready_; });
+            if (stop_) {
+                Reset();
+                stop_ = false;
                 break;
             }
-            func(value, epoch);
-            reset();
+            func_(value_, epoch_);
+            Reset();
         }
         std::cout << "Error thread stopped\n";
     });
@@ -61,6 +63,5 @@ void Error::Wait() {
 }
 
 Error::~Error() {
-    // std::cout << "Error destructor\n";
     StopThread();
 }

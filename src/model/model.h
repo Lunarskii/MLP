@@ -15,7 +15,8 @@ class Model {
         Model() {}
         void Learn(DataManager &letters, unsigned int epoch_count) {
             letters.Validate(settings_.layers.front(), settings_.layers.back());
-            int letters_count = 0;
+
+            error_.SetDatasetSize(letters.TrainSize());
 
             for (unsigned int k = 0; k < epoch_count; ++k) {
 
@@ -23,17 +24,14 @@ class Model {
 
                 letters.ForTrain([&] (data_vector &letter, int name) {
                     
-
                     letter_ = &letter;
                     Forward();
                     Backward(name);
 
-                    error_.Accumulate(GetErrorVector());
-                    if (++letters_count % Const::period_error_update == 0) {
-                        error_.Send();
-                    }
+                    error_.Collect(GetErrorVector());
                 });
-                std::cout << "One epoch done\n";
+
+                std::cout << k << " epoch done\n";
 
                 // auto epoch_metrics = Test(letters);
                 // std::cout << epoch_metrics.accuracy << "; ";

@@ -67,6 +67,11 @@
         "cinttypes": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "semaphore": "cpp"
+        "semaphore": "cpp",
+        "any": "cpp",
+        "bitset": "cpp",
+        "set": "cpp",
+        "source_location": "cpp",
+        "span": "cpp"
     }
 }
