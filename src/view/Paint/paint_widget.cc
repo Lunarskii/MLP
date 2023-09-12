@@ -23,27 +23,27 @@ ImageWidget::ImageWidget(QWidget* parent) :
 void ImageWidget::SetUi(Ui::PaintWidget* ui) {
     ui_ = ui;
 
-    connect(ui_->brush_button, &QPushButton::clicked, [&]() {
+    connect(ui_->brush_button, &QPushButton::clicked, this, [&]() {
         pen_.setColor(Qt::black);
     });
-    connect(ui_->erase_button, &QPushButton::clicked, [&]() {
+    connect(ui_->erase_button, &QPushButton::clicked, this, [&]() {
         pen_.setColor(Qt::white);
     });
-    connect(ui_->size_slider, &QSlider::valueChanged, [&](int value) {
+    connect(ui_->size_slider, &QSlider::valueChanged, this, [&](int value) {
         pen_.setWidth(value);
     });
-    connect(ui_->opacity_slider, &QSlider::valueChanged, [&](int value) {
+    connect(ui_->opacity_slider, &QSlider::valueChanged, this, [&](int value) {
         auto c = pen_.color();
         c.setAlpha(value);
         pen_.setColor(c);
     });
 
-    connect(ui_->clear_button, &QPushButton::clicked, [&]() {
+    connect(ui_->clear_button, &QPushButton::clicked, this, [&]() {
         image_.fill(Qt::white);
         update();
     });
 
-    connect(ui_->load_button, &QPushButton::clicked, [&]() {
+    connect(ui_->load_button, &QPushButton::clicked, this, [&]() {
         QString file_path = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("BMP Files (*.bmp);;All Files (*)"));
 
         if (file_path.isEmpty() || !image_.load(file_path)) {
@@ -53,7 +53,7 @@ void ImageWidget::SetUi(Ui::PaintWidget* ui) {
         }
     });
 
-    connect(ui_->save_button, &QPushButton::clicked, [&]() {
+    connect(ui_->save_button, &QPushButton::clicked, this, [&]() {
         QString file_path = QFileDialog::getSaveFileName(this, tr("Save Image"), "", tr("BMP Files (*.bmp)"));
 
         if (file_path.isEmpty() || ! image_.save(file_path + ".bmp", "BMP")) {
