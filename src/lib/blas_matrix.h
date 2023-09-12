@@ -2,6 +2,9 @@
 
 #include <vector>
 
+
+// #include <cblas.h>
+
 // #include "../common/strategy.h"
 
 #include <iostream>
@@ -126,31 +129,33 @@ struct Arithmetic {
 
     public:
         // C = alpha*A*B + beta*C
-        static void Mul(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            // func::mul(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1, B.cols_, B.rows_,
-            //     1.0, A.data(), B.rows_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.cols_);
-        }
+        // static void Mul(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
+        //     func::mul(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1, B.cols_, B.rows_,
+        //         1.0, A.data(), B.rows_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.cols_);
+        // }
         static void MulClassic(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            for (int g = 0; g < C.size(); ++g) {
+            for (unsigned int g = 0; g < C.size(); ++g) {
                 C[g] = 0.0;
-                for (int i = 0; i < A.size(); ++i) {
+                for (unsigned int i = 0; i < A.size(); ++i) {
                     C[g] += A[i] * B(i, g);
                 }
             }
         }
+
         // C = alpha*A*(B^T) + beta*C
-        static void MulBT(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            // func::mul(CblasRowMajor, CblasNoTrans, CblasTrans, 1, B.rows_, B.cols_,
-            //     1.0, A.data(), B.cols_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.rows_);
-        }
+        // static void MulBT(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
+        //     func::mul(CblasRowMajor, CblasNoTrans, CblasTrans, 1, B.rows_, B.cols_,
+        //         1.0, A.data(), B.cols_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.rows_);
+        // }
         static void MulBTClassic(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            for (int g = 0; g < C.size(); ++g) {
+            for (unsigned int g = 0; g < C.size(); ++g) {
                 C[g] = 0.0;
-                for (int i = 0; i < A.size(); ++i) {
+                for (unsigned int i = 0; i < A.size(); ++i) {
                     C[g] += A[i] * B(g, i);
                 }
             }
         }
+
         // B = alpha*A + B
         static void Sum(const std::vector<T> &A, std::vector<T> &B, const T alpha = 1.0) {
             if (A.size() != B.size()) {

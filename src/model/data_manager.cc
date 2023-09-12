@@ -11,15 +11,14 @@ void DataManager::ReadNoRotate(std::fstream &file, data_vector &letter) {
 }
 
 void DataManager::Read90Rotate(std::fstream &file, data_vector &letter) {
-    for (int k = 0; k < height_; ++k) {
-        for (int g = 0; g < width_; ++g) {
+    for (unsigned int k = 0; k < height_; ++k) {
+        for (unsigned int g = 0; g < width_; ++g) {
             file >> letter[g * height_ + k];
             letter[g * height_ + k] /= 256.0;
             file.ignore();
         }
     }
 }
-
 
 auto DataManager::ReadFunctionSwitch(LetterRotate rotate) {
     switch (rotate) {
@@ -32,13 +31,14 @@ auto DataManager::ReadFunctionSwitch(LetterRotate rotate) {
 }
 
 DataManager::DataManager(const std::string &file_path, int bias, LetterRotate rotate,
-                        size_t width, size_t height, int classes) :
+                        size_t width, size_t height, unsigned int classes) :
         letters_(classes), width_(width), height_(height), classes_(classes) {
 
     std::fstream file(file_path);
-    // auto read_func = (rotate == 0) ? &DataManager::ReadNoRotate : &DataManager::Read90Rotate;
+
     auto read_func = ReadFunctionSwitch(rotate);
-    int len = width_ * height_;
+
+    unsigned int len = width_ * height_;
     while (file) {
         int name;
         file >> name;
@@ -48,7 +48,12 @@ DataManager::DataManager(const std::string &file_path, int bias, LetterRotate ro
         (this->*read_func)(file, letters_[name].back());
         ++size_;
     }
+
     file.close();
+
+    if (size_ == 0) {
+        throw std::runtime_error("DataManager: empty file");
+    }
 
     Split(Const::default_train_proportion);
 
@@ -96,7 +101,7 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
     std::cout << '\n';
 }
 
-void DataManager::Split(int proportion) {
+void DataManager::Split(unsigned int proportion) {
     metric_ = std::vector<fp_type>(classes_, 1.0);
     metric_sum_ = classes_;
     test_proportion_ = 1.0 / (fp_type)proportion;
@@ -133,7 +138,7 @@ void DataManager::CrossUpdate() {
 }
 
 void DataManager::Validate(size_t letter_size, int classes) {
-    if (letter_size != width_ * height_ || classes != classes) {
+    if (letter_size != width_ * height_ || classes != classes_) {
         throw std::runtime_error("Validation failed: letter size or classes do not match expectations.");
     }
 }
@@ -163,4 +168,5 @@ void DataManager::Printn(int n) {
         std::cout << '\n';
     }
 }
+
 

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QVector>
 #include <vector>
-#include "../QCustomPlot/qcustomplot.h"
+#include "../qcustomplot/qcustomplot.h"
 
 namespace s21
 {
