@@ -23,9 +23,9 @@ set(SOURCE_DIRS
         model/
         controller/
         view/
-        view/Graph
-        view/Paint
-        view/QCustomPlot
+        view/graph
+        view/paint
+        view/qcustomplot
 )
 set(PROJECT_SOURCES main.cc view/resources.qrc)
 
