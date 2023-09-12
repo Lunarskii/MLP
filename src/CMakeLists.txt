@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.5)
 
 project(MLP VERSION 0.1 LANGUAGES CXX)
 
-set(CMAKE_PREFIX_PATH "/usr/local/qt;/opt/qt;$ENV{QT_INSTALL_DIR};$ENV{QTDIR};~/Qt/")
 set(CMAKE_PREFIX_PATH "/home/lunarskii/Qt/6.4.2/gcc_64/lib/cmake")
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -19,6 +18,10 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS PrintSupport)
 
 set(SOURCE_DIRS
+        common/
+        lib/
+        model/
+        controller/
         view/
         view/Graph
         view/Paint
@@ -35,7 +38,7 @@ foreach(dir ${SOURCE_DIRS})
 endforeach()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(MLP
+    qt_add_executable(${PROJECT_NAME}
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
@@ -45,23 +48,23 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(MLP SHARED
+        add_library(${PROJECT_NAME} SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(MLP
+        add_executable(${PROJECT_NAME}
             ${PROJECT_SOURCES}
         )
     endif()
 endif()
 
-target_link_libraries(MLP PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-target_link_libraries(MLP PRIVATE Qt${QT_VERSION_MAJOR}::PrintSupport)
-target_include_directories(MLP PRIVATE ${CMAKE_SOURCE_DIR}/view/Paint)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::PrintSupport)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/view/Paint)
 
-set_target_properties(MLP PROPERTIES
+set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -69,10 +72,10 @@ set_target_properties(MLP PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-install(TARGETS MLP
+install(TARGETS ${PROJECT_NAME}
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(MLP)
+    qt_finalize_executable(${PROJECT_NAME})
 endif()
