@@ -34,13 +34,13 @@ public:
 	void Forward() override;
 	void Backward(int answer) override;
 	int GetResult() override;
-	const std::vector<fp_type>& GetErrorVector();
 	void ToFile(const std::string &file_name) override;
 
 private:
 	void UpdateOutputLayer(std::size_t answer);
 	void UpdateHiddenLayers();
 	void UpdateWeights();
+	const std::vector<fp_type>& GetErrorVector();
 
 	Graph graph_;
     std::vector<GraphLayer> layers_;

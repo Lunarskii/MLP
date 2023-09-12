@@ -66,10 +66,6 @@ class MatrixModel : public Model {
             // }
             // std::cout << '\n';
         }
-
-        const std::vector<fp_type> & GetErrorVector() override {
-            return layers_.back().error_;
-        }
     
     private:
         std::vector<MatrixLayer> layers_;
