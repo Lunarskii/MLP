@@ -34,4 +34,11 @@ void GraphWidget::LoadEpochs(std::vector<double>* errors)
     custom_plot_->replot();
 }
 
+// нужно будет чистить график каждый раз, как начинается новое обучение
+void GraphWidget::LoadEpoch(double error)
+{
+    errors_.push_back(error);
+    LoadEpochs(&errors_);
+}
+
 } // namespace s21

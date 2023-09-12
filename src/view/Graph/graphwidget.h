@@ -15,8 +15,11 @@ public:
     GraphWidget(QWidget* parent = nullptr);
     ~GraphWidget();
     void LoadEpochs(std::vector<double>* errors);
+    void LoadEpoch(double error);
+
 private:
     QCustomPlot* custom_plot_{ nullptr };
+    std::vector<double> errors_;
 };
 
 } // namespace s21
