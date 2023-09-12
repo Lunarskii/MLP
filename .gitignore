@@ -1,2 +1,5 @@
 *.csv
 .vscode
+datasets/*
+.gitignore
+CMakeLists.txt.user
