@@ -1,9 +1,0 @@
-
-
-all: clean
-	g++ main.cc lib/m_thread.cc common/metrics.cc model/data_manager.cc model/matrix_model.cc model/graph_model.cc common/perceptron_settings.cc common/error_thread.cc -lpthread -lm -ldl -lblas -Ofast -march=native
-	./a.out
-
-
-clean:
-	rm -rf a.out
