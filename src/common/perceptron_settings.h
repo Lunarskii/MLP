@@ -8,6 +8,12 @@ namespace s21 {
 class MatrixLayer;
 class GraphModel;
 
+enum ModelType
+{
+    kMatrix,
+    kGraph
+};
+
 struct PerceptronSettings {
     
     private:
@@ -30,6 +36,8 @@ struct PerceptronSettings {
 
         void SetActivation(ActivationFunctions index);
         void SetWeightInit(WeightInitFunctions index);
+
+        void Validate() const;
         
 
 
