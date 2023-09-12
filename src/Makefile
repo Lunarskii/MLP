@@ -1,9 +1,23 @@
+.PHONY: all install uninstall clean dvi dist launch tests style valgrind
 
+APP_NAME = MLP
 
-all: clean
-	g++ main.cc lib/m_thread.cc common/metrics.cc model/data_manager.cc model/matrix_model.cc -lpthread -lm -ldl -lblas -Ofast -march=native
-	./a.out
+OS := $(shell uname -s)
+ifeq ($(OS), Linux)
+	OPEN = ./build/$(APP_NAME)
+endif
+ifeq ($(OS), Darwin)
+	OPEN = open build/$(APP_NAME).app
+endif
 
+all: install launch
 
-clean:
-	rm -rf a.out
+install:
+	cmake -B build
+	make -C build $(APP_NAME)
+
+uninstall:
+	rm -rf build
+
+launch:
+	$(OPEN)
