@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QFileDialog>
-#include "Graph/graphwidget.h"
-#include "Paint/paint_widget.h"
+#include "graph/graphwidget.h"
+#include "paint/paint_widget.h"
 #include "../common/strategy.h"
 #include "../common/perceptron_settings.h"
 #include "./ui_mainwindow.h"
