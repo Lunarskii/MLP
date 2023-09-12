@@ -16,4 +16,3 @@ typedef std::vector<std::vector<data_vector>> dataset_t;
 } // namespace s21
 
 
-

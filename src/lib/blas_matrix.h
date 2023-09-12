@@ -2,9 +2,6 @@
 
 #include <vector>
 
-
-#include <cblas.h>
-
 // #include "../common/strategy.h"
 
 #include <iostream>
@@ -47,6 +44,7 @@ class Matrix {
             for (auto &i : matrix_) {
                 file >> i;
             }
+            file.ignore();
         }
 
         Matrix(std::initializer_list<std::initializer_list<T>> const &items) :
@@ -76,8 +74,8 @@ class Matrix {
         void Update(const std::vector<T> &vec) {
             matrix_ = vec;
         }
-        const size_t GetCols() const { return cols_; }
-        const size_t GetRows() const { return rows_; }
+        size_t GetCols() const { return cols_; }
+        size_t GetRows() const { return rows_; }
 
         const std::vector<T> &ToVector() const { return matrix_; }
         std::vector<T> &ToVector() { return matrix_; }
@@ -94,10 +92,10 @@ class Matrix {
         friend std::ostream& operator<<(std::ostream& os, const Matrix<T>& m) {
             os << m.rows_ << ' ' << m.cols_ << '\n';
             for (size_t i = 0; i < m.rows_; ++i) {
-                for (size_t j = 0; j < m.cols_; ++j) {
+                for (size_t j = 0; j < m.cols_ - 1; ++j) {
                     os << m(i, j) << ' ';
                 }
-                os << '\n';
+                os << m(i, m.cols_ - 1) << '\n';
             }
             return os;
         }
@@ -129,8 +127,8 @@ struct Arithmetic {
     public:
         // C = alpha*A*B + beta*C
         static void Mul(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            func::mul(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1, B.cols_, B.rows_,
-                1.0, A.data(), B.rows_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.cols_);
+            // func::mul(CblasRowMajor, CblasNoTrans, CblasNoTrans, 1, B.cols_, B.rows_,
+            //     1.0, A.data(), B.rows_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.cols_);
         }
         static void MulClassic(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
             for (int g = 0; g < C.size(); ++g) {
@@ -142,8 +140,8 @@ struct Arithmetic {
         }
         // C = alpha*A*(B^T) + beta*C
         static void MulBT(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
-            func::mul(CblasRowMajor, CblasNoTrans, CblasTrans, 1, B.rows_, B.cols_,
-                1.0, A.data(), B.cols_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.rows_);
+            // func::mul(CblasRowMajor, CblasNoTrans, CblasTrans, 1, B.rows_, B.cols_,
+            //     1.0, A.data(), B.cols_, B.matrix_.data(), B.cols_, 0.0, C.data(), B.rows_);
         }
         static void MulBTClassic(const std::vector<T> &A, const Matrix<T> &B, std::vector<T> &C) {
             for (int g = 0; g < C.size(); ++g) {
@@ -162,19 +160,18 @@ struct Arithmetic {
         }
 };
 
-template<>
-struct Arithmetic<float>::func {
-    constexpr static auto mul = cblas_sgemm;
-    // constexpr static auto mul = cblas_sgemv;
-    constexpr static auto sum = cblas_saxpy;
-};
+// template<>
+// struct Arithmetic<float>::func {
+//     constexpr static auto mul = cblas_sgemm;
+//     // constexpr static auto mul = cblas_sgemv;
+//     constexpr static auto sum = cblas_saxpy;
+// };
 
-template<>
-struct Arithmetic<double>::func {
-    constexpr static auto mul = cblas_dgemm;
-    // constexpr static auto mul = cblas_dgemv;
-    constexpr static auto sum = cblas_daxpy;
-};
+// template<>
+// struct Arithmetic<double>::func {
+//     constexpr static auto mul = cblas_dgemm;
+//     // constexpr static auto mul = cblas_dgemv;
+//     constexpr static auto sum = cblas_daxpy;
+// };
 
 } // namespace s21
-
