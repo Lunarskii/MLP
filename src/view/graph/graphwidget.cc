@@ -9,6 +9,7 @@ GraphWidget::GraphWidget(QString x_label, QString y_label, QWidget* parent)
 {
     custom_plot_->xAxis->setLabel(x_label);
     custom_plot_->yAxis->setLabel(y_label);
+    graph_ = custom_plot_->addGraph();
 }
 
 GraphWidget::~GraphWidget()
@@ -16,35 +17,35 @@ GraphWidget::~GraphWidget()
     delete custom_plot_;
 }
 
-void GraphWidget::LoadEpochs(std::vector<double>* errors)
+void GraphWidget::PushBack(double value)
 {
-    QVector<double> values(errors->begin(), errors->end());
-
-    custom_plot_->removeGraph(0);
-    custom_plot_->addGraph()->setData(keys, values);
+    values_[value_index_++] = value;
+    graph_->setData(keys_, values_);
     custom_plot_->replot();
-}
-
-// нужно будет чистить график каждый раз, как начинается новое обучение
-void GraphWidget::LoadEpoch(double error)
-{
-    errors_.push_back(error);
-    LoadEpochs(&errors_);
 }
 
 void GraphWidget::SetXRange(double lower, double upper)
 {
     custom_plot_->xAxis->setRange(lower, upper);
-    keys.clear();
-    for (std::size_t i = 0; i < upper; ++i)
+    for (double i = 0; i < upper; i += 1.0 / Const::error_updates)
     {
-        keys.push_back(static_cast<double>(i + 1));
+        keys_.push_back(i);
+        values_.push_back(std::numeric_limits<double>::quiet_NaN());
     }
+    custom_plot_->replot();
 }
 
 void GraphWidget::SetYRange(double lower, double upper)
 {
     custom_plot_->yAxis->setRange(lower, upper);
+}
+
+void GraphWidget::Clear()
+{
+    keys_.clear();
+    values_.clear();
+    value_index_ = 0;
+    custom_plot_->replot();
 }
 
 void GraphWidget::resizeEvent(QResizeEvent *event)

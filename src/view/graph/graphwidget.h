@@ -5,6 +5,7 @@
 #include <QVector>
 #include <vector>
 #include "../qcustomplot/qcustomplot.h"
+#include "../../common/strategy.h"
 
 namespace s21
 {
@@ -14,18 +15,20 @@ class GraphWidget : public QWidget
 public:
     GraphWidget(QString x_label, QString y_label, QWidget* parent = nullptr);
     ~GraphWidget();
-    void LoadEpochs(std::vector<double>* errors);
-    void LoadEpoch(double error);
+    void PushBack(double value);
     void SetXRange(double lower, double upper);
     void SetYRange(double lower, double upper);
+    void Clear();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
     QCustomPlot* custom_plot_{ nullptr };
-    QVector<double> keys;
-    std::vector<double> errors_;
+    QCPGraph* graph_{ nullptr };
+    QVector<double> keys_;
+    QVector<double> values_;
+    unsigned int value_index_{ 0 };
 };
 
 } // namespace s21
