@@ -22,8 +22,8 @@ void MainWindow::InitDefaultUISettings_()
 
 void MainWindow::ConnectUISlots_()
 {
-    connect(ui_->setModelButton, &QPushButton::clicked, this, &MainWindow::ReadModelSettings_);
-    connect(ui_->startTrainingButton, &QPushButton::clicked, this, &MainWindow::EmitStartTraining_);
+    connect(ui_->startTrainingButton, &QPushButton::clicked, this, &MainWindow::Manager_);
+    connect(ui_->startTestButton, &QPushButton::clicked, this, &MainWindow::EmitStartTesting_);
     connect(ui_->addLayerButton, &QPushButton::clicked, this, &MainWindow::AddLayer_);
     connect(ui_->removeLayerButton, &QPushButton::clicked, this, &MainWindow::RemoveLayer_);
 
