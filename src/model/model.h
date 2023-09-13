@@ -37,8 +37,7 @@ class Model {
         Error error_;
         std::function<void(Metrics)> metrics_func_;
 
-        virtual const std::vector<fp_type> &GetErrorVector() { return {}; } // удалить
-        virtual fp_type GetMeanError() { return 0.0; } // = 0;
+        virtual fp_type GetMeanError() = 0;
 
         virtual void UpdateLR() {}
 

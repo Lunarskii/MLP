@@ -18,7 +18,6 @@ class GraphLayer
 public:
 	GraphLayer(Graph* graph, std::size_t size);
 	void LinkLayers(GraphLayer& next_layer);
-	std::size_t GetIndexOfTheLayerVertex(std::size_t index);
 
 private:
 	Graph* graph_;
@@ -40,11 +39,11 @@ private:
 	void UpdateOutputLayer(std::size_t answer);
 	void UpdateHiddenLayers();
 	void UpdateWeights();
-	const std::vector<fp_type>& GetErrorVector();
+	Edge& GetEdge(std::size_t input_vertex, std::size_t output_vertex, GraphLayer& input_layer, GraphLayer& output_layer);
+	fp_type GetMeanError() override;
 
 	Graph graph_;
     std::vector<GraphLayer> layers_;
-    // PerceptronSettings settings_;
 };
 
 } // namespace s21

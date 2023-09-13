@@ -7,7 +7,7 @@
 namespace s21
 {
 
-struct Vertex
+struct Vertex final
 {
 	Vertex() {}
 
@@ -22,7 +22,7 @@ struct Vertex
 	fp_type delta{};
 };
 
-struct Edge
+struct Edge final
 {
 	Edge() = delete;
 
@@ -68,21 +68,7 @@ struct Graph final
 		return edges[edges.size() - 1];
 	}
 
-	// Edge& GetEdge(std::size_t vertex1_id, std::size_t vertex2_id)
-	// {
-	// 	for (auto& edge : edges)
-	// 	{
-	// 		if (edge.vertex1.id == vertex1_id && edge.vertex2.id == vertex2_id
-	// 			|| edge.vertex1.id == vertex2_id && edge.vertex2.id == vertex1_id)
-	// 		{
-	// 			return edge;
-	// 		}
-	// 	}
-
-	// 	throw std::runtime_error("Индексы ребра неверные.");
-	// }
-
-	Edge& GetEdge(std::size_t vertex1_id, std::size_t vertex2_id, std::size_t& number_of_edges, std::size_t& next_layer_size)
+	Edge& GetEdge(std::size_t vertex1_id, std::size_t vertex2_id, std::size_t number_of_edges, std::size_t next_layer_size)
 	{
 		return edges[number_of_edges + vertex1_id * next_layer_size + vertex2_id];
 	}
@@ -91,11 +77,6 @@ struct Graph final
 	{
 		return GetVertex(id);
 	}
-
-	// Edge& operator()(std::size_t vertex1_id, std::size_t vertex2_id)
-	// {
-	// 	return GetEdge(vertex1_id, vertex2_id);
-	// }
 
 	Edge& operator()(std::size_t vertex1_id, std::size_t vertex2_id, std::size_t& number_of_edges, std::size_t& next_layer_size)
 	{

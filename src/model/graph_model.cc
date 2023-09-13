@@ -28,11 +28,6 @@ void GraphLayer::LinkLayers(GraphLayer& next_layer)
     next_layer.number_of_edges_of_previous_layers = vertex_indexes_.size() * next_layer.vertex_indexes_.size() + number_of_edges_of_previous_layers;
 }
 
-std::size_t GraphLayer::GetIndexOfTheLayerVertex(std::size_t index)
-{
-    return index - vertex_indexes_[0];
-}
-
 GraphModel::GraphModel(const PerceptronSettings& settings)
 {
     settings_ = settings;
@@ -60,18 +55,11 @@ void GraphModel::Forward()
         for (auto output_vertex_index : layers_[i + 1].vertex_indexes_)
         {
             Vertex& output_vertex = graph_(output_vertex_index);
-
             output_vertex.value = 0;
-            output_vertex_index = layers_[i + 1].GetIndexOfTheLayerVertex(output_vertex_index);
             for (auto input_vertex_index : layers_[i].vertex_indexes_)
             {
-                Vertex& input_vertex = graph_(input_vertex_index);
-                input_vertex_index = layers_[i].GetIndexOfTheLayerVertex(input_vertex_index);
-                std::size_t& number_of_edges = layers_[i].number_of_edges_of_previous_layers;
-                std::size_t& next_layer_size = layers_[i + 1].size_;
-                Edge& edge = graph_(input_vertex_index, output_vertex_index, number_of_edges, next_layer_size);
-
-                output_vertex.value += input_vertex.value * edge.weight;
+                Edge& edge = GetEdge(input_vertex_index, output_vertex_index, layers_[i], layers_[i + 1]);
+                output_vertex.value += graph_(input_vertex_index).value * edge.weight;
             }
             output_vertex.value = settings_.activation(output_vertex.value);
         }
@@ -104,18 +92,6 @@ int GraphModel::GetResult()
     return result;
 }
 
-const std::vector<fp_type>& GraphModel::GetErrorVector()
-{
-    std::vector<fp_type> errors;
-
-    for (auto vertex : layers_.back().vertex_indexes_)
-    {
-        errors.push_back(graph_(vertex).error);
-    }
-
-    // return errors;
-}
-
 void GraphModel::ToFile(const std::string &file_name)
 {
 
@@ -139,21 +115,13 @@ void GraphModel::UpdateHiddenLayers()
     {
         for (auto vertex1 : layers_[layer_k - 1].vertex_indexes_)
         {
-            Vertex& input_vertex = graph_(vertex1);
-            std::size_t input_vertex_index = layers_[layer_k - 1].GetIndexOfTheLayerVertex(vertex1);
             fp_type sum_wd = 0;
-
             for (auto vertex2 : layers_[layer_k].vertex_indexes_)
             {
-                Vertex& output_vertex = graph_(vertex2);
-                std::size_t output_vertex_index = layers_[layer_k].GetIndexOfTheLayerVertex(vertex2);
-                std::size_t& number_of_edges = layers_[layer_k - 1].number_of_edges_of_previous_layers;
-                std::size_t& next_layer_size = layers_[layer_k].size_;
-                Edge& edge = graph_(input_vertex_index, output_vertex_index, number_of_edges, next_layer_size);
-
-                sum_wd += edge.weight * output_vertex.delta;
+                Edge& edge = GetEdge(vertex1, vertex2, layers_[layer_k - 1], layers_[layer_k]);
+                sum_wd += edge.weight * graph_(vertex2).delta;
             }
-            input_vertex.delta = sum_wd * settings_.derivative_activation(input_vertex.value);
+            graph_(vertex1).delta = sum_wd * settings_.derivative_activation(graph_(vertex1).value);
         }
     }
 }
@@ -165,22 +133,37 @@ void GraphModel::UpdateWeights()
         for (auto vertex1 : layers_[layer_k - 1].vertex_indexes_)
         {
             Vertex& input_vertex = graph_(vertex1);
-            std::size_t input_vertex_index = layers_[layer_k - 1].GetIndexOfTheLayerVertex(vertex1);
-
             for (auto vertex2 : layers_[layer_k].vertex_indexes_)
             {
-                Vertex& output_vertex = graph_(vertex2);
-                std::size_t output_vertex_index = layers_[layer_k].GetIndexOfTheLayerVertex(vertex2);
-                std::size_t& number_of_edges = layers_[layer_k - 1].number_of_edges_of_previous_layers;
-                std::size_t& next_layer_size = layers_[layer_k].size_;
-                Edge& edge = graph_(input_vertex_index, output_vertex_index, number_of_edges, next_layer_size);
-
-                edge.gradient = input_vertex.value * output_vertex.delta;
+                Edge& edge = GetEdge(vertex1, vertex2, layers_[layer_k - 1], layers_[layer_k]);
+                edge.gradient = input_vertex.value * graph_(vertex2).delta;
                 edge.delta_weight = settings_.learning_rate * edge.gradient + settings_.momentum * edge.delta_weight;
                 edge.weight += edge.delta_weight;
             }
         }
     }
+}
+
+Edge& GraphModel::GetEdge(std::size_t input_vertex, std::size_t output_vertex, GraphLayer& input_layer, GraphLayer& output_layer)
+{
+    std::size_t input_vertex_index = input_vertex - input_layer.vertex_indexes_[0];
+    std::size_t output_vertex_index = output_vertex - output_layer.vertex_indexes_[0];
+    std::size_t number_of_edges = input_layer.number_of_edges_of_previous_layers;
+    std::size_t next_layer_size = output_layer.size_;
+
+    return graph_(input_vertex_index, output_vertex_index, number_of_edges, next_layer_size);
+}
+
+fp_type GraphModel::GetMeanError()
+{
+    std::vector<fp_type> errors;
+    
+    for (auto vertex : layers_.back().vertex_indexes_)
+    {
+        errors.push_back(graph_(vertex).error);
+    }
+
+    return Func::MeanError(errors);
 }
 
 } // namespace s21
