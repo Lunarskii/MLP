@@ -8,7 +8,9 @@ Controller::Controller(MainWindow* v)
 {
     connect(view_, &MainWindow::SetModelSettings, this, &Controller::SetModel_);
     connect(view_, &MainWindow::StartTraining, this, &Controller::StartTraining_);
+    connect(view_, &MainWindow::StartTesting, this, &Controller::StartTesting_);
     connect(this, &Controller::AddErrorToGraph, view_, &MainWindow::AddErrorToGraph);
+    connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
 }
 
 void Controller::SetModel_(PerceptronSettings settings, ModelType type)
@@ -31,13 +33,13 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
     {
         DataManager dm(file_path, -1, k90Rotate);
 
-        model_->SetErrorThread(
-            [&](fp_type error, unsigned int epoch) {
+        model_->SetErrorThread([&](fp_type error, unsigned int epoch) 
+        {
             emit AddErrorToGraph((double)error, epoch);
         });
 
-        model_->SetMetricThread(
-            [&](Metrics metrics) {
+        model_->SetMetricThread([&](Metrics metrics) 
+        {
             std::cout << "one epoch done\n\tTrain Time = " << metrics.train_time << " ms\n";
             std::cout << "\tTest Time = " << metrics.test_time << " ms\n";
             std::cout << "\taccuracy = " << metrics.accuracy << '\n';
