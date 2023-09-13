@@ -32,19 +32,19 @@ void MainWindow::ConnectUISlots_()
     connect(ui_->widgetDisplayButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::ChangeWidgetTab_);
     connect(ui_->browseDatasetForTraining, &QPushButton::clicked, this, [&]()
     {
-        OpenFile_(*(ui_->datasetTrainingPath), "Select training dataset");
+        OpenCSVFile_(*(ui_->datasetTrainingPath), "Select training dataset");
     });
     connect(ui_->actionOpenADatasetForTraining, &QAction::triggered, this, [&]()
     {
-        OpenFile_(*(ui_->datasetTrainingPath), "Select training dataset");
+        ui_->browseDatasetForTraining->click();
     });
     connect(ui_->browseDatasetForTesting, &QPushButton::clicked, this, [&]()
     {
-        OpenFile_(*(ui_->datasetTestsPath), "Select testing dataset");
+        OpenCSVFile_(*(ui_->datasetTestsPath), "Select testing dataset");
     });
     connect(ui_->actionOpenADatasetForTests, &QAction::triggered, this, [&]()
     {
-        OpenFile_(*(ui_->datasetTestsPath), "Select testing dataset");
+        ui_->browseDatasetForTesting->click();
     });
 }
 
@@ -68,7 +68,7 @@ void MainWindow::ChangeWidgetTab_(QAbstractButton* button)
     }
 }
 
-void MainWindow::OpenFile_(QLineEdit& line, QString msg)
+void MainWindow::OpenCSVFile_(QLineEdit& line, QString msg)
 {
     QString file_path = QFileDialog::getOpenFileName(this, msg, "./", "Dataset files (*.csv)");
 
