@@ -29,17 +29,17 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
 {
     if (model_ != nullptr)
     {
-//        DataManager dm(file_path, -1, k90Rotate);
-//        Error* error = model_->GetErrorVector();
+       DataManager dm(file_path, -1, k90Rotate);
+       Error* error = model_->GetError();
 
-//        error->SetFunc([&](fp_type error, unsigned int epoch)
-//        {
-//            emit AddErrorToGraph(error, epoch);
-//        });
-//        dm.Shuffle();
-//        error->Wait();
-//        model_->Learn(dm, number_of_epochs);
-//        error->StopThread();
+       error->SetFunc([&](fp_type error, unsigned int epoch)
+       {
+           emit AddErrorToGraph(error, epoch);
+       });
+       dm.Shuffle();
+       error->Wait();
+       model_->Learn(dm, number_of_epochs);
+       error->StopThread();
     }
     else
     {
@@ -52,7 +52,7 @@ void Controller::StartTesting_(std::string file_path)
     if (model_ != nullptr)
     {
         DataManager dm(file_path, -1, k90Rotate);
-        Metrics metrics = model_->Test(dm);
+        emit MetricsReady(model_->Test(dm).GetMappedLettersMetrics());
     }
     else
     {

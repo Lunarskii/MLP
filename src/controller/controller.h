@@ -18,6 +18,7 @@ public:
 signals:
     void ModelNotFoundException(std::string msg);
     void AddErrorToGraph(fp_type error, unsigned int epoch);
+    void MetricsReady(MappedLettersMetrics metrics);
 
 private slots:
     void SetModel_(PerceptronSettings settings, ModelType type);
