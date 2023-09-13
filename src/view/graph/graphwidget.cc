@@ -3,15 +3,12 @@
 namespace s21
 {
 
-GraphWidget::GraphWidget(QWidget* parent)
+GraphWidget::GraphWidget(QString x_label, QString y_label, QWidget* parent)
     : QWidget(parent)
     , custom_plot_(new QCustomPlot(this))
 {
-    resize(500, 500);
-    custom_plot_->resize(this->width(), this->height());
-    custom_plot_->xAxis->setLabel("Epochs");
-    custom_plot_->yAxis->setLabel("% error");
-    custom_plot_->yAxis->setRange(0.0, 1.0);
+    custom_plot_->xAxis->setLabel(x_label);
+    custom_plot_->yAxis->setLabel(y_label);
 }
 
 GraphWidget::~GraphWidget()
@@ -21,16 +18,10 @@ GraphWidget::~GraphWidget()
 
 void GraphWidget::LoadEpochs(std::vector<double>* errors)
 {
-    QVector<double> a1;
-    QVector<double> a2(errors->begin(), errors->end());
+    QVector<double> values(errors->begin(), errors->end());
 
-    custom_plot_->xAxis->setRange(1, errors->size());
-    for (std::size_t i = 0; i < errors->size(); ++i)
-    {
-        a1.push_back(static_cast<double>(i + 1));
-    }
     custom_plot_->removeGraph(0);
-    custom_plot_->addGraph()->setData(a1, a2);
+    custom_plot_->addGraph()->setData(keys, values);
     custom_plot_->replot();
 }
 
@@ -39,6 +30,27 @@ void GraphWidget::LoadEpoch(double error)
 {
     errors_.push_back(error);
     LoadEpochs(&errors_);
+}
+
+void GraphWidget::SetXRange(double lower, double upper)
+{
+    custom_plot_->xAxis->setRange(lower, upper);
+    keys.clear();
+    for (std::size_t i = 0; i < upper; ++i)
+    {
+        keys.push_back(static_cast<double>(i + 1));
+    }
+}
+
+void GraphWidget::SetYRange(double lower, double upper)
+{
+    custom_plot_->yAxis->setRange(lower, upper);
+}
+
+void GraphWidget::resizeEvent(QResizeEvent *event)
+{
+    custom_plot_->resize(event->size().width(), event->size().height());
+    QWidget::resizeEvent(event);
 }
 
 } // namespace s21
