@@ -11,9 +11,9 @@ namespace Time {
 
 typedef decltype((std::chrono::high_resolution_clock::now)()) T;
 
-T Now() {
-    return std::chrono::high_resolution_clock::now();
-}
+// T NowT() {
+//     return std::chrono::high_resolution_clock::now();
+// }
 
 typedef std::chrono::hours h;
 typedef std::chrono::minutes min;

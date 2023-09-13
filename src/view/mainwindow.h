@@ -31,7 +31,7 @@ signals:
     void StartTesting(std::string file_path);
 
 public slots:
-    void AddErrorToGraph(fp_type error, unsigned int epoch);
+    void AddErrorToGraph(double error, unsigned int epoch);
 
 private slots:
     void ReadModelSettings_();

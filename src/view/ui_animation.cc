@@ -26,10 +26,16 @@ void MainWindow::ConnectUISlots_()
     connect(ui_->startTrainingButton, &QPushButton::clicked, this, &MainWindow::EmitStartTraining_);
     connect(ui_->addLayerButton, &QPushButton::clicked, this, &MainWindow::AddLayer_);
     connect(ui_->removeLayerButton, &QPushButton::clicked, this, &MainWindow::RemoveLayer_);
-    connect(ui_->learningType, &QComboBox::currentIndexChanged, this, &MainWindow::ChangeTypeOfLearning_);
+
+    connect(ui_->learningType, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &MainWindow::ChangeTypeOfLearning_);
+
     connect(ui_->openApplicationSettingsTabButton, &QPushButton::clicked, this, &MainWindow::ChangeApplicationTab_);
     connect(ui_->exitApplicationSettingsTabButton, &QPushButton::clicked, this, &MainWindow::ChangeApplicationTab_);
-    connect(ui_->widgetDisplayButtonGroup, &QButtonGroup::buttonClicked, this, &MainWindow::ChangeWidgetTab_);
+
+    connect(ui_->widgetDisplayButtonGroup, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
+            this, &MainWindow::ChangeWidgetTab_);
+
     connect(ui_->browseDatasetForTraining, &QPushButton::clicked, this, [&]()
     {
         OpenFile_(*(ui_->datasetTrainingPath), "Select training dataset");

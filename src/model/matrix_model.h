@@ -73,8 +73,11 @@ class MatrixModel : public Model {
         // PerceptronSettings settings_;
         int count_ = 0;
 
-        const std::vector<fp_type> & GetErrorVector() override {
-            return layers_.back().error_;
+        // const std::vector<fp_type> & GetErrorVector() override {
+        //     return layers_.back().error_;
+        // }
+        fp_type GetMeanError() override {
+            return Func::MeanError(layers_.back().error_);
         }
 
 };

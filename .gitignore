@@ -1,5 +1,11 @@
 *.csv
-.vscode
 datasets/*
 .gitignore
 CMakeLists.txt.user
+
+vscode/
+.vscode/
+.vscode/*
+vscode/*
+.vscode
+vscode
