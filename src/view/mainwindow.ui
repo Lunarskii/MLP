@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>770</height>
+    <height>803</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -302,6 +302,11 @@ QToolTip
            <string notr="true">QWidget
 {
 	border: 1px solid black;
+}
+
+QVBoxLayout
+{
+	border: 0px;
 }
 
 QLabel
@@ -994,22 +999,6 @@ QListWidget::item::selected
             <string>0.1</string>
            </property>
           </widget>
-          <widget class="QPushButton" name="setModelButton">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>250</y>
-             <width>121</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <property name="styleSheet">
-            <string notr="true"/>
-           </property>
-           <property name="text">
-            <string>Set up model</string>
-           </property>
-          </widget>
           <widget class="QPushButton" name="startTestButton">
            <property name="geometry">
             <rect>
@@ -1119,6 +1108,505 @@ QListWidget::item::selected
           </property>
          </spacer>
         </item>
+        <item row="7" column="2">
+         <widget class="QPushButton" name="exitApplicationSettingsTabButton">
+          <property name="minimumSize">
+           <size>
+            <width>190</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>190</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton
+{
+	background-color:  #40424B;
+	color: #B4B4B4;
+	border: solid;
+	border-radius: 6.5;
+}</string>
+          </property>
+          <property name="text">
+           <string>Exit settings</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="2">
+         <widget class="QWidget" name="weightWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}
+
+QLabel
+{
+	margin-left: 10px;
+}
+
+QComboBox
+{
+	margin-left: 10px;
+}
+</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="labelWeight">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #dae7e1;
+	font-weight: bold;
+}</string>
+             </property>
+             <property name="text">
+              <string>Weight</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="descriptionWeight">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+}</string>
+             </property>
+             <property name="text">
+              <string>A parameter that determines the importance of each input signal.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="weightFunction">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox 
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+QComboBox::drop-down
+{
+	border: 0px;
+}
+
+QComboBox::down-arrow
+{
+	
+	image: url(:/resources/images/Icons8_flat_expand.svg.png);
+	width: 12px;
+	height: 12px;
+	margin-right: 15px;
+}
+
+QComboBox::hover
+{
+	border: 0.5px solid #CED4DA;
+}</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Normal</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Xavier</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="7" column="4">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>70</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="5" column="0" colspan="2">
+         <widget class="QWidget" name="learningRateWidget" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>130</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>130</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}
+
+QLabel
+{
+	margin-left: 10px;
+}
+
+</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_2">
+           <property name="verticalSpacing">
+            <number>6</number>
+           </property>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="labelLearningRate">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #dae7e1;
+	font-weight: bold;
+}</string>
+             </property>
+             <property name="text">
+              <string>Learning rate reduction ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <widget class="QLabel" name="descriptionLearningRate">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+}</string>
+             </property>
+             <property name="text">
+              <string>description</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="labelLearningRateEpochs">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+	margin-left: 30px;
+}</string>
+             </property>
+             <property name="text">
+              <string>Epochs</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="learningRateEpochK">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-left: 10px;
+}</string>
+             </property>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="labelLearningRateLayers">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+	margin-left: 30px;
+}</string>
+             </property>
+             <property name="text">
+              <string>Layers</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="learningRateLayerK">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>210</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>210</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+	margin-left: 10px;
+}</string>
+             </property>
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="6" column="0" colspan="2">
          <widget class="QWidget" name="datasetDirectoriesWidget" native="true">
           <property name="minimumSize">
@@ -1137,7 +1625,13 @@ QListWidget::item::selected
            <string notr="true">QWidget::hover
 {
 	border: 0.5px solid #6495ED;
-}</string>
+}
+
+QLabel
+{
+	margin-left: 10px;
+}
+</string>
           </property>
           <widget class="QLabel" name="labelDatasetDirectories">
            <property name="geometry">
@@ -1158,7 +1652,7 @@ QListWidget::item::selected
             <string notr="true">QLabel
 {
 	border: 0px;
-	color: #AAAAAA;
+	color: #dae7e1;
 	font-weight: bold;
 }</string>
            </property>
@@ -1187,6 +1681,12 @@ QListWidget::item::selected
               <property name="minimumSize">
                <size>
                 <width>300</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>420</width>
                 <height>20</height>
                </size>
               </property>
@@ -1282,6 +1782,12 @@ QPushButton::pressed
                 <height>20</height>
                </size>
               </property>
+              <property name="maximumSize">
+               <size>
+                <width>420</width>
+                <height>20</height>
+               </size>
+              </property>
               <property name="font">
                <font>
                 <pointsize>9</pointsize>
@@ -1361,511 +1867,6 @@ QPushButton::pressed
           </widget>
          </widget>
         </item>
-        <item row="4" column="0" colspan="2">
-         <widget class="QWidget" name="momentumWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>120</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QWidget::hover
-{
-	border: 0.5px solid #6495ED;
-}</string>
-          </property>
-          <widget class="QLabel" name="labelMomentum">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Momentum</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="momentum">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>60</y>
-             <width>201</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>0.2</string>
-           </property>
-           <property name="frame">
-            <bool>true</bool>
-           </property>
-           <property name="echoMode">
-            <enum>QLineEdit::Normal</enum>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_3">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>30</y>
-             <width>471</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLabel" name="descriptionMomentum">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-}</string>
-              </property>
-              <property name="text">
-               <string>description</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QPushButton" name="exitApplicationSettingsTabButton">
-          <property name="minimumSize">
-           <size>
-            <width>190</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>190</width>
-            <height>25</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QPushButton
-{
-	background-color:  #40424B;
-	color: #B4B4B4;
-	border: solid;
-	border-radius: 6.5;
-}</string>
-          </property>
-          <property name="text">
-           <string>Exit settings</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="4">
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>70</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="5" column="0" colspan="2">
-         <widget class="QWidget" name="learningRateWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>120</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>140</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QWidget::hover
-{
-	border: 0.5px solid #6495ED;
-}</string>
-          </property>
-          <widget class="QLabel" name="labelLearningRate">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Learning rate reduction ratio</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="learningRateEpochK">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>60</y>
-             <width>201</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="learningRateLayerK">
-           <property name="geometry">
-            <rect>
-             <x>90</x>
-             <y>90</y>
-             <width>201</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>1</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="labelLearningRateEpochs">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>60</y>
-             <width>51</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Epochs</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="labelLearningRateLayers">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>90</y>
-             <width>51</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Layers</string>
-           </property>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_4">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>30</y>
-             <width>471</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="descriptionLearningRate">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-}</string>
-              </property>
-              <property name="text">
-               <string>description</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item row="3" column="0" colspan="2">
-         <widget class="QWidget" name="weightWidget" native="true">
-          <property name="minimumSize">
-           <size>
-            <width>300</width>
-            <height>100</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>120</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QWidget::hover
-{
-	border: 0.5px solid #6495ED;
-}</string>
-          </property>
-          <widget class="QLabel" name="labelWeight">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-	font-weight: bold;
-}</string>
-           </property>
-           <property name="text">
-            <string>Weight</string>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="weightFunction">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>60</y>
-             <width>180</width>
-             <height>25</height>
-            </rect>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QComboBox 
-{
-	background-color: #3C3C3C;
-	color: #AAAAAA;
-	border-radius: 4px;
-	padding-left: 10px;
-	font-weight: bold;
-}
-
-QComboBox::drop-down
-{
-	border: 0px;
-}
-
-QComboBox::down-arrow
-{
-	
-	image: url(:/resources/images/Icons8_flat_expand.svg.png);
-	width: 12px;
-	height: 12px;
-	margin-right: 15px;
-}
-
-QComboBox::hover
-{
-	border: 0.5px solid #CED4DA;
-}</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Normal</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Xavier</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget_2">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>30</y>
-             <width>471</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="descriptionWeight">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
-{
-	border: 0px;
-	color: #AAAAAA;
-}</string>
-              </property>
-              <property name="text">
-               <string>description</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>50</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="2" column="0" colspan="2">
          <widget class="QWidget" name="activationWidget" native="true">
           <property name="sizePolicy">
@@ -1883,80 +1884,137 @@ QComboBox::hover
           <property name="maximumSize">
            <size>
             <width>16777215</width>
-            <height>120</height>
+            <height>100</height>
            </size>
           </property>
           <property name="styleSheet">
            <string notr="true">QWidget::hover
 {
 	border: 0.5px solid #6495ED;
-}</string>
+}
+
+QLabel
+{
+	margin-left: 10px;
+}
+
+QComboBox
+{
+	margin-left: 10px;
+}
+</string>
           </property>
-          <widget class="QLabel" name="labelActivationFunction">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>221</width>
-             <height>21</height>
-            </rect>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QLabel
+           <item>
+            <widget class="QLabel" name="labelActivationFunction">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #dae7e1;
+	font-weight: bold;
+}</string>
+             </property>
+             <property name="text">
+              <string>Activation function</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="descriptionActivationFunction">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
 {
 	border: 0px;
 	color: #AAAAAA;
-	font-weight: bold;
 }</string>
-           </property>
-           <property name="text">
-            <string>Activation function</string>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="activationFunction">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>60</y>
-             <width>190</width>
-             <height>25</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>190</horstretch>
-             <verstretch>25</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>190</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>190</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>9</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QComboBox 
+             </property>
+             <property name="text">
+              <string>A mathematical function that determines the output signal of a neuron.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="activationFunction">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox 
 {
 	background-color: #3C3C3C;
 	color: #AAAAAA;
@@ -1985,54 +2043,214 @@ QComboBox::hover
 {
 	border: 0.5px solid #CED4DA;
 }</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>Sigmoid</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>SiLU</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ReLU</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QWidget" name="horizontalLayoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>30</x>
-             <y>30</y>
-             <width>471</width>
-             <height>31</height>
-            </rect>
-           </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QLabel" name="descriptionActivationFunction">
-              <property name="font">
-               <font>
-                <pointsize>9</pointsize>
-               </font>
+             </property>
+             <item>
+              <property name="text">
+               <string>Sigmoid</string>
               </property>
-              <property name="styleSheet">
-               <string notr="true">QLabel
+             </item>
+             <item>
+              <property name="text">
+               <string>SiLU</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>ReLU</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>50</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="0" colspan="2">
+         <widget class="QWidget" name="momentumWidget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>300</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget::hover
+{
+	border: 0.5px solid #6495ED;
+}
+
+QLabel
+{
+	margin-left: 10px;
+}
+
+QLineEdit
+{
+	margin-left: 10px;
+}
+</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>9</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="labelMomentum">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
+{
+	border: 0px;
+	color: #dae7e1;
+	font-weight: bold;
+}</string>
+             </property>
+             <property name="text">
+              <string>Momentum</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="descriptionMomentum">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLabel
 {
 	border: 0px;
 	color: #AAAAAA;
 }</string>
-              </property>
-              <property name="text">
-               <string>description</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
+             </property>
+             <property name="text">
+              <string>Optimization technique used in gradient descent methods to improve the convergence of neural network training.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="momentum">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>200</width>
+               <height>20</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>9</pointsize>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}</string>
+             </property>
+             <property name="text">
+              <string>0.2</string>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Normal</enum>
+             </property>
+             <property name="clearButtonEnabled">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
