@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 
+#include <QDialog>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+
 namespace s21
 {
 
@@ -47,6 +51,7 @@ void MainWindow::ReadModelSettings_()
     settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
 
     emit SetModelSettings(settings, static_cast<ModelType>(ui_->modelType->currentIndex()));
+    model_is_setted_up_ = true;
 }
 
 void MainWindow::AddLayer_()
@@ -97,8 +102,52 @@ void MainWindow::EmitStartTraining_()
     else
     {
         unsigned int number_of_epochs = ui_->numberOfEpochs->text().toUInt();
-        graph_widget_->SetXRange(1, number_of_epochs);
+        graph_widget_->Clear();
+        graph_widget_->SetXRange(0, number_of_epochs);
         emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), number_of_epochs);
+        model_is_trained_ = true;
+    }
+}
+
+void MainWindow::Manager_()
+{
+    if (model_is_setted_up_)
+    {
+        if (model_is_trained_)
+        {
+            QDialog* dialog_window = new QDialog(this);
+            QPushButton* continue_training = new QPushButton("continue");
+            QPushButton* new_model = new QPushButton("new model");
+            QLabel* label = new QLabel("Ваша модель уже обучена. Хотите ли вы продолжить обучение или создать новую модель?");
+            QHBoxLayout* h_layout = new QHBoxLayout();
+            QVBoxLayout* v_layout = new QVBoxLayout();
+
+            label->setWordWrap(true);
+            h_layout->addWidget(new_model);
+            h_layout->addWidget(continue_training);
+            v_layout->addWidget(label);
+            v_layout->addLayout(h_layout);
+            dialog_window->setLayout(v_layout);
+            connect(continue_training, &QPushButton::clicked, this, &MainWindow::EmitStartTraining_);
+            connect(new_model, &QPushButton::clicked, this, &MainWindow::ReadModelSettings_);
+            dialog_window->exec();
+
+            delete continue_training;
+            delete new_model;
+            delete label;
+            delete h_layout;
+            delete v_layout;
+            delete dialog_window;
+        }
+        else
+        {
+            EmitStartTraining_();
+        }
+    }
+    else
+    {
+        ReadModelSettings_();
+        Manager_();
     }
 }
 
@@ -116,7 +165,7 @@ void MainWindow::EmitStartTesting_()
 
 void MainWindow::AddErrorToGraph(double error, unsigned int epoch)
 {
-    graph_widget_->LoadEpoch(error);
+    graph_widget_->PushBack(error);
 }
 
 void MainWindow::SetMetrics(MappedLettersMetrics metrics)

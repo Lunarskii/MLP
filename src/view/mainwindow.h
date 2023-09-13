@@ -45,6 +45,7 @@ private slots:
     void EmitStartTraining_();
     void EmitStartTesting_();
     void OpenCSVFile_(QLineEdit& line, QString msg);
+    void Manager_();
 
 private:
     Ui::MainWindow* ui_;
@@ -53,8 +54,8 @@ private:
     QSettings* view_settings_;
     QValidator* fp_type_validator_;
     QValidator* int_type_validator_;
-    std::string dataset_training_directory;
-    std::string dataset_tests_directory;
+    bool model_is_setted_up_{ false };
+    bool model_is_trained_{ false };
 
     void InitDefaultUISettings_();
     void ConnectUISlots_();
