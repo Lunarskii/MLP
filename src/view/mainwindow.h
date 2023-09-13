@@ -8,6 +8,7 @@
 #include "paint/paint_widget.h"
 #include "../common/strategy.h"
 #include "../common/perceptron_settings.h"
+#include "../common/metrics.h"
 #include "./ui_mainwindow.h"
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +33,7 @@ signals:
 
 public slots:
     void AddErrorToGraph(fp_type error, unsigned int epoch);
+    void SetMetrics(MappedLettersMetrics metrics);
 
 private slots:
     void ReadModelSettings_();
@@ -42,7 +44,7 @@ private slots:
     void ChangeWidgetTab_(QAbstractButton* button);
     void EmitStartTraining_();
     void EmitStartTesting_();
-    void OpenFile_(QLineEdit& line, QString msg);
+    void OpenCSVFile_(QLineEdit& line, QString msg);
 
 private:
     Ui::MainWindow* ui_;
@@ -58,6 +60,7 @@ private:
     void ConnectUISlots_();
     void SaveViewSettings_();
     void RestoreViewSettings_();
+    QString MapToString_(std::vector<std::pair<char, fp_type>> values);
 };
 
 } // namespace s21

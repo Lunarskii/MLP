@@ -6,7 +6,7 @@ namespace s21
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui_(new Ui::MainWindow)
-    , graph_widget_(new GraphWidget(this))
+    , graph_widget_(new GraphWidget("Epochs", "Error", this))
     , paint_widget_(new PaintWidget(this))
     , view_settings_(new QSettings("School21", "MLP"))
     , fp_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"), this))
@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     InitDefaultUISettings_();
     ConnectUISlots_();
     RestoreViewSettings_();
+    graph_widget_->SetYRange(Const::target.first, Const::target.second);
 }
 
 MainWindow::~MainWindow()
@@ -95,7 +96,9 @@ void MainWindow::EmitStartTraining_()
     }
     else
     {
-        emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), ui_->numberOfEpochs->text().toInt());
+        unsigned int number_of_epochs = ui_->numberOfEpochs->text().toUInt();
+        graph_widget_->SetXRange(1, number_of_epochs);
+        emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), number_of_epochs);
     }
 }
 
@@ -114,6 +117,28 @@ void MainWindow::EmitStartTesting_()
 void MainWindow::AddErrorToGraph(fp_type error, unsigned int epoch)
 {
     graph_widget_->LoadEpoch(error);
+}
+
+void MainWindow::SetMetrics(MappedLettersMetrics metrics)
+{
+    ui_->accuracyValue->setText(QString::number(metrics.accuracy));
+    ui_->precisionValue->setToolTip(MapToString_(metrics.precision_map));
+    ui_->recallValue->setToolTip(MapToString_(metrics.recall_map));
+    ui_->fMeasureValue->setToolTip(MapToString_(metrics.F1_map));
+    ui_->totalTimeValue->setText("0");
+}
+
+QString MainWindow::MapToString_(std::vector<std::pair<char, fp_type>> values)
+{
+    QString str;
+
+    for (auto [ch, value] : values)
+    {
+        str += "'" + QString(ch) + "': " + QString::number(value, 'f', 2) + ", ";
+    }
+    str.chop(QString(", ").size());
+
+    return str;
 }
 
 } // namespace s21
