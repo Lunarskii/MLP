@@ -17,7 +17,7 @@ public:
 
 signals:
     void ModelNotFoundException(std::string msg);
-    void AddErrorToGraph(fp_type error, unsigned int epoch);
+    void AddErrorToGraph(double error, unsigned int epoch);
     void MetricsReady(MappedLettersMetrics metrics);
 
 private slots:

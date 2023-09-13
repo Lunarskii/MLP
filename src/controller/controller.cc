@@ -29,17 +29,22 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
 {
     if (model_ != nullptr)
     {
-       DataManager dm(file_path, -1, k90Rotate);
-       Error* error = model_->GetError();
+        DataManager dm(file_path, -1, k90Rotate);
 
-       error->SetFunc([&](fp_type error, unsigned int epoch)
-       {
-           emit AddErrorToGraph(error, epoch);
-       });
-       dm.Shuffle();
-       error->Wait();
-       model_->Learn(dm, number_of_epochs);
-       error->StopThread();
+        model_->SetErrorThread(
+            [&](fp_type error, unsigned int epoch) {
+            emit AddErrorToGraph((double)error, epoch);
+        });
+
+        model_->SetMetricThread(
+            [&](Metrics metrics) {
+            std::cout << "one epoch done\n\tTrain Time = " << metrics.train_time << " ms\n";
+            std::cout << "\tTest Time = " << metrics.test_time << " ms\n";
+            std::cout << "\taccuracy = " << metrics.accuracy << '\n';
+        });
+
+        dm.Shuffle();
+        model_->Learn(dm, number_of_epochs);
     }
     else
     {

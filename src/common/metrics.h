@@ -18,6 +18,7 @@ struct MappedLettersMetrics {
 struct Metrics {
     std::vector<fp_type> precision, recall, F1;
     fp_type accuracy = 0.0;
+    int64_t train_time = 0, test_time = 0;
     Metrics(unsigned int size);
 
     MappedLettersMetrics GetMappedLettersMetrics() {

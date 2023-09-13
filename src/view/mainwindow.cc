@@ -114,7 +114,7 @@ void MainWindow::EmitStartTesting_()
     }
 }
 
-void MainWindow::AddErrorToGraph(fp_type error, unsigned int epoch)
+void MainWindow::AddErrorToGraph(double error, unsigned int epoch)
 {
     graph_widget_->LoadEpoch(error);
 }
