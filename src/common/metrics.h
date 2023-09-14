@@ -10,7 +10,9 @@ namespace s21 {
 
 struct MappedLettersMetrics {
     std::vector<std::pair<char, fp_type>> precision_map, recall_map, F1_map;
-    fp_type accuracy = 0.0;
+    fp_type accuracy = 0;
+    int64_t training_time = 0;
+    int64_t testing_time = 0;
     MappedLettersMetrics(unsigned int size) :
             precision_map(size), recall_map(size), F1_map(size) {}
 };
@@ -18,7 +20,7 @@ struct MappedLettersMetrics {
 struct Metrics {
     std::vector<fp_type> precision, recall, F1;
     fp_type accuracy = 0.0;
-    int64_t train_time = 0, test_time = 0;
+    int64_t training_time = 0, testing_time = 0;
     Metrics(unsigned int size);
 
     MappedLettersMetrics GetMappedLettersMetrics() {
@@ -26,6 +28,8 @@ struct Metrics {
         MappedLettersMetrics metrics(size);
     
         metrics.accuracy = accuracy;
+        metrics.training_time = training_time;
+        metrics.testing_time = testing_time;
         for (int k = 0; k < size; ++k) {
             metrics.precision_map[k] = std::make_pair(k + 'A', precision[k]);
             metrics.recall_map[k] = std::make_pair(k + 'A', recall[k]);

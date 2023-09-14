@@ -44,13 +44,13 @@ Metrics Model::Test(DataManager &letters) {
 }
 
 void Model::EpochTest(DataManager &letters, Time::T time_point) {
-    auto train_time = Time::Duration<Time::ms>(time_point);
+    auto training_time = Time::Duration<Time::ms>(time_point);
     time_point = std::chrono::high_resolution_clock::now();
 
     auto epoch_metrics = Test(letters);
 
-    epoch_metrics.train_time = train_time;
-    epoch_metrics.test_time = Time::Duration<Time::ms>(time_point);
+    epoch_metrics.training_time = training_time;
+    epoch_metrics.testing_time = Time::Duration<Time::ms>(time_point);
 
     metrics_func_(epoch_metrics);
 }

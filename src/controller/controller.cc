@@ -40,8 +40,8 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
 
         model_->SetMetricThread([&](Metrics metrics) 
         {
-            std::cout << "one epoch done\n\tTrain Time = " << metrics.train_time << " ms\n";
-            std::cout << "\tTest Time = " << metrics.test_time << " ms\n";
+            std::cout << "one epoch done\n\tTraining Time = " << metrics.training_time << " ms\n";
+            std::cout << "\tTesting Time = " << metrics.testing_time << " ms\n";
             std::cout << "\taccuracy = " << metrics.accuracy << '\n';
         });
 
