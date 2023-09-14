@@ -128,8 +128,17 @@ void MainWindow::Manager_()
             v_layout->addWidget(label);
             v_layout->addLayout(h_layout);
             dialog_window->setLayout(v_layout);
-            connect(continue_training, &QPushButton::clicked, this, &MainWindow::EmitStartTraining_);
-            connect(new_model, &QPushButton::clicked, this, &MainWindow::ReadModelSettings_);
+            connect(continue_training, &QPushButton::clicked, this, [&]()
+            {
+                dialog_window->accept();
+                EmitStartTraining_();
+            });
+            connect(new_model, &QPushButton::clicked, this, [&]()
+            {
+                dialog_window->accept();
+                ReadModelSettings_();
+                EmitStartTraining_();
+            });
             dialog_window->exec();
 
             delete continue_training;
