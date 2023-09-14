@@ -64,6 +64,7 @@ void MainWindow::AddLayer_()
             row = ui_->layersListWidget->count() - 1;
         }
 
+        ui_->layersListWidget->resize(ui_->layersListWidget->width(), ui_->layersListWidget->height() + size_list_widget_item_);
         ui_->layersListWidget->insertItem(row, "0");
         QListWidgetItem* item = ui_->layersListWidget->item(row);
         item->setFlags(item->flags() | Qt::ItemIsEditable);
@@ -85,6 +86,7 @@ void MainWindow::RemoveLayer_()
         {
             ui_->layersListWidget->takeItem(size - 2);
         }
+        ui_->layersListWidget->resize(ui_->layersListWidget->width(), ui_->layersListWidget->height() - size_list_widget_item_);
     }
 }
 

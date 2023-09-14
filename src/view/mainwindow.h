@@ -60,6 +60,7 @@ private:
     bool model_is_setted_up_{ false };
     bool model_is_trained_{ false };
     QString last_layer_text_;
+    const int size_list_widget_item_ = 19;
 
     void InitDefaultUISettings_();
     void ConnectUISlots_();
