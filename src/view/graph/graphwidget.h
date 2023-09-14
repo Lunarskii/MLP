@@ -29,6 +29,10 @@ private:
     QVector<double> keys_;
     QVector<double> values_;
     unsigned int value_index_{ 0 };
+    double lower_{ 1 };
+    double upper_{ 0 };
+    const double lower_zoom_ratio_{ 0.8 };
+    const double upper_zoom_ratio_{ 1.2 };
 };
 
 } // namespace s21
