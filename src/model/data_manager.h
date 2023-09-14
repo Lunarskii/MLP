@@ -32,7 +32,7 @@ class DataManager {
         unsigned int TrainSize() { return size_ * train_proportion_; }
 
         // throw an error if the dataset is of a different size
-        void Validate(size_t letter_size, int classes);
+        void Validate(size_t letter_size, unsigned int classes);
 
         static void PrintLetter(const data_vector &one);
         void Printn(int n);

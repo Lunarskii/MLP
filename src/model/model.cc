@@ -9,6 +9,7 @@ void Model::Learn(DataManager &letters, unsigned int epoch_count) {
 
     auto time_point = std::chrono::high_resolution_clock::now();
 
+
     for (unsigned int k = 0; k < epoch_count; ++k) {
 
         error_.SetEpoch(k + 1);

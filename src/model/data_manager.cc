@@ -60,7 +60,7 @@ DataManager::DataManager(const std::string &file_path, int bias, LetterRotate ro
 }
 
 void DataManager::ForTest(const std::function<void(data_vector&, int)> func) {
-    for (int name = 0; name < classes_; ++name) {
+    for (unsigned int name = 0; name < classes_; ++name) {
         for (auto iter = letters_[name].end() - letters_[name].size() * test_proportion_;
                 iter != letters_[name].end(); ++iter) {
             func(*iter, name);
@@ -75,7 +75,7 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
 
     for (int k = 0; k < size_ * train_proportion_; ++k) {
         fp_type selection = s21::Random::Uniform<fp_type>(0.0, metric_sum_);
-        for (int name = 0; name < classes_; ++name) {
+        for (unsigned int name = 0; name < classes_; ++name) {
             selection -= metric_[name];
             if (selection <= 0.0) {
                 trained[name] = true;
@@ -89,7 +89,7 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
         // int name = Random::Int<int>(0, classes_ - 1);
         // func(letters_[name][Random::Int<int>(0, letters_[name].size() * train_proportion_)], name);
     }
-    for (int name = 0; name < classes_; ++name) {
+    for (unsigned int name = 0; name < classes_; ++name) {
 
         // std::cout << counts[name] << ' ';
 
@@ -111,7 +111,7 @@ void DataManager::Split(unsigned int proportion) {
 
 void DataManager::SetMetric(const std::vector<fp_type> &metric) {
     metric_sum_ = 0.0;
-    for (int k = 0; k < classes_; ++k) {
+    for (unsigned int k = 0; k < classes_; ++k) {
         metric_[k] = 1.0 / metric[k];
         metric_sum_ += metric_[k];
     }
@@ -129,7 +129,7 @@ void DataManager::CrossUpdate() {
         std::cout << "cros_k == 0\n";
         return;
     }
-    for (int name = 0; name < classes_; ++name) {
+    for (unsigned int name = 0; name < classes_; ++name) {
         int end = cross_k_ * letters_[name].size() * test_proportion_;
         int start = (cross_k_ - 1) * letters_[name].size() * test_proportion_;
         std::rotate(letters_[name].begin() + start, letters_[name].begin() + end, letters_[name].end());
@@ -137,7 +137,7 @@ void DataManager::CrossUpdate() {
     --cross_k_;
 }
 
-void DataManager::Validate(size_t letter_size, int classes) {
+void DataManager::Validate(size_t letter_size, unsigned int classes) {
     if (letter_size != width_ * height_ || classes != classes_) {
         throw std::runtime_error("Validation failed: letter size or classes do not match expectations.");
     }

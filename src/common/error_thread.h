@@ -20,7 +20,7 @@ class Error {
     private:
         fp_type value_;
         unsigned int epoch_;
-        int count_ = 0;
+        unsigned int count_ = 0;
         std::function<void(fp_type, unsigned int)> func_;
         unsigned int period_;     
 };

@@ -9,7 +9,7 @@ GraphLayer::GraphLayer(Graph* graph, std::size_t size)
     : graph_(graph)
     , size_(size)
 {
-    for (int i = 0; i < size_; ++i)
+    for (unsigned int i = 0; i < size_; ++i)
     {
         vertex_indexes_.push_back(graph->AddVertex());
     }
@@ -37,7 +37,7 @@ GraphModel::GraphModel(const PerceptronSettings& settings)
         layers_.emplace_back(&graph_, layer_size);
     }
 
-    for (int i = 0; i < layers_.size() - 1; ++i)
+    for (unsigned int i = 0; i < layers_.size() - 1; ++i)
     {
         layers_[i].LinkLayers(layers_[i + 1]);
     }
@@ -90,11 +90,6 @@ int GraphModel::GetResult()
     }
 
     return result;
-}
-
-void GraphModel::ToFile(const std::string &file_name)
-{
-
 }
 
 void GraphModel::UpdateOutputLayer(std::size_t answer)
@@ -164,6 +159,57 @@ fp_type GraphModel::GetMeanError()
     }
 
     return Func::MeanError(errors);
+}
+
+
+
+GraphModel::GraphModel(const std::string &file_name)
+{
+    std::ifstream file(file_name);
+    settings_ = PerceptronSettings(file);
+
+    for (auto layer_size : settings_.layers)
+    {
+        layers_.emplace_back(&graph_, layer_size);
+    }
+
+    for (unsigned int i = 0; i < layers_.size() - 1; ++i)
+    {
+        layers_[i].LinkLayers(layers_[i + 1]);
+    }
+
+    for (std::size_t layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
+    {
+        for (auto vertex1 : layers_[layer_k].vertex_indexes_)
+        {
+            for (auto vertex2 : layers_[layer_k + 1].vertex_indexes_)
+            {
+                Edge& edge = GetEdge(vertex1, vertex2, layers_[layer_k], layers_[layer_k + 1]);
+                file >> edge.weight;
+            }
+        }
+    }
+    
+    file.close();
+}
+
+void GraphModel::ToFile(const std::string &file_name) {
+    std::ofstream file(file_name);
+    settings_.ToFile(file);
+
+    for (std::size_t layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
+    {
+        for (auto vertex1 : layers_[layer_k].vertex_indexes_)
+        {
+            for (auto vertex2 : layers_[layer_k + 1].vertex_indexes_)
+            {
+                Edge& edge = GetEdge(vertex1, vertex2, layers_[layer_k], layers_[layer_k + 1]);
+                file << edge.weight << " ";
+            }
+        }
+    }
+
+    file.close();
 }
 
 } // namespace s21
