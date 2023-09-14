@@ -8,14 +8,14 @@ void Error::SetFunc(const std::function<void(fp_type, unsigned int)> &f) {
 
 void Error::SetEpoch(unsigned int epoch) {
     epoch_ = epoch;
-    Reset();
+    Clear();
 }
 
 void Error::SetDatasetSize(unsigned int size) {
-    period_ = size / Const::error_updates;
+    period_ = size / (Const::error_updates + 1);
 }
 
-void Error::Reset() {
+void Error::Clear() {
     value_ = 0.0;
     count_ = 0;
 }
@@ -25,11 +25,11 @@ void Error::Collect(fp_type error) {
     value_ += error;
     value_ /= ++count_;
 
-    if (count_ == period_)
+    if (count_ == period_ + 1)
         Send();
 }
 
 void Error::Send() {
     func_(value_, epoch_);
-    Reset();
+    Clear();
 }

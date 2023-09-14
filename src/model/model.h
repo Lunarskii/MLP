@@ -41,7 +41,7 @@ class Model {
 
         virtual void UpdateLR() {}
 
-        void EpochTest(DataManager &letters, Time::T time_point);
+        void EpochTest(DataManager &letters, int64_t training_time);
 };
 
 } // namespace s21
