@@ -18,6 +18,8 @@ void MainWindow::InitDefaultUISettings_()
     ui_->momentum->setValidator(fp_type_validator_);
     ui_->learningRateEpochK->setValidator(fp_type_validator_);
     ui_->learningRateLayerK->setValidator(fp_type_validator_);
+
+    graph_widget_->SetYRange(Const::target.first, Const::target.second);
 }
 
 void MainWindow::ConnectUISlots_()
@@ -51,6 +53,22 @@ void MainWindow::ConnectUISlots_()
     connect(ui_->actionOpenADatasetForTests, &QAction::triggered, this, [&]()
     {
         ui_->browseDatasetForTesting->click();
+    });
+
+    connect(ui_->layersListWidget, &QListWidget::itemDoubleClicked, this, [&](QListWidgetItem* item)
+    {
+        last_layer_text_ = item->text();
+    });
+    connect(ui_->layersListWidget, &QListWidget::itemChanged, this, [&](QListWidgetItem* item)
+    {
+        QString text(item->text());
+        int x = 0;
+
+        int_type_validator_->validate(text, x);
+        if (x)
+        {
+            item->setText(last_layer_text_);
+        }
     });
 }
 

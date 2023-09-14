@@ -16,7 +16,6 @@ MainWindow::MainWindow(QWidget *parent)
     InitDefaultUISettings_();
     ConnectUISlots_();
     RestoreViewSettings_();
-    graph_widget_->SetYRange(Const::target.first, Const::target.second);
 }
 
 MainWindow::~MainWindow()
@@ -99,7 +98,7 @@ void MainWindow::EmitStartTraining_()
     {
         unsigned int number_of_epochs = ui_->numberOfEpochs->text().toUInt();
         graph_widget_->Clear();
-        graph_widget_->SetXRange(0, number_of_epochs);
+        graph_widget_->SetXRange(Const::target.second / Const::error_updates, number_of_epochs);
         emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), number_of_epochs);
         model_is_trained_ = true;
     }

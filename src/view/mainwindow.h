@@ -59,6 +59,7 @@ private:
     QValidator* int_type_validator_;
     bool model_is_setted_up_{ false };
     bool model_is_trained_{ false };
+    QString last_layer_text_;
 
     void InitDefaultUISettings_();
     void ConnectUISlots_();
