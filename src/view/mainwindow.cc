@@ -1,9 +1,5 @@
 #include "mainwindow.h"
 
-#include <QDialog>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-
 namespace s21
 {
 
@@ -179,24 +175,42 @@ void MainWindow::AddErrorToGraph(double error, unsigned int epoch)
 
 void MainWindow::SetMetrics(MappedLettersMetrics metrics)
 {
+    std::pair<QString, QString> pair_precision = MapToPairString_(metrics.precision_map);
+    std::pair<QString, QString> pair_recall = MapToPairString_(metrics.recall_map);
+    std::pair<QString, QString> pair_fmeasure = MapToPairString_(metrics.F1_map);
+
     ui_->accuracyValue->setText(QString::number(metrics.accuracy));
-    ui_->precisionValue->setToolTip(MapToString_(metrics.precision_map));
-    ui_->recallValue->setToolTip(MapToString_(metrics.recall_map));
-    ui_->fMeasureValue->setToolTip(MapToString_(metrics.F1_map));
-    ui_->totalTimeValue->setText("0");
+    ui_->precisionValue->setText(pair_precision.first);
+    ui_->recallValue->setText(pair_recall.first);
+    ui_->fMeasureValue->setText(pair_fmeasure.first);
+    ui_->precisionValue->setToolTip(pair_precision.second);
+    ui_->recallValue->setToolTip(pair_recall.second);
+    ui_->fMeasureValue->setToolTip(pair_fmeasure.second);
+    ui_->trainingTimeValue->setText(QString::number(metrics.training_time) + "ms");
+    ui_->testingTimeValue->setText(QString::number(metrics.testing_time) + "ms");
 }
 
-QString MainWindow::MapToString_(std::vector<std::pair<char, fp_type>> values)
+std::pair<QString, QString> MainWindow::MapToPairString_(std::vector<std::pair<char, fp_type>> values)
 {
-    QString str;
+    QString value_string("{");
+    QString tool_tip_string;
+    const unsigned int number_of_letters_displayed = 3;
 
-    for (auto [ch, value] : values)
+    for (unsigned int i = 0; i < values.size(); ++i)
     {
-        str += "'" + QString(ch) + "': " + QString::number(value, 'f', 2) + ", ";
-    }
-    str.chop(QString(", ").size());
+        QString str = "'" + QString(values[i].first) + "': " + QString::number(values[i].second, 'f', 2) + ", ";
 
-    return str;
+        tool_tip_string += str;
+        if (i < number_of_letters_displayed)
+        {
+            value_string += str;
+        }
+    }
+    tool_tip_string.chop(QString(", ").size());
+    value_string.chop(QString(", ").size());
+    value_string += " ...}";
+
+    return { value_string, tool_tip_string };
 }
 
 } // namespace s21

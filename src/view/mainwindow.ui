@@ -96,13 +96,13 @@
           <property name="minimumSize">
            <size>
             <width>150</width>
-            <height>100</height>
+            <height>120</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>100</height>
+            <width>300</width>
+            <height>240</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -187,7 +187,7 @@ QToolTip
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QLabel" name="labelTotalTime">
+              <widget class="QLabel" name="labelTrainingTime">
                <property name="font">
                 <font>
                  <pointsize>-1</pointsize>
@@ -197,7 +197,7 @@ QToolTip
                 <string notr="true"/>
                </property>
                <property name="text">
-                <string>Total time</string>
+                <string>Training time</string>
                </property>
               </widget>
              </item>
@@ -248,7 +248,32 @@ QToolTip
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QLabel" name="totalTimeValue">
+              <widget class="QLabel" name="trainingTimeValue">
+               <property name="text">
+                <string>{...}</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="labelTestingTime">
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
+               <property name="text">
+                <string>Testing time</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QLabel" name="testingTimeValue">
                <property name="text">
                 <string>{...}</string>
                </property>

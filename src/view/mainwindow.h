@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QFileDialog>
+#include <QDialog>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include "graph/graphwidget.h"
 #include "paint/paint_widget.h"
 #include "../common/strategy.h"
@@ -61,7 +64,7 @@ private:
     void ConnectUISlots_();
     void SaveViewSettings_();
     void RestoreViewSettings_();
-    QString MapToString_(std::vector<std::pair<char, fp_type>> values);
+    std::pair<QString, QString> MapToPairString_(std::vector<std::pair<char, fp_type>> values);
 };
 
 } // namespace s21
