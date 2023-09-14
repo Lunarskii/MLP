@@ -22,15 +22,18 @@ void Model::Learn(DataManager &letters, unsigned int epoch_count) {
             error_.Collect(GetMeanError());
         });
 
-        EpochTest(letters, time_point);
+        EpochTest(letters, Time::Duration<Time::ms>(time_point));
 
         // letters.SetMetric(m.precision);
         // UpdateLR();
     }
+    error_.Clear();
     
 }
 
 Metrics Model::Test(DataManager &letters) {
+    auto time_point = std::chrono::high_resolution_clock::now();
+
     letters.Validate(settings_.layers.front(), settings_.layers.back());
 
     MetricsMaker metrics(settings_.layers.back());
@@ -40,17 +43,16 @@ Metrics Model::Test(DataManager &letters) {
         Forward();
         metrics(GetResult(), name);
     });
-    return metrics();
+    auto metr = metrics();
+    metr.testing_time = Time::Duration<Time::ms>(time_point);
+    return metr;
 }
 
-void Model::EpochTest(DataManager &letters, Time::T time_point) {
-    auto training_time = Time::Duration<Time::ms>(time_point);
-    time_point = std::chrono::high_resolution_clock::now();
-
+void Model::EpochTest(DataManager &letters, int64_t training_time) {
     auto epoch_metrics = Test(letters);
 
     epoch_metrics.training_time = training_time;
-    epoch_metrics.testing_time = Time::Duration<Time::ms>(time_point);
+    epoch_metrics.testing_time = epoch_metrics.testing_time;
 
     metrics_func_(epoch_metrics);
 }
