@@ -12,7 +12,7 @@ void Error::SetEpoch(unsigned int epoch) {
 }
 
 void Error::SetDatasetSize(unsigned int size) {
-    period_ = size / (Const::error_updates + 1);
+    period_ = size / (Const::error_updates);
 }
 
 void Error::Clear() {
@@ -25,7 +25,7 @@ void Error::Collect(fp_type error) {
     value_ += error;
     value_ /= ++count_;
 
-    if (count_ == period_ + 1)
+    if (count_ == period_)
         Send();
 }
 
