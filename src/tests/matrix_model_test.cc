@@ -1,18 +1,17 @@
-// #pragma once
 
 #include <gtest/gtest.h>
 
-#include "../../model/matrix_model.h"
+#include "../model/matrix_model.h"
 
 using namespace s21;
 
 auto rp = std::bind(SStr::RelativePath, __FILE__, std::placeholders::_1);
 
 TEST(MatrixModelTest, FileConstructors) {
-  MatrixModel MM(rp("../materials/perceptron1.prcp"));
+  MatrixModel MM(rp("materials/perceptron1.prcp"));
   MM.ToFile("tmp.prcp");
   std::fstream file1("tmp.prcp");
-  std::fstream file2(rp("../materials/perceptron1.prcp"));
+  std::fstream file2(rp("materials/perceptron1.prcp"));
   char c1, c2;
   while(file1.get(c1) && file2.get(c2)) {
     EXPECT_EQ(c1, c2);
@@ -38,10 +37,10 @@ TEST(MatrixModelTest, SettingsConstructor) {
 
 TEST(MatrixModelTest, ErrorFileConstructor) {
   EXPECT_ANY_THROW(MatrixModel MM("123"));
-  EXPECT_ANY_THROW(MatrixModel MM(rp("/../materials/bad_file_1.prcp")));
-  EXPECT_ANY_THROW(MatrixModel MM(rp("/../materials/bad_file_2.prcp")));
-  EXPECT_ANY_THROW(MatrixModel MM(rp("/../materials/bad_file_3.prcp")));
-  EXPECT_ANY_THROW(MatrixModel MM(rp("/../materials/empty_file.prcp")));
+  EXPECT_ANY_THROW(MatrixModel MM(rp("/materials/bad_file_1.prcp")));
+  EXPECT_ANY_THROW(MatrixModel MM(rp("/materials/bad_file_2.prcp")));
+  EXPECT_ANY_THROW(MatrixModel MM(rp("/materials/bad_file_3.prcp")));
+  EXPECT_ANY_THROW(MatrixModel MM(rp("/materials/empty_file.prcp")));
 }
 
 void IncorrectSettingsTest(std::function<void(PerceptronSettings&)> set) {

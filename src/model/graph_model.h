@@ -30,6 +30,7 @@ class GraphModel : public Model
 {
 public:
 	GraphModel(const PerceptronSettings& settings);
+	GraphModel(const std::string &file_name);
 	void Forward() override;
 	void Backward(int answer) override;
 	int GetResult() override;

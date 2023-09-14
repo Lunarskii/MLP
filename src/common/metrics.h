@@ -30,7 +30,7 @@ struct Metrics {
         metrics.accuracy = accuracy;
         metrics.training_time = training_time;
         metrics.testing_time = testing_time;
-        for (int k = 0; k < size; ++k) {
+        for (unsigned int k = 0; k < size; ++k) {
             metrics.precision_map[k] = std::make_pair(k + 'A', precision[k]);
             metrics.recall_map[k] = std::make_pair(k + 'A', recall[k]);
             metrics.F1_map[k] = std::make_pair(k + 'A', F1[k]);
