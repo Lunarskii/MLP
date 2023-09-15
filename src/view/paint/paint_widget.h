@@ -1,5 +1,4 @@
-#ifndef CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_
-#define CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_
+#pragma once
 
 #include <QWidget>
 #include <QMouseEvent>
@@ -65,5 +64,3 @@ private:
 };
 
 } // namespace s21
-
-#endif  // CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_

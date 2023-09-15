@@ -25,9 +25,7 @@ MatrixModel::MatrixModel(const PerceptronSettings &settings) {
 // FORWARD
 
 void MatrixLayer::Signal(const std::vector<fp_type> *source) {
-    // std::cout << "1\n";
     Arithmetic<fp_type>::MulClassic(*source, weights_, destination_);
-    // std::cout << "2\n";
 
     for (unsigned int g = 0; g < weights_.GetCols(); ++g) {
         destination_[g] = settings_.activation(destination_[g] + biases_[g]);
@@ -124,7 +122,6 @@ int MatrixModel::GetResult() {
             result = k;
         }
     }
-    // s21::SStr::Print(output);
     return result;
 }
 
