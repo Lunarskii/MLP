@@ -98,10 +98,12 @@ void MainWindow::EmitStartTraining_()
     }
     else
     {
-        unsigned int number_of_epochs = ui_->numberOfEpochs->text().toUInt();
+        std::string training_path = ui_->datasetTrainingPath->text().toStdString();
+        std::size_t proportion = ui_->datasetProportion->value();
+        std::size_t number_of_epochs = ui_->numberOfEpochs->text().toUInt();
         graph_widget_->Clear();
         graph_widget_->SetXRange(Const::target.second / Const::error_updates, number_of_epochs);
-        emit StartTraining(ui_->datasetTrainingPath->text().toStdString(), number_of_epochs);
+        emit StartTraining(training_path, number_of_epochs, proportion);
         model_is_trained_ = true;
     }
 }

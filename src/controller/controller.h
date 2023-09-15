@@ -23,7 +23,7 @@ signals:
 
 private slots:
     void SetModel_(PerceptronSettings settings, ModelType type);
-    void StartTraining_(std::string file_path, std::size_t number_of_epochs);
+    void StartTraining_(std::string file_path, std::size_t number_of_epochs, std::size_t proportion);
     void StartTesting_(std::string file_path);
     void PredictLetter_(std::vector<double> image);
 

@@ -31,7 +31,7 @@ public:
 
 signals:
     void SetModelSettings(PerceptronSettings settings, ModelType type);
-    void StartTraining(std::string file_path, std::size_t number_of_epochs);
+    void StartTraining(std::string file_path, std::size_t number_of_epochs, std::size_t proportion);
     void StartTesting(std::string file_path);
     void PredictLetter(std::vector<double> image);
 

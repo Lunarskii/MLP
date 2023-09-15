@@ -29,7 +29,7 @@ void Controller::SetModel_(PerceptronSettings settings, ModelType type)
     }
 }
 
-void Controller::StartTraining_(std::string file_path, std::size_t number_of_epochs)
+void Controller::StartTraining_(std::string file_path, std::size_t number_of_epochs, std::size_t proportion)
 {
     if (model_ != nullptr)
     {
@@ -46,6 +46,7 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
         });
 
         dm.Shuffle();
+        dm.Split(proportion);
         model_->Learn(dm, number_of_epochs);
     }
     else
