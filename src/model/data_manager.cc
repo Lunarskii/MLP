@@ -71,8 +71,6 @@ void DataManager::ForTest(const std::function<void(data_vector&, int)> func) {
 void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
     std::vector<bool> trained(classes_, false);
 
-    // std::vector<int> counts(classes_, 0);
-
     for (int k = 0; k < size_ * train_proportion_; ++k) {
         fp_type selection = s21::Random::Uniform<fp_type>(0.0, metric_sum_);
         for (unsigned int name = 0; name < classes_; ++name) {
@@ -80,25 +78,18 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
             if (selection <= 0.0) {
                 trained[name] = true;
 
-                // ++counts[name];
-
                 func(letters_[name][Random::Int<int>(0, letters_[name].size() * train_proportion_)], name);
                 break;
             }
         }
-        // int name = Random::Int<int>(0, classes_ - 1);
-        // func(letters_[name][Random::Int<int>(0, letters_[name].size() * train_proportion_)], name);
     }
     for (unsigned int name = 0; name < classes_; ++name) {
 
-        // std::cout << counts[name] << ' ';
 
         if (!trained[name]) {
             func(letters_[name][Random::Int<int>(0, letters_[name].size() * train_proportion_)], name);
         }
     }
-
-    std::cout << '\n';
 }
 
 void DataManager::Split(unsigned int proportion) {

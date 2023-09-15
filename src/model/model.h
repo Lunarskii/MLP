@@ -14,7 +14,7 @@ namespace s21 {
 class Model {
     public:
         Model() {}
-        void Learn(DataManager &letters, unsigned int epoch_count);
+        void Learn(DataManager &letters, unsigned int epoch_count, bool error_thread = true, bool metric_thread = true);
         Metrics Test(DataManager &letters);
         char Predict(data_vector &letter);
         virtual void Forward() = 0;
@@ -29,7 +29,6 @@ class Model {
 
         virtual ~Model() = default;
 
-
     protected:
         data_vector *letter_;
         PerceptronSettings settings_;
@@ -42,6 +41,22 @@ class Model {
         virtual void UpdateLR() {}
 
         void EpochTest(DataManager &letters, int64_t training_time);
+};
+
+template<class ModelType>
+struct CrossValidation {
+    static void Run(DataManager &letters, const PerceptronSettings &settings, unsigned int cross, unsigned int epoch_count, std::function<void(Metrics&)> matrics_thread) {
+        letters.Validate(settings.layers.front(), settings.layers.back());
+        letters.Split(cross);
+
+        for (unsigned int k = 0; k < cross; ++k) {
+            ModelType model(settings);
+            model.Learn(letters, epoch_count, false, false);
+            auto m = model.Test(letters);
+            matrics_thread(m);
+            letters.CrossUpdate();
+        }
+    }
 };
 
 } // namespace s21

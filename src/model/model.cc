@@ -2,17 +2,17 @@
 
 using namespace s21;
 
-void Model::Learn(DataManager &letters, unsigned int epoch_count) {
+void Model::Learn(DataManager &letters, unsigned int epoch_count, bool error_thread, bool metric_thread) {
     letters.Validate(settings_.layers.front(), settings_.layers.back());
 
-    error_.SetDatasetSize(letters.TrainSize());
+    if (error_thread) error_.SetDatasetSize(letters.TrainSize());
 
     auto time_point = std::chrono::high_resolution_clock::now();
 
 
     for (unsigned int k = 0; k < epoch_count; ++k) {
 
-        error_.SetEpoch(k + 1);
+        if (error_thread) error_.SetEpoch(k + 1);
 
         letters.ForTrain([&] (data_vector &letter, int name) {
             
@@ -20,10 +20,11 @@ void Model::Learn(DataManager &letters, unsigned int epoch_count) {
             Forward();
             Backward(name);
 
-            error_.Collect(GetMeanError());
+            if (error_thread) error_.Collect(GetMeanError());
         });
 
-        EpochTest(letters, Time::Duration<Time::ms>(time_point));
+        if (metric_thread)
+            EpochTest(letters, Time::Duration<Time::ms>(time_point));
 
         // letters.SetMetric(m.precision);
         UpdateLR();
@@ -74,3 +75,4 @@ void Model::SetErrorThread(const std::function<void(fp_type, unsigned int)> &fun
 void Model::SetMetricThread(const std::function<void(Metrics)> &func) {
     metrics_func_ = func;
 }
+
