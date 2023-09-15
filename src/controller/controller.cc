@@ -59,6 +59,7 @@ void Controller::StartTesting_(std::string file_path)
     if (model_ != nullptr)
     {
         DataManager dm(file_path, -1, k90Rotate);
+        dm.Split(1);
         emit MetricsReady(model_->Test(dm).GetMappedLettersMetrics());
     }
     else

@@ -5,18 +5,19 @@ using namespace s21;
 /////////////////////////////////////////////////////////////////////
 // CONSTRUCTORS
 
-MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &settings) :
+MatrixLayer::MatrixLayer(size_t rows, size_t cols, fp_type lr, const PerceptronSettings &settings) :
         weights_(rows, cols, [&] { return settings.weight_init(rows, cols); }),
         delta_weights_(rows, cols, 0), biases_(cols), destination_(cols),
-        gradients_(cols), error_(cols), settings_(settings) {}
+        gradients_(cols), error_(cols), settings_(settings), learning_rate_(lr) {}
 
 
 MatrixModel::MatrixModel(const PerceptronSettings &settings) {
     settings.Validate();
     settings_ = settings;
-
+    fp_type lr = settings_.learning_rate;
     for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
-        layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], settings_);
+        layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], lr, settings_);
+        lr *= settings_.lr_layers_k;
     }
 }
 
@@ -53,7 +54,7 @@ void MatrixLayer::UpdateWeights(const std::vector<fp_type> *source) {
     for (unsigned int k = 0; k < weights_.GetRows(); ++k) {
         for (unsigned int g = 0; g < weights_.GetCols(); ++g) {
             delta_weights_(k, g) = delta_weights_(k, g) * settings_.momentum +
-                            settings_.learning_rate * gradients_[g] * (*source)[k] * (1.0 - settings_.momentum);
+                            learning_rate_ * gradients_[g] * (*source)[k] * (1.0 - settings_.momentum);
             weights_(k, g) += delta_weights_(k, g);
         }
     }
@@ -72,7 +73,7 @@ void MatrixLayer::UpdateGradientsBiases() {
 
         gradient_sum += std::pow(gradients_[g], 2);
 
-        biases_[g] += settings_.learning_rate * error_[g];
+        biases_[g] += learning_rate_ * error_[g];
     }
     fp_type l = std::pow(gradient_, 2) * (fp_type)count_ + gradient_sum / gradients_.size();
 
@@ -127,13 +128,20 @@ int MatrixModel::GetResult() {
     return result;
 }
 
+void MatrixModel::UpdateLR() {
+    for (auto &i : layers_) {
+        i.learning_rate_ *= settings_.lr_epoch_k;
+    }
+}
+
 //////////////////////////////////////////////////////////////////////////
 // FILE
 
 
-MatrixLayer::MatrixLayer(size_t rows, size_t cols, const PerceptronSettings &settings, std::ifstream &file) :
+MatrixLayer::MatrixLayer(size_t rows, size_t cols, fp_type lr, const PerceptronSettings &settings, std::ifstream &file) :
         weights_(file), delta_weights_(rows, cols, 0), biases_(cols),
-        destination_(cols), gradients_(cols), error_(cols), settings_(settings) {
+        destination_(cols), gradients_(cols), error_(cols), settings_(settings),
+        learning_rate_(lr) {
         
     std::string line;
     std::getline(file, line);
@@ -151,13 +159,15 @@ MatrixModel::MatrixModel(const std::string &file_name) {
     std::ifstream file(file_name);
     settings_ = PerceptronSettings(file);
 
+    fp_type lr = settings_.learning_rate;
     for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
         std::string line;
         std::getline(file, line);
         if (line != "layer " + std::to_string(k) + " weights:") {
             throw std::runtime_error("MatrixModel: Invalid file format in line \"" + line + "\"");
         }
-        layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], settings_, file);
+        layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], lr, settings_, file);
+        lr *= settings_.lr_layers_k;
     }
     
     file.close();
