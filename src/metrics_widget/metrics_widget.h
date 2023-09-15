@@ -51,8 +51,6 @@ class MetricsWidget : public QWidget {
         void resizeEvent(QResizeEvent *event) override;
         void mouseDoubleClickEvent(QMouseEvent *event) override;
 
-        void keyPressEvent(QKeyEvent *event) override; /// УДАЛИТЬ
-
     private:
 
         QImage image_;

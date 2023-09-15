@@ -148,13 +148,13 @@ void MetricsWidget::DrawClassCharts() {
 
     // draw metrics names
     painter_.setPen(QPen(Style::precision_color, Style::metrics_text_size));
-    painter_.drawText(0.4 * w, Style::indent * 0.5, "Precision");
+    painter_.drawText(0.25 * w, Style::indent * 0.5, "Precision");
 
     painter_.setPen(QPen(Style::recall_color, Style::metrics_text_size));
-    painter_.drawText(0.6 * w, Style::indent * 0.5, "Recall");
+    painter_.drawText(0.5 * w, Style::indent * 0.5, "Recall");
 
     painter_.setPen(QPen(Style::f1_color, Style::metrics_text_size));
-    painter_.drawText(0.8 * w, Style::indent * 0.5, "F1");
+    painter_.drawText(0.75 * w, Style::indent * 0.5, "F1");
 
 }
 
@@ -169,7 +169,7 @@ void MetricsWidget::Draw() {
     if (classes_) {
         DrawClassCharts();
     } else {
-        DrawCrossCharts();        
+        DrawCrossCharts();
     }
 
     painter_.end();
@@ -189,16 +189,3 @@ void MetricsWidget::mouseDoubleClickEvent(QMouseEvent *event) {
     }
 }
 
-
-
-void MetricsWidget::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Return) {
-        Metrics m(26);
-        m.accuracy = 0.5;
-        m.F1 = {0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.3, 0.3};
-        m.precision = {0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.6, 0.7, 0.8, 0.9, 0.3, 0.4, 0.5, 0.3, 0.3};
-        m.recall = {0.1, 0.2, 0.4, 0.2, 0.4, 0.5, 0.9, 0.9, 0.4, 0.2, 0.4, 0.5, 0.1, 0.2, 0.4, 0.2, 0.4, 0.6, 0.7, 0.8, 0.9, 0.3, 0.4, 0.5, 0.3, 0.3};
-
-        SetMetrics(m);
-    }
-}
