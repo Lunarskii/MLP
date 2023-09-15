@@ -15,6 +15,7 @@ struct MappedLettersMetrics {
     int64_t testing_time = 0;
     MappedLettersMetrics(unsigned int size) :
             precision_map(size), recall_map(size), F1_map(size) {}
+    MappedLettersMetrics() = default;
 };
 
 struct Metrics {
@@ -22,6 +23,7 @@ struct Metrics {
     fp_type accuracy = 0.0;
     int64_t training_time = 0, testing_time = 0;
     Metrics(unsigned int size);
+    Metrics() = default;
 
     MappedLettersMetrics GetMappedLettersMetrics() {
         unsigned int size = precision.size();

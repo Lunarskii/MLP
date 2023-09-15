@@ -81,6 +81,8 @@ void MainWindow::ConnectUISlots_()
         std::size_t epochs = ui_->numberOfEpochs->text().toUInt();
         ModelType type = static_cast<ModelType>(ui_->modelType->currentIndex());
 
+        graph_widget_->Clear();
+        graph_widget_->SetXRange(Const::target.second / Const::error_updates, epochs * groups);
         metrics_widget_->Clear();
         emit StartCrossValidation(dataset, settings, groups, epochs, type);
     });

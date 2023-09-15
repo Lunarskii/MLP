@@ -5,6 +5,7 @@
 #include "../model/matrix_model.h"
 #include "../model/graph_model.h"
 #include "../common/metrics.h"
+#include <QThread>
 
 namespace s21
 {
@@ -15,6 +16,13 @@ class Controller : public QObject
 
 public:
     explicit Controller(MainWindow* v);
+
+    ~Controller() {
+        std::cout << "Controller::~Controller()" << '\n';
+        stop_ = true;
+        thread_.quit();
+        thread_.wait();
+    }
 
 signals:
     void ModelNotFoundException(std::string msg);
@@ -33,6 +41,12 @@ private slots:
 private:
     std::unique_ptr<Model> model_;
     MainWindow* view_;
+
+    QThread thread_;
+
+    bool stop_ = false;
+
+
 };
 
 } // namespace s21

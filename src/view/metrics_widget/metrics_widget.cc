@@ -173,7 +173,8 @@ void MetricsWidget::Draw() {
     }
 
     painter_.end();
-    update();
+    // update();
+    repaint();
 }
 
 void MetricsWidget::Clear() {
