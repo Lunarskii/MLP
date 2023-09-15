@@ -31,63 +31,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::ReadModelSettings_()
 {
-    PerceptronSettings settings;
-
-    for (auto item : ui_->layersListWidget->findItems("*", Qt::MatchWildcard))
-    {
-        settings.layers.push_back(item->text().toInt());
-    }
-
-    settings.SetActivation(static_cast<ActivationFunctions>(ui_->activationFunction->currentIndex()));
-    settings.SetWeightInit(static_cast<WeightInitFunctions>(ui_->weightFunction->currentIndex()));
-    settings.learning_rate = ui_->learningRate->text().toDouble();
-    settings.momentum = ui_->momentum->text().toDouble();
-    settings.lr_epoch_k = ui_->learningRateEpochK->text().toDouble();
-    settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
-
-    emit SetModelSettings(settings, static_cast<ModelType>(ui_->modelType->currentIndex()));
+    emit SetModelSettings(GetPerceptronSettings(), static_cast<ModelType>(ui_->modelType->currentIndex()));
     model_is_setted_up_ = true;
-}
-
-void MainWindow::AddLayer_()
-{
-    if (ui_->layersListWidget->count() != 7)
-    {
-        int row = ui_->layersListWidget->currentRow();
-
-        if (row == 0)
-        {
-            ++row;
-        }
-        else if (row == -1)
-        {
-            row = ui_->layersListWidget->count() - 1;
-        }
-
-        ui_->layersListWidget->resize(ui_->layersListWidget->width(), ui_->layersListWidget->height() + size_list_widget_item_);
-        ui_->layersListWidget->insertItem(row, "0");
-        QListWidgetItem* item = ui_->layersListWidget->item(row);
-        item->setFlags(item->flags() | Qt::ItemIsEditable);
-    }
-}
-
-void MainWindow::RemoveLayer_()
-{
-    int row = ui_->layersListWidget->currentRow();
-    std::size_t size = ui_->layersListWidget->count();
-
-    if (row != 0 && row != size - 1 && size != 2)
-    {
-        if (row != -1)
-        {
-            ui_->layersListWidget->takeItem(row);
-        }
-        else
-        {
-            ui_->layersListWidget->takeItem(size - 2);
-        }
-        ui_->layersListWidget->resize(ui_->layersListWidget->width(), ui_->layersListWidget->height() - size_list_widget_item_);
-    }
 }
 
 void MainWindow::EmitStartTraining_()
@@ -115,9 +60,9 @@ void MainWindow::Manager_()
         if (model_is_trained_)
         {
             QDialog* dialog_window = new QDialog(this);
-            QPushButton* continue_training = new QPushButton("continue");
-            QPushButton* new_model = new QPushButton("new model");
-            QLabel* label = new QLabel("Ваша модель уже обучена. Хотите ли вы продолжить обучение или создать новую модель?");
+            QPushButton* continue_training = new QPushButton("Continue training");
+            QPushButton* new_model = new QPushButton("New model");
+            QLabel* label = new QLabel("Your model is already trained.");
             QHBoxLayout* h_layout = new QHBoxLayout();
             QVBoxLayout* v_layout = new QVBoxLayout();
 
@@ -197,14 +142,13 @@ std::pair<QString, QString> MainWindow::MapToPairString_(std::vector<std::pair<c
 {
     QString value_string("{");
     QString tool_tip_string;
-    const unsigned int number_of_letters_displayed = 3;
 
     for (unsigned int i = 0; i < values.size(); ++i)
     {
         QString str = "'" + QString(values[i].first) + "': " + QString::number(values[i].second, 'f', 2) + ", ";
 
         tool_tip_string += str;
-        if (i < number_of_letters_displayed)
+        if (i < MetricsConstants::kNumberOfLettersDisplayed)
         {
             value_string += str;
         }
@@ -219,6 +163,25 @@ std::pair<QString, QString> MainWindow::MapToPairString_(std::vector<std::pair<c
 void MainWindow::SetPredict(char c)
 {
     paint_widget_->SetPredict(c);
+}
+
+PerceptronSettings MainWindow::GetPerceptronSettings()
+{
+    PerceptronSettings settings;
+
+    for (auto item : ui_->layersListWidget->findItems("*", Qt::MatchWildcard))
+    {
+        settings.layers.push_back(item->text().toInt());
+    }
+
+    settings.SetActivation(static_cast<ActivationFunctions>(ui_->activationFunction->currentIndex()));
+    settings.SetWeightInit(static_cast<WeightInitFunctions>(ui_->weightFunction->currentIndex()));
+    settings.learning_rate = ui_->learningRate->text().toDouble();
+    settings.momentum = ui_->momentum->text().toDouble();
+    settings.lr_epoch_k = ui_->learningRateEpochK->text().toDouble();
+    settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
+
+    return settings;
 }
 
 } // namespace s21

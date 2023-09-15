@@ -6,6 +6,7 @@
 #include <vector>
 #include "../qcustomplot/qcustomplot.h"
 #include "../../common/strategy.h"
+#include "../view_constants.h"
 
 namespace s21
 {
@@ -31,8 +32,6 @@ private:
     unsigned int value_index_{ 0 };
     double lower_{ 1 };
     double upper_{ 0 };
-    const double lower_zoom_ratio_{ 0.8 };
-    const double upper_zoom_ratio_{ 1.2 };
 };
 
 } // namespace s21

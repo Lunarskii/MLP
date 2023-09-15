@@ -11,7 +11,7 @@ GraphWidget::GraphWidget(QString x_label, QString y_label, QWidget* parent)
     custom_plot_->yAxis->setLabel(y_label);
     graph_ = custom_plot_->addGraph();
     QPen pen = graph_->pen();
-    pen.setWidth(3);
+    pen.setWidth(GraphWidgetConstants::kPenWidth);
     pen.setColor(Qt::red);
     graph_->setPen(pen);
 }
@@ -25,11 +25,11 @@ void GraphWidget::PushBack(double value)
 {
     if (value < lower_)
     {
-        lower_ = value * lower_zoom_ratio_;
+        lower_ = value * GraphWidgetConstants::kLowerZoomRatio;
     }
     if (value > upper_)
     {
-        upper_ = value * upper_zoom_ratio_;
+        upper_ = value * GraphWidgetConstants::kUpperZoomRatio;
     }
     if (value_index_ != values_.size())
     {

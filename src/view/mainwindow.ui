@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1400</width>
+    <width>854</width>
     <height>900</height>
    </rect>
   </property>
@@ -301,6 +301,9 @@ QComboBox::hover
                 <height>30</height>
                </size>
               </property>
+              <property name="toolTip">
+               <string/>
+              </property>
               <property name="styleSheet">
                <string notr="true"/>
               </property>
@@ -331,6 +334,9 @@ QComboBox::hover
                 <width>100</width>
                 <height>30</height>
                </size>
+              </property>
+              <property name="toolTip">
+               <string/>
               </property>
               <property name="styleSheet">
                <string notr="true"/>
@@ -525,172 +531,13 @@ QListWidget::item::selected
                </property>
               </item>
              </widget>
-             <widget class="QTabWidget" name="learningTypeWidget">
-              <property name="geometry">
-               <rect>
-                <x>-2</x>
-                <y>83</y>
-                <width>230</width>
-                <height>35</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>230</width>
-                <height>35</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>230</width>
-                <height>35</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QTabWidget
-{
-	border: 0px;
-}</string>
-              </property>
-              <property name="inputMethodHints">
-               <set>Qt::ImhNone</set>
-              </property>
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <property name="tabBarAutoHide">
-               <bool>false</bool>
-              </property>
-              <widget class="QWidget" name="standardType">
-               <attribute name="title">
-                <string>Tab 1</string>
-               </attribute>
-               <widget class="QLabel" name="labelNumberOfEpochs">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>0</y>
-                  <width>91</width>
-                  <height>21</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16666</width>
-                  <height>16666</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="text">
-                 <string>Epoch count</string>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="numberOfEpochs">
-                <property name="geometry">
-                 <rect>
-                  <x>110</x>
-                  <y>0</y>
-                  <width>120</width>
-                  <height>20</height>
-                 </rect>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>9</pointsize>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
-              </widget>
-              <widget class="QWidget" name="crossValidationType">
-               <attribute name="title">
-                <string>Tab 2</string>
-               </attribute>
-               <widget class="QLabel" name="labelNumberOfGroups">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>0</y>
-                  <width>91</width>
-                  <height>21</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true"/>
-                </property>
-                <property name="text">
-                 <string>Group count</string>
-                </property>
-               </widget>
-               <widget class="QLineEdit" name="numberOfGroups">
-                <property name="geometry">
-                 <rect>
-                  <x>110</x>
-                  <y>0</y>
-                  <width>120</width>
-                  <height>20</height>
-                 </rect>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>120</width>
-                  <height>20</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>9</pointsize>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
-              </widget>
-             </widget>
              <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
                 <width>231</width>
-                <height>81</height>
+                <height>101</height>
                </rect>
               </property>
               <layout class="QFormLayout" name="formLayout_3">
@@ -746,51 +593,6 @@ QListWidget::item::selected
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="labelLearningTypeSelection">
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>Learning type</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QComboBox" name="learningType">
-                 <property name="minimumSize">
-                  <size>
-                   <width>120</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>120</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>9</pointsize>
-                   <bold>true</bold>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Standard</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>With cross-validation</string>
-                  </property>
-                 </item>
-                </widget>
-               </item>
-               <item row="2" column="0">
                 <widget class="QLabel" name="labelLearningRateMain">
                  <property name="maximumSize">
                   <size>
@@ -806,7 +608,7 @@ QListWidget::item::selected
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
+               <item row="1" column="1">
                 <widget class="QLineEdit" name="learningRate">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -834,6 +636,94 @@ QListWidget::item::selected
                  </property>
                  <property name="text">
                   <string>0.1</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="labelNumberOfEpochs">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16666</width>
+                   <height>16666</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>Epoch count</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="labelNumberOfGroups">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>Group count</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="numberOfEpochs">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="numberOfGroups">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
                  </property>
                 </widget>
                </item>
@@ -964,7 +854,7 @@ QListWidget::item::selected
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>120</y>
+                <y>110</y>
                 <width>181</width>
                 <height>21</height>
                </rect>
@@ -977,7 +867,7 @@ QListWidget::item::selected
               <property name="geometry">
                <rect>
                 <x>185</x>
-                <y>115</y>
+                <y>105</y>
                 <width>51</width>
                 <height>31</height>
                </rect>
@@ -1002,6 +892,68 @@ QListWidget::item::selected
               </property>
               <property name="value">
                <number>5</number>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="openCrossValidationGraphButton">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>340</y>
+                <width>100</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Graph(val)</string>
+              </property>
+              <attribute name="buttonGroup">
+               <string notr="true">widgetDisplayButtonGroup</string>
+              </attribute>
+             </widget>
+             <widget class="QPushButton" name="startCrossValidationButton">
+              <property name="geometry">
+               <rect>
+                <x>120</x>
+                <y>340</y>
+                <width>100</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Start validation</string>
               </property>
              </widget>
             </widget>
@@ -2410,7 +2362,7 @@ QLineEdit
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1400</width>
+     <width>854</width>
      <height>22</height>
     </rect>
    </property>

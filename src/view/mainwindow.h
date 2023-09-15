@@ -33,6 +33,7 @@ signals:
     void SetModelSettings(PerceptronSettings settings, ModelType type);
     void StartTraining(std::string file_path, std::size_t number_of_epochs, std::size_t proportion);
     void StartTesting(std::string file_path);
+    void StartCrossValidation(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs);
     void PredictLetter(std::vector<double> image);
 
 public slots:
@@ -44,9 +45,8 @@ private slots:
     void ReadModelSettings_();
     void AddLayer_();
     void RemoveLayer_();
-    void ChangeTypeOfLearning_(int index);
     void ChangeApplicationTab_();
-    void ChangeWidgetTab_(QAbstractButton* button);
+    void ChangeDisplayWidgetTab_(QAbstractButton* button);
     void EmitStartTraining_();
     void EmitStartTesting_();
     void OpenCSVFile_(QLineEdit& line, QString msg);
@@ -68,6 +68,7 @@ private:
     void ConnectUISlots_();
     void SaveViewSettings_();
     void RestoreViewSettings_();
+    PerceptronSettings GetPerceptronSettings();
     std::pair<QString, QString> MapToPairString_(std::vector<std::pair<char, fp_type>> values);
 };
 
