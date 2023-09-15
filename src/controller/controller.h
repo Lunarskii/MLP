@@ -4,6 +4,7 @@
 #include "../view/mainwindow.h"
 #include "../model/matrix_model.h"
 #include "../model/graph_model.h"
+#include "../common/metrics.h"
 
 namespace s21
 {
@@ -19,12 +20,14 @@ signals:
     void ModelNotFoundException(std::string msg);
     void AddErrorToGraph(double error, unsigned int epoch);
     void MetricsReady(MappedLettersMetrics metrics);
+    void CrossMetricsReady(Metrics metrics);
     void PredictReady(char c);
 
 private slots:
     void SetModel_(PerceptronSettings settings, ModelType type);
     void StartTraining_(std::string file_path, std::size_t number_of_epochs, std::size_t proportion);
     void StartTesting_(std::string file_path);
+    void StartCrossValidation_(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs, ModelType type);
     void PredictLetter_(std::vector<double> image);
 
 private:

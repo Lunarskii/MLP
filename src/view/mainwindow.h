@@ -9,6 +9,7 @@
 #include <QVBoxLayout>
 #include "graph/graphwidget.h"
 #include "paint/paint_widget.h"
+#include "metrics_widget/metrics_widget.h"
 #include "../common/strategy.h"
 #include "../common/perceptron_settings.h"
 #include "../common/metrics.h"
@@ -33,12 +34,13 @@ signals:
     void SetModelSettings(PerceptronSettings settings, ModelType type);
     void StartTraining(std::string file_path, std::size_t number_of_epochs, std::size_t proportion);
     void StartTesting(std::string file_path);
-    void StartCrossValidation(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs);
+    void StartCrossValidation(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs, ModelType type);
     void PredictLetter(std::vector<double> image);
 
 public slots:
     void AddErrorToGraph(double error, unsigned int epoch);
     void SetMetrics(MappedLettersMetrics metrics);
+    void SetCrossMetrics(Metrics metrics);
     void SetPredict(char c);
 
 private slots:
@@ -56,6 +58,7 @@ private:
     Ui::MainWindow* ui_;
     GraphWidget* graph_widget_;
     PaintWidget* paint_widget_;
+    MetricsWidget* metrics_widget_;
     QSettings* view_settings_;
     QValidator* fp_type_validator_;
     QValidator* int_type_validator_;

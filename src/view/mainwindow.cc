@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui_(new Ui::MainWindow)
     , graph_widget_(new GraphWidget("Epochs", "Error", this))
     , paint_widget_(new PaintWidget(this))
+    , metrics_widget_(new MetricsWidget(this))
     , view_settings_(new QSettings("School21", "MLP"))
     , fp_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"), this))
     , int_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*"), this))
@@ -24,6 +25,7 @@ MainWindow::~MainWindow()
     delete ui_;
     delete graph_widget_;
     delete paint_widget_;
+    delete metrics_widget_;
     delete view_settings_;
     delete fp_type_validator_;
     delete int_type_validator_;
@@ -182,6 +184,11 @@ PerceptronSettings MainWindow::GetPerceptronSettings()
     settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
 
     return settings;
+}
+
+void MainWindow::SetCrossMetrics(Metrics metrics)
+{
+    metrics_widget_->SetMetrics(metrics);
 }
 
 } // namespace s21

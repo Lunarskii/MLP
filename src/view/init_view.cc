@@ -10,7 +10,7 @@ void MainWindow::InitDefaultUISettings_()
     ui_->tabDisplayWidget->clear();
     ui_->tabDisplayWidget->addTab(graph_widget_, "Graph");
     ui_->tabDisplayWidget->addTab(paint_widget_, "Paint");
-    ui_->tabDisplayWidget->addTab(nullptr, "CrossValidationGraph");
+    ui_->tabDisplayWidget->addTab(metrics_widget_, "MetricsGraph");
 
     ui_->numberOfEpochs->setValidator(int_type_validator_);
     ui_->numberOfGroups->setValidator(int_type_validator_);
@@ -79,7 +79,10 @@ void MainWindow::ConnectUISlots_()
         PerceptronSettings settings = GetPerceptronSettings();
         std::size_t groups = ui_->numberOfGroups->text().toUInt();
         std::size_t epochs = ui_->numberOfEpochs->text().toUInt();
-        emit StartCrossValidation(dataset, settings, groups, epochs);
+        ModelType type = static_cast<ModelType>(ui_->modelType->currentIndex());
+
+        metrics_widget_->Clear();
+        emit StartCrossValidation(dataset, settings, groups, epochs, type);
     });
 }
 

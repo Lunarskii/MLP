@@ -9,9 +9,11 @@ Controller::Controller(MainWindow* v)
     connect(view_, &MainWindow::SetModelSettings, this, &Controller::SetModel_);
     connect(view_, &MainWindow::StartTraining, this, &Controller::StartTraining_);
     connect(view_, &MainWindow::StartTesting, this, &Controller::StartTesting_);
+    connect(view_, &MainWindow::StartCrossValidation, this, &Controller::StartCrossValidation_);
     connect(view_, &MainWindow::PredictLetter, this, &Controller::PredictLetter_);
     connect(this, &Controller::AddErrorToGraph, view_, &MainWindow::AddErrorToGraph);
     connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
+    connect(this, &Controller::CrossMetricsReady, view_, &MainWindow::SetCrossMetrics);
     connect(this, &Controller::PredictReady, view_, &MainWindow::SetPredict);
 }
 
@@ -66,6 +68,26 @@ void Controller::StartTesting_(std::string file_path)
     else
     {
         emit ModelNotFoundException("Set up the model and try again");
+    }
+}
+
+void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs, ModelType type)
+{
+    DataManager dm(file_path, -1, k90Rotate);
+
+    if (type == kMatrix)
+    {
+        CrossValidation<MatrixModel>::Run(dm, settings, number_of_groups, number_of_epochs, [&](Metrics& metrics)
+        {
+            emit CrossMetricsReady(metrics);
+        });
+    }
+    else if (type == kGraph)
+    {
+        CrossValidation<GraphModel>::Run(dm, settings, number_of_groups, number_of_epochs, [&](Metrics& metrics)
+        {
+            emit CrossMetricsReady(metrics);
+        });
     }
 }
 
