@@ -26,7 +26,7 @@ void Model::Learn(DataManager &letters, unsigned int epoch_count) {
         EpochTest(letters, Time::Duration<Time::ms>(time_point));
 
         // letters.SetMetric(m.precision);
-        // UpdateLR();
+        UpdateLR();
     }
     error_.Clear();
     
@@ -58,13 +58,13 @@ void Model::EpochTest(DataManager &letters, int64_t training_time) {
     metrics_func_(epoch_metrics);
 }
 
-int Model::Predict(data_vector &letter) {
+char Model::Predict(data_vector &letter) {
     if (letter.size() != settings_.layers.front()) {
         throw std::runtime_error("Model: incorrect letter size");
     }
     letter_ = &letter;
     Forward();
-    return GetResult();
+    return GetResult() + 'A';
 }
 
 void Model::SetErrorThread(const std::function<void(fp_type, unsigned int)> &func) {

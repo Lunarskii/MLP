@@ -16,7 +16,7 @@ class Model {
         Model() {}
         void Learn(DataManager &letters, unsigned int epoch_count);
         Metrics Test(DataManager &letters);
-        int Predict(data_vector &letter);
+        char Predict(data_vector &letter);
         virtual void Forward() = 0;
         virtual void Backward(int answer) = 0;
         virtual int GetResult() = 0;

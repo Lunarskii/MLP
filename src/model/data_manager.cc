@@ -102,6 +102,9 @@ void DataManager::ForTrain(const std::function<void(data_vector&, int)> func) {
 }
 
 void DataManager::Split(unsigned int proportion) {
+    if (proportion == 0) {
+        throw std::runtime_error("DataManager: proportion == 0");
+    }
     metric_ = std::vector<fp_type>(classes_, 1.0);
     metric_sum_ = classes_;
     test_proportion_ = 1.0 / (fp_type)proportion;
