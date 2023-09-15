@@ -19,11 +19,13 @@ signals:
     void ModelNotFoundException(std::string msg);
     void AddErrorToGraph(double error, unsigned int epoch);
     void MetricsReady(MappedLettersMetrics metrics);
+    void PredictReady(char c);
 
 private slots:
     void SetModel_(PerceptronSettings settings, ModelType type);
     void StartTraining_(std::string file_path, std::size_t number_of_epochs);
     void StartTesting_(std::string file_path);
+    void PredictLetter_(std::vector<double> image);
 
 private:
     std::unique_ptr<Model> model_;

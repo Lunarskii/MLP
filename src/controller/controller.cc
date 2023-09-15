@@ -9,8 +9,10 @@ Controller::Controller(MainWindow* v)
     connect(view_, &MainWindow::SetModelSettings, this, &Controller::SetModel_);
     connect(view_, &MainWindow::StartTraining, this, &Controller::StartTraining_);
     connect(view_, &MainWindow::StartTesting, this, &Controller::StartTesting_);
+    connect(view_, &MainWindow::PredictLetter, this, &Controller::PredictLetter_);
     connect(this, &Controller::AddErrorToGraph, view_, &MainWindow::AddErrorToGraph);
     connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
+    connect(this, &Controller::PredictReady, view_, &MainWindow::SetPredict);
 }
 
 void Controller::SetModel_(PerceptronSettings settings, ModelType type)
@@ -58,6 +60,18 @@ void Controller::StartTesting_(std::string file_path)
     {
         DataManager dm(file_path, -1, k90Rotate);
         emit MetricsReady(model_->Test(dm).GetMappedLettersMetrics());
+    }
+    else
+    {
+        emit ModelNotFoundException("Set up the model and try again");
+    }
+}
+
+void Controller::PredictLetter_(std::vector<double> image)
+{
+    if (model_ != nullptr)
+    {
+        emit PredictReady(model_->Predict(image) + 'A');
     }
     else
     {
