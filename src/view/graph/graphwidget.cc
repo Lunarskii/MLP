@@ -31,19 +31,24 @@ void GraphWidget::PushBack(double value)
     {
         upper_ = value * upper_zoom_ratio_;
     }
-
-    values_[value_index_++] = value;
-    graph_->setData(keys_, values_);
-    SetYRange(lower_, upper_);
-    custom_plot_->replot();
+    if (value_index_ != values_.size())
+    {
+        values_[value_index_++] = value;
+        graph_->setData(keys_, values_);
+        SetYRange(lower_, upper_);
+        custom_plot_->replot();
+    }
 }
 
 void GraphWidget::SetXRange(double lower, double upper)
 {
+    double step = 1.0 / Const::error_updates;
+    double value = step;
+
     custom_plot_->xAxis->setRange(lower, upper);
-    for (double i = 1.0 / Const::error_updates; i < upper; i += 1.0 / Const::error_updates)
+    for (int i = 0; i < static_cast<int>(upper) * Const::error_updates; ++i, value += step)
     {
-        keys_.push_back(i);
+        keys_.push_back(value);
         values_.push_back(std::numeric_limits<double>::quiet_NaN());
     }
     custom_plot_->replot();
