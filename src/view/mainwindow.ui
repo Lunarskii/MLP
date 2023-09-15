@@ -2373,7 +2373,6 @@ QLineEdit
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSaveAs">
    <property name="text">
     <string>Save as...</string>

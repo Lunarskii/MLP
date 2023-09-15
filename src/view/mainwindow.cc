@@ -214,4 +214,9 @@ std::pair<QString, QString> MainWindow::MapToPairString_(std::vector<std::pair<c
     return { value_string, tool_tip_string };
 }
 
+void MainWindow::SetPredict(char c)
+{
+    paint_widget_->SetPredict(c);
+}
+
 } // namespace s21

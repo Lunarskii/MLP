@@ -33,10 +33,12 @@ signals:
     void SetModelSettings(PerceptronSettings settings, ModelType type);
     void StartTraining(std::string file_path, std::size_t number_of_epochs);
     void StartTesting(std::string file_path);
+    void PredictLetter(std::vector<double> image);
 
 public slots:
     void AddErrorToGraph(double error, unsigned int epoch);
     void SetMetrics(MappedLettersMetrics metrics);
+    void SetPredict(char c);
 
 private slots:
     void ReadModelSettings_();

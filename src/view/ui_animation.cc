@@ -70,6 +70,11 @@ void MainWindow::ConnectUISlots_()
             item->setText(last_layer_text_);
         }
     });
+
+    connect(paint_widget_, &PaintWidget::SendImage, this, [&](std::vector<double> image)
+    {
+        emit PredictLetter(image);
+    });
 }
 
 void MainWindow::ChangeTypeOfLearning_(int index)
