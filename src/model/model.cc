@@ -2,7 +2,7 @@
 
 using namespace s21;
 
-void Model::Learn(DataManager &letters, unsigned int epoch_count, bool error_thread, bool metric_thread) {
+void Model::Learn(DataManager &letters, unsigned int epoch_count, bool &stop, bool error_thread, bool metric_thread) {
     letters.Validate(settings_.layers.front(), settings_.layers.back());
 
     if (error_thread) error_.SetDatasetSize(letters.TrainSize());
@@ -15,6 +15,8 @@ void Model::Learn(DataManager &letters, unsigned int epoch_count, bool error_thr
         if (error_thread) error_.SetEpoch(k + 1);
 
         letters.ForTrain([&] (data_vector &letter, int name) {
+
+            if (stop) return;
             
             letter_ = &letter;
             Forward();

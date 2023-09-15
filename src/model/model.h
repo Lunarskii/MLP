@@ -14,7 +14,7 @@ namespace s21 {
 class Model {
     public:
         Model() {}
-        void Learn(DataManager &letters, unsigned int epoch_count, bool error_thread = true, bool metric_thread = true);
+        void Learn(DataManager &letters, unsigned int epoch_count, bool &stop, bool error_thread = true, bool metric_thread = true);
         Metrics Test(DataManager &letters);
         char Predict(data_vector &letter);
         virtual void Forward() = 0;
@@ -45,13 +45,16 @@ class Model {
 
 template<class ModelType>
 struct CrossValidation {
-    static void Run(DataManager &letters, const PerceptronSettings &settings, unsigned int cross, unsigned int epoch_count, std::function<void(Metrics&)> matrics_thread) {
+    static void Run(DataManager &letters, const PerceptronSettings &settings, unsigned int cross, unsigned int epoch_count, bool &stop,
+            std::function<void(Metrics&)> matrics_thread, std::function<void(fp_type, unsigned int)> error_thread) {
+
         letters.Validate(settings.layers.front(), settings.layers.back());
         letters.Split(cross);
 
         for (unsigned int k = 0; k < cross; ++k) {
             ModelType model(settings);
-            model.Learn(letters, epoch_count, false, false);
+            model.SetErrorThread(error_thread);
+            model.Learn(letters, epoch_count, stop, true, false);
             auto m = model.Test(letters);
             matrics_thread(m);
             letters.CrossUpdate();
