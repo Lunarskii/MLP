@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_
+#define CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_
 
 #include <QWidget>
 #include <QMouseEvent>
@@ -18,44 +19,51 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
-class PaintWidget;
-
-class ImageWidget : public QWidget {
-    Q_OBJECT
-    friend class PaintWidget;
-
-    public:
-        ImageWidget(QWidget* parent = nullptr);
-        void SetUi(Ui::PaintWidget* ui);
-
-    protected:
-        void mousePressEvent(QMouseEvent *event) override;
-        void mouseMoveEvent(QMouseEvent *event) override;
-        void mouseReleaseEvent(QMouseEvent *event) override;
-        void paintEvent(QPaintEvent *event) override;
-        void resizeEvent(QResizeEvent *event) override;
-
-    private:
-        void Draw();
-        void SetPen();
-        bool drawing_ = false;
-        Ui::PaintWidget *ui_;
-        QImage image_, prev_image_;
-        QPainter painter_;
-        QPainterPath path_;
-        QPen pen_;  
-};
-
-class PaintWidget : public QWidget {
+class PaintWidget : public QWidget
+{
     Q_OBJECT
 
-    public:
-        PaintWidget(QWidget *parent = nullptr);
-        ~PaintWidget();
+public:
+    PaintWidget(QWidget *parent = nullptr);
+    ~PaintWidget();
+    void SetPredict(char c);
 
-    private:
-        Ui::PaintWidget *ui_;
+signals:
+    void SendImage(std::vector<double> image);
+
+private:
+    Ui::PaintWidget *ui_;
 };
 
+class ImageWidget : public QWidget 
+{
+public:
+    ImageWidget(QWidget* parent = nullptr);
+    QPen& GetPen();
+    void Clear();
+    void LoadImage(QString file_path);
+    void SaveImage(QString file_path);
+    std::vector<fp_type> GetImage();
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void Draw();
+
+private:
+    QImage image_;
+    QImage prev_image_;
+    QPainter painter_;
+    QPainterPath path_;
+    QPen pen_;  
+    bool drawing_ = false;
+};
 
 } // namespace s21
+
+#endif  // CPP7_MLP_VIEW_PAINT_PAINT_WIDGET_H_
