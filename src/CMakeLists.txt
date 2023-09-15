@@ -28,6 +28,7 @@ set(SOURCE_DIRS
         view/
         view/graph
         view/paint
+        view/metrics_widget
         view/qcustomplot
 )
 set(PROJECT_SOURCES main.cc view/resources.qrc)
