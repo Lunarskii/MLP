@@ -17,10 +17,23 @@ Controller::Controller(MainWindow* v)
     connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
     connect(this, &Controller::CrossMetricsReady, view_, &MainWindow::SetCrossMetrics);
     connect(this, &Controller::PredictReady, view_, &MainWindow::SetPredict);
+    connect(this, &Controller::ModelNotFoundException, view_, &MainWindow::ShowErrorMessage);
+    connect(this, &Controller::ModelIsLoaded, view_, &MainWindow::ShowMessage);
 
     connect(&thread_, &QThread::finished, [&] {
         std::cout << "finished" << std::endl;
     });
+
+    view_->show();
+    view_->setWindowTitle("MLP");
+}
+
+Controller::~Controller() 
+{
+    std::cout << "Controller::~Controller()" << '\n';
+    stop_ = true;
+    thread_.quit();
+    thread_.wait();
 }
 
 void Controller::SetModel_(PerceptronSettings settings, ModelType type)
@@ -175,16 +188,32 @@ void Controller::PredictLetter_(std::vector<double> image)
 
 void Controller::LoadModel_(std::string file_path, ModelType type)
 {
-    model_.reset();
+    if (thread_.isRunning())
+    {
+        std::cout << "thread is running" << '\n';
+        return;
+    }
 
-    if (type == kMatrix)
+    std::unique_ptr<Model> model_buffer = std::move(model_);
+
+    try
     {
-        model_ = std::make_unique<MatrixModel>(file_path);
+        if (type == kMatrix)
+        {
+            model_ = std::make_unique<MatrixModel>(file_path);
+        }
+        else if (type == kGraph)
+        {
+            model_ = std::make_unique<GraphModel>(file_path);
+        }
+        emit ModelIsLoaded("The model has been loaded successfully");
     }
-    else if (type == kGraph)
+    catch(const std::exception& e)
     {
-        model_ = std::make_unique<GraphModel>(file_path);
+        model_ = std::move(model_buffer);
+        emit ModelNotFoundException("The model could not be loaded");
     }
+    
 }
 
 void Controller::SaveModel_(std::string file_path)
@@ -197,7 +226,15 @@ void Controller::SaveModel_(std::string file_path)
 
     if (model_ != nullptr)
     {
-        model_->ToFile(file_path);
+        try
+        {
+            model_->ToFile(file_path);
+            emit ModelIsLoaded("The model has been saved successfully");
+        }
+        catch(const std::exception& e)
+        {
+            emit ModelNotFoundException("The model cannot be saved");
+        }
     }
     else
     {

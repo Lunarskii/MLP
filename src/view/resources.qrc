@@ -1,6 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>resources/images/down-arrow.png</file>
         <file>resources/images/Icons8_flat_expand.svg.png</file>
+        <file>resources/images/graph4.png</file>
+        <file>resources/images/graph3.png</file>
+        <file>resources/images/graph2.png</file>
+        <file>resources/images/graph1.png</file>
+        <file>resources/images/diagram3.png</file>
+        <file>resources/images/diagram2.png</file>
+        <file>resources/images/diagram1.png</file>
     </qresource>
 </RCC>

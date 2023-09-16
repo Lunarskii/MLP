@@ -14,8 +14,8 @@ void MainWindow::SaveViewSettings_()
     view_settings_->setValue(ConfigConstants::kActivationFunction, ui_->activationFunction->currentIndex());
     view_settings_->setValue(ConfigConstants::kWeightFunction, ui_->weightFunction->currentIndex());
     view_settings_->setValue(ConfigConstants::kMomentum, ui_->momentum->text());
-    view_settings_->setValue(ConfigConstants::kLRReductionRatioByEpoch, ui_->learningRateEpochK->text());
-    view_settings_->setValue(ConfigConstants::kLRReductionRatioByLayer, ui_->learningRateLayerK->text());
+    view_settings_->setValue(ConfigConstants::kLRDecayByEpoch, ui_->learningRateDecayByEpoch->text());
+    view_settings_->setValue(ConfigConstants::kLRDecayByLayer, ui_->learningRateDecayByLayer->text());
     view_settings_->setValue(ConfigConstants::kDatasetTrainingPath, ui_->datasetTrainingPath->text());
     view_settings_->setValue(ConfigConstants::kDatasetTestsPath, ui_->datasetTestsPath->text());
 }
@@ -30,8 +30,8 @@ void MainWindow::RestoreViewSettings_()
     int activation_function_type = view_settings_->value(ConfigConstants::kActivationFunction, 0).toInt();
     int weight_function_type = view_settings_->value(ConfigConstants::kWeightFunction, 0).toInt();
     QString momentum = view_settings_->value(ConfigConstants::kMomentum, 0.2).toString();
-    QString reduction_ratio_by_epoch = view_settings_->value(ConfigConstants::kLRReductionRatioByEpoch, 1).toString();
-    QString reduction_ratio_by_layer = view_settings_->value(ConfigConstants::kLRReductionRatioByLayer, 1).toString();
+    QString reduction_ratio_by_epoch = view_settings_->value(ConfigConstants::kLRDecayByEpoch, 1).toString();
+    QString reduction_ratio_by_layer = view_settings_->value(ConfigConstants::kLRDecayByLayer, 1).toString();
     QString training_path = view_settings_->value(ConfigConstants::kDatasetTrainingPath, "").toString();
     QString tests_path = view_settings_->value(ConfigConstants::kDatasetTestsPath, "").toString();
 
@@ -43,8 +43,8 @@ void MainWindow::RestoreViewSettings_()
     ui_->activationFunction->setCurrentIndex(activation_function_type);
     ui_->weightFunction->setCurrentIndex(weight_function_type);
     ui_->momentum->setText(momentum);
-    ui_->learningRateEpochK->setText(reduction_ratio_by_epoch);
-    ui_->learningRateLayerK->setText(reduction_ratio_by_layer);
+    ui_->learningRateDecayByEpoch->setText(reduction_ratio_by_epoch);
+    ui_->learningRateDecayByLayer->setText(reduction_ratio_by_layer);
     ui_->datasetTrainingPath->setText(training_path);
     ui_->datasetTestsPath->setText(tests_path);
 }

@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     , graph_widget_(new GraphWidget("Epochs", "Error", this))
     , paint_widget_(new PaintWidget(this))
     , metrics_widget_(new MetricsWidget(this))
+    , diagram_button_(new AnimatedButton("url(:/resources/images/diagram3.png)"))
+    , graph_button_(new AnimatedButton("url(:/resources/images/graph4.png)"))
     , view_settings_(new QSettings("School21", "MLP"))
     , fp_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"), this))
     , int_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*"), this))
@@ -181,8 +183,8 @@ PerceptronSettings MainWindow::GetPerceptronSettings()
     settings.SetWeightInit(static_cast<WeightInitFunctions>(ui_->weightFunction->currentIndex()));
     settings.learning_rate = ui_->learningRate->text().toDouble();
     settings.momentum = ui_->momentum->text().toDouble();
-    settings.lr_epoch_k = ui_->learningRateEpochK->text().toDouble();
-    settings.lr_layers_k = ui_->learningRateLayerK->text().toDouble();
+    settings.lr_epoch_k = ui_->learningRateDecayByEpoch->text().toDouble();
+    settings.lr_layers_k = ui_->learningRateDecayByLayer->text().toDouble();
 
     return settings;
 }
@@ -190,6 +192,16 @@ PerceptronSettings MainWindow::GetPerceptronSettings()
 void MainWindow::SetCrossMetrics(Metrics metrics)
 {
     metrics_widget_->SetMetrics(metrics);
+}
+
+void MainWindow::ShowMessage(std::string msg)
+{
+    QMessageBox::information(nullptr, "Notification", QString::fromStdString(msg));
+}
+
+void MainWindow::ShowErrorMessage(std::string msg)
+{
+    QMessageBox::critical(nullptr, "Error", QString::fromStdString(msg));
 }
 
 } // namespace s21

@@ -12,7 +12,7 @@ GraphWidget::GraphWidget(QString x_label, QString y_label, QWidget* parent)
     graph_ = custom_plot_->addGraph();
     QPen pen = graph_->pen();
     pen.setWidth(GraphWidgetConstants::kPenWidth);
-    pen.setColor(Qt::red);
+    pen.setColor(GraphWidgetConstants::kPenColor);
     graph_->setPen(pen);
 }
 

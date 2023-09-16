@@ -16,16 +16,11 @@ class Controller : public QObject
 
 public:
     explicit Controller(MainWindow* v);
-
-    ~Controller() {
-        std::cout << "Controller::~Controller()" << '\n';
-        stop_ = true;
-        thread_.quit();
-        thread_.wait();
-    }
+    ~Controller();
 
 signals:
     void ModelNotFoundException(std::string msg);
+    void ModelIsLoaded(std::string msg);
     void AddErrorToGraph(double error, unsigned int epoch);
     void MetricsReady(MappedLettersMetrics metrics);
     void CrossMetricsReady(Metrics metrics);
@@ -43,12 +38,8 @@ private slots:
 private:
     std::unique_ptr<Model> model_;
     MainWindow* view_;
-
     QThread thread_;
-
     bool stop_ = false;
-
-
 };
 
 } // namespace s21

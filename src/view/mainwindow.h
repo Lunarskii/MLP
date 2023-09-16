@@ -7,9 +7,11 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QMessageBox>
 #include "graph/graphwidget.h"
 #include "paint/paint_widget.h"
 #include "metrics_widget/metrics_widget.h"
+#include "animated_button/animated_button.h"
 #include "../common/strategy.h"
 #include "../common/perceptron_settings.h"
 #include "../common/metrics.h"
@@ -44,6 +46,8 @@ public slots:
     void SetMetrics(MappedLettersMetrics metrics);
     void SetCrossMetrics(Metrics metrics);
     void SetPredict(char c);
+    void ShowMessage(std::string msg);
+    void ShowErrorMessage(std::string msg);
 
 private slots:
     void ReadModelSettings_();
@@ -61,6 +65,8 @@ private:
     GraphWidget* graph_widget_;
     PaintWidget* paint_widget_;
     MetricsWidget* metrics_widget_;
+    AnimatedButton* diagram_button_;
+    AnimatedButton* graph_button_;
     QSettings* view_settings_;
     QValidator* fp_type_validator_;
     QValidator* int_type_validator_;

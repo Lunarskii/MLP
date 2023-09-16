@@ -16,8 +16,8 @@ void MainWindow::InitDefaultUISettings_()
     ui_->numberOfGroups->setValidator(int_type_validator_);
     ui_->learningRate->setValidator(fp_type_validator_);
     ui_->momentum->setValidator(fp_type_validator_);
-    ui_->learningRateEpochK->setValidator(fp_type_validator_);
-    ui_->learningRateLayerK->setValidator(fp_type_validator_);
+    ui_->learningRateDecayByEpoch->setValidator(fp_type_validator_);
+    ui_->learningRateDecayByLayer->setValidator(fp_type_validator_);
 
     graph_widget_->SetYRange(Const::target.first, Const::target.second);
 }
