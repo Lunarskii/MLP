@@ -922,7 +922,7 @@ QListWidget::item::selected
                <string notr="true"/>
               </property>
               <property name="text">
-               <string>Graph(val)</string>
+               <string>Diagram</string>
               </property>
               <attribute name="buttonGroup">
                <string notr="true">widgetDisplayButtonGroup</string>
@@ -2376,7 +2376,8 @@ QLineEdit
      </property>
      <addaction name="actionOpenADatasetForTraining"/>
      <addaction name="actionOpenADatasetForTests"/>
-     <addaction name="actionOpenAMappingFile"/>
+     <addaction name="separator"/>
+     <addaction name="actionOpenModel"/>
     </widget>
     <addaction name="menuOpen_file"/>
     <addaction name="separator"/>
@@ -2410,9 +2411,9 @@ QLineEdit
     <string>dataset for tests</string>
    </property>
   </action>
-  <action name="actionOpenAMappingFile">
+  <action name="actionOpenModel">
    <property name="text">
-    <string>mapping file</string>
+    <string>model</string>
    </property>
   </action>
  </widget>

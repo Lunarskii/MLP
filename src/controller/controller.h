@@ -37,6 +37,8 @@ private slots:
     void StartTesting_(std::string file_path);
     void StartCrossValidation_(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs, ModelType type);
     void PredictLetter_(std::vector<double> image);
+    void LoadModel_(std::string file_path, ModelType type);
+    void SaveModel_(std::string file_path);
 
 private:
     std::unique_ptr<Model> model_;

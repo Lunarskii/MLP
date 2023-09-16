@@ -36,6 +36,8 @@ signals:
     void StartTesting(std::string file_path);
     void StartCrossValidation(std::string file_path, PerceptronSettings settings, std::size_t number_of_groups, std::size_t number_of_epochs, ModelType type);
     void PredictLetter(std::vector<double> image);
+    void LoadModel(std::string file_path, ModelType type);
+    void SaveModel(std::string file_path);
 
 public slots:
     void AddErrorToGraph(double error, unsigned int epoch);

@@ -11,6 +11,8 @@ Controller::Controller(MainWindow* v)
     connect(view_, &MainWindow::StartTesting, this, &Controller::StartTesting_);
     connect(view_, &MainWindow::StartCrossValidation, this, &Controller::StartCrossValidation_);
     connect(view_, &MainWindow::PredictLetter, this, &Controller::PredictLetter_);
+    connect(view_, &MainWindow::LoadModel, this, &Controller::LoadModel_);
+    connect(view_, &MainWindow::SaveModel, this, &Controller::SaveModel_);
     connect(this, &Controller::AddErrorToGraph, view_, &MainWindow::AddErrorToGraph);
     connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
     connect(this, &Controller::CrossMetricsReady, view_, &MainWindow::SetCrossMetrics);
@@ -75,7 +77,6 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
         });
 
         thread_.start();
-        
     }
     else
     {
@@ -105,7 +106,6 @@ void Controller::StartTesting_(std::string file_path)
         });
 
         thread_.start();
-
     }
     else
     {
@@ -130,7 +130,8 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
             CrossValidation<MatrixModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
             {
                 emit CrossMetricsReady(metrics);
-            }, [&](fp_type error, unsigned int epoch)
+            },
+            [&](fp_type error, unsigned int epoch)
             {
                 emit AddErrorToGraph((double)error, epoch);
             });
@@ -140,7 +141,8 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
             CrossValidation<GraphModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
             {
                 emit CrossMetricsReady(metrics);
-            }, [&](fp_type error, unsigned int epoch)
+            },
+            [&](fp_type error, unsigned int epoch)
             {
                 emit AddErrorToGraph((double)error, epoch);
             });
@@ -151,8 +153,6 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
     });
 
     thread_.start();
-
-    
 }
 
 void Controller::PredictLetter_(std::vector<double> image)
@@ -162,9 +162,42 @@ void Controller::PredictLetter_(std::vector<double> image)
         std::cout << "thread is running" << '\n';
         return;
     }
+
     if (model_ != nullptr)
     {
-        emit PredictReady(model_->Predict(image) + 'A');
+        emit PredictReady(model_->Predict(image));
+    }
+    else
+    {
+        emit ModelNotFoundException("Set up the model and try again");
+    }
+}
+
+void Controller::LoadModel_(std::string file_path, ModelType type)
+{
+    model_.reset();
+
+    if (type == kMatrix)
+    {
+        model_ = std::make_unique<MatrixModel>(file_path);
+    }
+    else if (type == kGraph)
+    {
+        model_ = std::make_unique<GraphModel>(file_path);
+    }
+}
+
+void Controller::SaveModel_(std::string file_path)
+{
+    if (thread_.isRunning())
+    {
+        std::cout << "thread is running" << '\n';
+        return;
+    }
+
+    if (model_ != nullptr)
+    {
+        model_->ToFile(file_path);
     }
     else
     {

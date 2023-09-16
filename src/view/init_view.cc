@@ -86,6 +86,27 @@ void MainWindow::ConnectUISlots_()
         metrics_widget_->Clear();
         emit StartCrossValidation(dataset, settings, groups, epochs, type);
     });
+
+    connect(ui_->actionOpenModel, &QAction::triggered, this, [&]()
+    {
+        QString file_path = QFileDialog::getOpenFileName(this, "Select model", "./", "Model files (*.prcp);; All Files (*)");
+
+        if (!file_path.isEmpty())
+        {
+            emit LoadModel(file_path.toStdString(), static_cast<ModelType>(ui_->modelType->currentIndex()));
+            model_is_setted_up_ = true;
+            model_is_trained_ = true;
+        }
+    });
+    connect(ui_->actionSaveAs, &QAction::triggered, this, [&]()
+    {
+        QString file_path = QFileDialog::getSaveFileName(this, "Select model", "./", "Model files (*.prcp)");
+
+        if (!file_path.isEmpty())
+        {
+            emit SaveModel(file_path.toStdString());
+        }
+    });
 }
 
 }

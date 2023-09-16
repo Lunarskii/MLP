@@ -26,7 +26,7 @@ void MainWindow::ChangeDisplayWidgetTab_(QAbstractButton* button)
 
 void MainWindow::OpenCSVFile_(QLineEdit& line, QString msg)
 {
-    QString file_path = QFileDialog::getOpenFileName(this, msg, "./", "Dataset files (*.csv)");
+    QString file_path = QFileDialog::getOpenFileName(this, msg, "./", "Dataset files (*.csv);; All Files (*)");
 
     if (!file_path.isEmpty())
     {
