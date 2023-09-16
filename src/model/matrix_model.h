@@ -33,8 +33,8 @@ class MatrixLayer {
         matrix_t weights_, delta_weights_;
         std::vector<fp_type> biases_, destination_, gradients_, error_;
         fp_type gradient_ = 0.0;
-        fp_type learning_rate_;
         const PerceptronSettings &settings_;
+        fp_type learning_rate_;
         int count_ = 0;
 };
 

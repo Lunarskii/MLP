@@ -178,8 +178,14 @@ GraphModel::GraphModel(const std::string &file_name)
         layers_[i].LinkLayers(layers_[i + 1]);
     }
 
+    std::string line;
     for (unsigned int layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
     {
+        std::getline(file, line);
+        if (line != "weights:") {
+            file.close();
+            throw std::runtime_error("GraphModel: Invalid file format in line \"weight:\": " + line);
+        }
         for (auto vertex1 : layers_[layer_k].vertex_indexes_)
         {
             for (auto vertex2 : layers_[layer_k + 1].vertex_indexes_)
@@ -188,8 +194,19 @@ GraphModel::GraphModel(const std::string &file_name)
                 file >> edge.weight;
             }
         }
+        file .ignore(2);
+        std::getline(file, line);
+        if (line == "biases:") {
+            std::getline(file, line);
+        }
+        else if (line != "empty biases") {
+            file.close();
+            std::cout << layer_k << '\n';
+            throw std::runtime_error("GraphModel: Invalid file format in line \"biases:\": " + line);
+        }
     }
-    
+
+
     file.close();
 }
 
@@ -199,14 +216,17 @@ void GraphModel::ToFile(const std::string &file_name) {
 
     for (unsigned int layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
     {
+        file << "weights:\n";
         for (auto vertex1 : layers_[layer_k].vertex_indexes_)
         {
             for (auto vertex2 : layers_[layer_k + 1].vertex_indexes_)
             {
                 Edge& edge = GetEdge(vertex1, vertex2, layers_[layer_k], layers_[layer_k + 1]);
-                file << edge.weight << " ";
+                file << edge.weight << ' ';
             }
         }
+        file << '\n';
+        file << "empty biases\n";
     }
 
     file.close();
