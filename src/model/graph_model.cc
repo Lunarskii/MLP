@@ -22,7 +22,7 @@ void GraphLayer::LinkLayers(GraphLayer& next_layer)
         for (auto second_vertex : next_layer.vertex_indexes_)
         {
             Edge& edge = graph_->AddEdge(first_vertex, second_vertex);
-            edge.weight = Func::XavierWeightsInit(vertex_indexes_.size(), next_layer.vertex_indexes_.size());
+            edge.weight = Func::XavierWeightsInit(vertex_indexes_.size(), next_layer.vertex_indexes_.size()); // поменять инициализацию
         }
     }
     next_layer.number_of_edges_of_previous_layers = vertex_indexes_.size() * next_layer.vertex_indexes_.size() + number_of_edges_of_previous_layers;
@@ -50,7 +50,7 @@ void GraphModel::Forward()
         graph_(i).value = (*letter_)[i];
     }
 
-    for (std::size_t i = 0; i < layers_.size() - 1; ++i)
+    for (unsigned int i = 0; i < layers_.size() - 1; ++i)
     {
         for (auto output_vertex_index : layers_[i + 1].vertex_indexes_)
         {
@@ -96,7 +96,7 @@ void GraphModel::UpdateOutputLayer(std::size_t answer)
 {
     std::vector<fp_type> target_output(settings_.layers.back(), Const::target.first);
     target_output[answer] = Const::target.second;
-    std::size_t it = 0;
+    unsigned int it = 0;
     for (auto vertex : layers_.back().vertex_indexes_)
     {
         graph_(vertex).error = target_output[it++] - graph_(vertex).value;
@@ -106,7 +106,7 @@ void GraphModel::UpdateOutputLayer(std::size_t answer)
 
 void GraphModel::UpdateHiddenLayers()
 {
-    for (std::size_t layer_k = layers_.size() - 1; layer_k >= 1; --layer_k)
+    for (unsigned int layer_k = layers_.size() - 1; layer_k >= 1; --layer_k)
     {
         for (auto vertex1 : layers_[layer_k - 1].vertex_indexes_)
         {
@@ -123,7 +123,7 @@ void GraphModel::UpdateHiddenLayers()
 
 void GraphModel::UpdateWeights()
 {
-    for (std::size_t layer_k = layers_.size() - 1; layer_k >= 1; --layer_k)
+    for (unsigned int layer_k = layers_.size() - 1; layer_k >= 1; --layer_k)
     {
         for (auto vertex1 : layers_[layer_k - 1].vertex_indexes_)
         {
@@ -178,7 +178,7 @@ GraphModel::GraphModel(const std::string &file_name)
         layers_[i].LinkLayers(layers_[i + 1]);
     }
 
-    for (std::size_t layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
+    for (unsigned int layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
     {
         for (auto vertex1 : layers_[layer_k].vertex_indexes_)
         {
@@ -197,7 +197,7 @@ void GraphModel::ToFile(const std::string &file_name) {
     std::ofstream file(file_name);
     settings_.ToFile(file);
 
-    for (std::size_t layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
+    for (unsigned int layer_k = 0; layer_k < layers_.size() - 1; ++layer_k)
     {
         for (auto vertex1 : layers_[layer_k].vertex_indexes_)
         {
