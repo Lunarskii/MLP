@@ -14,7 +14,10 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #1e1e1e;
+   <string notr="true">QWidget#MainWindow
+{
+	background-color: #1e1e1e;
+}
 
 
 </string>
@@ -30,6 +33,11 @@
        <string notr="true">QWidget
 {
 	background-color: #1E1E1E;
+}
+
+QWidget#applicationTabWidget
+{
+	border: 0px;
 }
 </string>
       </property>
@@ -79,11 +87,35 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="sizeIncrement">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::TabFocus</enum>
+          </property>
           <property name="styleSheet">
            <string notr="true">border: 1px solid grey;</string>
           </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
           <property name="currentIndex">
            <number>0</number>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="elideMode">
+           <enum>Qt::ElideNone</enum>
+          </property>
+          <property name="tabBarAutoHide">
+           <bool>false</bool>
           </property>
           <widget class="QWidget" name="graphWidget">
            <property name="sizePolicy">
@@ -1036,6 +1068,12 @@ QToolTip
            <size>
             <width>70</width>
             <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>16777215</height>
            </size>
           </property>
           <property name="styleSheet">
