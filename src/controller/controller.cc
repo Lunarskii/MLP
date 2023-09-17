@@ -64,6 +64,7 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
     }
     if (model_ != nullptr)
     {
+        disconnect(&thread_, nullptr, nullptr, nullptr);
         connect(&thread_, &QThread::started, [file_path, number_of_epochs, proportion, this] {
 
             qRegisterMetaType<Metrics>("Metrics");
@@ -106,6 +107,7 @@ void Controller::StartTesting_(std::string file_path)
     }
     if (model_ != nullptr)
     {
+        disconnect(&thread_, nullptr, nullptr, nullptr);
         connect(&thread_, &QThread::started, [file_path, this] {
 
             qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
@@ -133,7 +135,7 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
         std::cout << "thread is running" << '\n';
         return;
     }
-    
+    disconnect(&thread_, nullptr, nullptr, nullptr);
     connect(&thread_, &QThread::started, [file_path, settings, number_of_groups, number_of_epochs, type, this] {
 
         qRegisterMetaType<Metrics>("Metrics");
