@@ -24,6 +24,7 @@ Controller::Controller(MainWindow* v)
 
     connect(&thread_, &QThread::finished, [&]
     {
+        disconnect(&thread_, &QThread::started, nullptr, nullptr);
         std::cout << "finished" << std::endl;
     });
 
@@ -80,7 +81,6 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
 
     if (model_ != nullptr)
     {
-        disconnect(&thread_, &QThread::started, nullptr, nullptr);
         connect(&thread_, &QThread::started, [file_path, number_of_epochs, proportion, this]
         {
             try
@@ -130,7 +130,6 @@ void Controller::StartTesting_(std::string file_path)
 
     if (model_ != nullptr)
     {
-        disconnect(&thread_, &QThread::started, nullptr, nullptr);
         connect(&thread_, &QThread::started, [file_path, this]
         {
             try
@@ -165,7 +164,6 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
         return;
     }
 
-    disconnect(&thread_, &QThread::started, nullptr, nullptr);
     connect(&thread_, &QThread::started, [file_path, settings, number_of_groups, number_of_epochs, type, this]
     {
         try
