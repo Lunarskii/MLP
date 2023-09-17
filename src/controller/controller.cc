@@ -17,15 +17,20 @@ Controller::Controller(MainWindow* v)
     connect(this, &Controller::MetricsReady, view_, &MainWindow::SetMetrics);
     connect(this, &Controller::CrossMetricsReady, view_, &MainWindow::SetCrossMetrics);
     connect(this, &Controller::PredictReady, view_, &MainWindow::SetPredict);
-    connect(this, &Controller::ModelNotFoundException, view_, &MainWindow::ShowErrorMessage);
-    connect(this, &Controller::ModelIsLoaded, view_, &MainWindow::ShowMessage);
+    connect(this, &Controller::Exception, view_, &MainWindow::ShowErrorMessage);
+    connect(this, &Controller::Notification, view_, &MainWindow::ShowMessage);
+    connect(this, &Controller::ModelIsSettedUp, view_, &MainWindow::ModelIsSettedUp);
+    connect(this, &Controller::ModelIsTrained, view_, &MainWindow::ModelIsTrained);
 
-    connect(&thread_, &QThread::finished, [&] {
+    connect(&thread_, &QThread::finished, [&]
+    {
         std::cout << "finished" << std::endl;
     });
 
     view_->show();
     view_->setWindowTitle("MLP");
+    qRegisterMetaType<Metrics>("Metrics");
+    qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
 }
 
 Controller::~Controller() 
@@ -43,15 +48,25 @@ void Controller::SetModel_(PerceptronSettings settings, ModelType type)
         std::cout << "thread is running" << '\n';
         return;
     }
-    model_.reset();
 
-    if (type == kMatrix)
+    std::unique_ptr<Model> model_buffer = std::move(model_);
+
+    try
     {
-        model_ = std::make_unique<MatrixModel>(settings);
+        if (type == kMatrix)
+        {
+            model_ = std::make_unique<MatrixModel>(settings);
+        }
+        else if (type == kGraph)
+        {
+            model_ = std::make_unique<GraphModel>(settings);
+        }
+        emit ModelIsSettedUp();
     }
-    else if (type == kGraph)
+    catch(const std::exception& e)
     {
-        model_ = std::make_unique<GraphModel>(settings);
+        model_ = std::move(model_buffer);
+        emit Exception("The model cannot be installed with these settings");
     }
 }
 
@@ -62,30 +77,37 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
         std::cout << "thread is running" << '\n';
         return;
     }
+
     if (model_ != nullptr)
     {
-        disconnect(&thread_);
-        connect(&thread_, &QThread::started, [file_path, number_of_epochs, proportion, this] {
-
-            qRegisterMetaType<Metrics>("Metrics");
-            qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
-
-            DataManager dm(file_path, -1, k90Rotate);
-
-            model_->SetErrorThread([&](fp_type error, unsigned int epoch) 
+        disconnect(&thread_, &QThread::started, nullptr, nullptr);
+        connect(&thread_, &QThread::started, [file_path, number_of_epochs, proportion, this]
+        {
+            try
             {
-                emit AddErrorToGraph((double)error, epoch);
-            });
+                DataManager dm(file_path, -1, k90Rotate);
 
-            model_->SetMetricThread([&](Metrics metrics) 
+                model_->SetErrorThread([&](fp_type error, unsigned int epoch)
+                {
+                    emit AddErrorToGraph((double)error, epoch);
+                });
+
+                model_->SetMetricThread([&](Metrics metrics)
+                {
+                    emit MetricsReady(metrics.GetMappedLettersMetrics());
+                    emit CrossMetricsReady(metrics);
+                });
+
+                dm.Shuffle();
+                dm.Split(proportion);
+                model_->Learn(dm, number_of_epochs, stop_);
+                emit ModelIsTrained();
+                emit Notification("The model has been successfully trained");
+            }
+            catch (const std::exception& e)
             {
-                emit MetricsReady(metrics.GetMappedLettersMetrics());
-                emit CrossMetricsReady(metrics);
-            });
-
-            dm.Shuffle();
-            dm.Split(proportion);
-            model_->Learn(dm, number_of_epochs, stop_);
+                emit Exception("Invalid dataset");
+            }
 
             thread_.quit();
         });
@@ -94,7 +116,7 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
     }
     else
     {
-        emit ModelNotFoundException("Set up the model and try again");
+        emit Exception("Set up the model and try again");
     }
 }
 
@@ -105,17 +127,24 @@ void Controller::StartTesting_(std::string file_path)
         std::cout << "thread is running" << '\n';
         return;
     }
+
     if (model_ != nullptr)
     {
-        disconnect(&thread_);
-        connect(&thread_, &QThread::started, [file_path, this] {
+        disconnect(&thread_, &QThread::started, nullptr, nullptr);
+        connect(&thread_, &QThread::started, [file_path, this]
+        {
+            try
+            {
+                DataManager dm(file_path, -1, k90Rotate);
 
-            qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
-
-            DataManager dm(file_path, -1, k90Rotate);
-
-            dm.Split(1);
-            emit MetricsReady(model_->Test(dm).GetMappedLettersMetrics());
+                dm.Split(1);
+                emit MetricsReady(model_->Test(dm).GetMappedLettersMetrics());
+                emit Notification("The test was successfully passed");
+            }
+            catch(const std::exception& e)
+            {
+                emit Exception("Invalid dataset");
+            }
 
             thread_.quit();
         });
@@ -124,7 +153,7 @@ void Controller::StartTesting_(std::string file_path)
     }
     else
     {
-        emit ModelNotFoundException("Set up the model and try again");
+        emit Exception("Set up the model and try again");
     }
 }
 
@@ -135,35 +164,43 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
         std::cout << "thread is running" << '\n';
         return;
     }
-    disconnect(&thread_);
-    connect(&thread_, &QThread::started, [file_path, settings, number_of_groups, number_of_epochs, type, this] {
 
-        qRegisterMetaType<Metrics>("Metrics");
-        DataManager dm(file_path, -1, k90Rotate);
-        if (type == kMatrix)
+    disconnect(&thread_, &QThread::started, nullptr, nullptr);
+    connect(&thread_, &QThread::started, [file_path, settings, number_of_groups, number_of_epochs, type, this]
+    {
+        try
         {
-            CrossValidation<MatrixModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
+            DataManager dm(file_path, -1, k90Rotate);
+
+            if (type == kMatrix)
             {
-                emit CrossMetricsReady(metrics);
-            },
-            [&](fp_type error, unsigned int epoch)
+                CrossValidation<MatrixModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
+                {
+                    emit CrossMetricsReady(metrics);
+                },
+                [&](fp_type error, unsigned int epoch)
+                {
+                    emit AddErrorToGraph((double)error, epoch);
+                });
+            }
+            else if (type == kGraph)
             {
-                emit AddErrorToGraph((double)error, epoch);
-            });
+                CrossValidation<GraphModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
+                {
+                    emit CrossMetricsReady(metrics);
+                },
+                [&](fp_type error, unsigned int epoch)
+                {
+                    emit AddErrorToGraph((double)error, epoch);
+                });
+            }
+            emit Notification("Cross-validation completed successfully");
         }
-        else if (type == kGraph)
+        catch(const std::exception& e)
         {
-            CrossValidation<GraphModel>::Run(dm, settings, number_of_groups, number_of_epochs, stop_, [&](Metrics& metrics)
-            {
-                emit CrossMetricsReady(metrics);
-            },
-            [&](fp_type error, unsigned int epoch)
-            {
-                emit AddErrorToGraph((double)error, epoch);
-            });
+            emit Exception("Invalid dataset");
         }
 
-        // stop thread
         thread_.quit();
     });
 
@@ -184,7 +221,7 @@ void Controller::PredictLetter_(std::vector<double> image)
     }
     else
     {
-        emit ModelNotFoundException("Set up the model and try again");
+        emit Exception("Set up the model and try again");
     }
 }
 
@@ -208,14 +245,15 @@ void Controller::LoadModel_(std::string file_path, ModelType type)
         {
             model_ = std::make_unique<GraphModel>(file_path);
         }
-        emit ModelIsLoaded("The model has been loaded successfully");
+        emit ModelIsSettedUp();
+        emit ModelIsTrained();
+        emit Notification("The model has been loaded successfully");
     }
     catch(const std::exception& e)
     {
         model_ = std::move(model_buffer);
-        emit ModelNotFoundException("The model could not be loaded");
+        emit Exception("The model could not be loaded");
     }
-    
 }
 
 void Controller::SaveModel_(std::string file_path)
@@ -231,16 +269,16 @@ void Controller::SaveModel_(std::string file_path)
         try
         {
             model_->ToFile(file_path);
-            emit ModelIsLoaded("The model has been saved successfully");
+            emit Notification("The model has been saved successfully");
         }
         catch(const std::exception& e)
         {
-            emit ModelNotFoundException("The model cannot be saved");
+            emit Exception("The model cannot be saved");
         }
     }
     else
     {
-        emit ModelNotFoundException("Set up the model and try again");
+        emit Exception("Set up the model and try again");
     }
 }
 

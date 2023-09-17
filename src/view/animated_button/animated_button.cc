@@ -2,15 +2,24 @@
 
 #include <QEvent>
 #include <QDebug>
-#include <iostream>
 
-AnimatedButton::AnimatedButton(QString image, QWidget *parent) 
+AnimatedButton::AnimatedButton(QString image, QString background_color, QWidget *parent)
     : QPushButton(parent)
     , image_url_(image)
+    , background_color_(background_color)
     , animation_(this, "radius")
 {
     this->setFixedSize(QSize(50, 50));
     this->installEventFilter(this);
+
+    QString css("QPushButton {");
+    css.append("image: " + image_url_ + ";");
+    css.append("background-color: " + background_color_ + ";");
+    css.append("background-repeat: no-repeat;");
+    css.append("background-position: center;");
+    css.append("border: 1px solid grey;");
+    css.append("border-radius: " + QString::number(current_radius_) + "px;}");
+    setStyleSheet(css);
 }
 
 void AnimatedButton::SetRadius(const unsigned int& radius)
@@ -19,8 +28,9 @@ void AnimatedButton::SetRadius(const unsigned int& radius)
     current_radius_ = radius;
 
     css.append("image: " + image_url_ + ";");
+    css.append("background-color: " + background_color_ + ";");
     css.append("background-repeat: no-repeat;");
-    css.append("background-position: center");
+    css.append("background-position: center;");
     css.append("border: 1px solid grey;");
     css.append("border-radius: " + QString::number(radius) + "px;}");
     setStyleSheet(css);

@@ -7,6 +7,7 @@
 #include <QDialog>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QSpacerItem>
 #include <QMessageBox>
 #include "graph/graphwidget.h"
 #include "paint/paint_widget.h"
@@ -48,15 +49,17 @@ public slots:
     void SetPredict(char c);
     void ShowMessage(std::string msg);
     void ShowErrorMessage(std::string msg);
+    void ModelIsSettedUp();
+    void ModelIsTrained();
 
 private slots:
     void ReadModelSettings_();
     void AddLayer_();
     void RemoveLayer_();
     void ChangeApplicationTab_();
-    void ChangeDisplayWidgetTab_(QAbstractButton* button);
     void EmitStartTraining_();
     void EmitStartTesting_();
+    void EmitStartCrossValidation_();
     void OpenCSVFile_(QLineEdit& line, QString msg);
     void Manager_();
 
@@ -67,6 +70,9 @@ private:
     MetricsWidget* metrics_widget_;
     AnimatedButton* diagram_button_;
     AnimatedButton* graph_button_;
+    AnimatedButton* paint_button_;
+    AnimatedButton* settings_button_;
+    QSpacerItem* tab_spacer_;
     QSettings* view_settings_;
     QValidator* fp_type_validator_;
     QValidator* int_type_validator_;

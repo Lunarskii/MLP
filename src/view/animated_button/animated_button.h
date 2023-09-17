@@ -11,7 +11,7 @@ class AnimatedButton : public QPushButton
     Q_PROPERTY(unsigned int radius READ GetRadius WRITE SetRadius)
 
 public:
-    explicit AnimatedButton(QString image, QWidget *parent = nullptr);
+    explicit AnimatedButton(QString image, QString background_color, QWidget *parent = nullptr);
     void SetRadius(const unsigned int& radius);
     const unsigned int& GetRadius() const;
 
@@ -20,6 +20,7 @@ protected:
 
 private:
     QString image_url_;
+    QString background_color_;
     QString background_properties_;
     QString border_properties_;
     unsigned int current_radius_{ 25 };

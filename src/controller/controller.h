@@ -19,8 +19,10 @@ public:
     ~Controller();
 
 signals:
-    void ModelNotFoundException(std::string msg);
-    void ModelIsLoaded(std::string msg);
+    void Notification(std::string msg);
+    void Exception(std::string msg);
+    void ModelIsSettedUp();
+    void ModelIsTrained();
     void AddErrorToGraph(double error, unsigned int epoch);
     void MetricsReady(MappedLettersMetrics metrics);
     void CrossMetricsReady(Metrics metrics);

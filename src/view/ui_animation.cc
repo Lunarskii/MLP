@@ -8,22 +8,6 @@ void MainWindow::ChangeApplicationTab_()
     ui_->applicationTabWidget->setCurrentIndex(!ui_->applicationTabWidget->currentIndex());
 }
 
-void MainWindow::ChangeDisplayWidgetTab_(QAbstractButton* button)
-{    
-    if (button == ui_->openGraphTabButton)
-    {
-        ui_->tabDisplayWidget->setCurrentIndex(0);
-    }
-    else if (button == ui_->openPaintTabButton)
-    {
-        ui_->tabDisplayWidget->setCurrentIndex(1);
-    }
-    else if (button == ui_->openCrossValidationGraphButton)
-    {
-        ui_->tabDisplayWidget->setCurrentIndex(2);
-    }
-}
-
 void MainWindow::OpenCSVFile_(QLineEdit& line, QString msg)
 {
     QString file_path = QFileDialog::getOpenFileName(this, msg, "./", "Dataset files (*.csv);; All Files (*)");

@@ -14,10 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QMainWindow
-{
-	background-color: #474953;
-}
+   <string notr="true">background-color: #1e1e1e;
+
 
 </string>
   </property>
@@ -246,102 +244,6 @@ QComboBox::hover
               </property>
               <property name="text">
                <string>Layers</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="openGraphTabButton">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>380</y>
-                <width>100</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="text">
-               <string>Graph</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">widgetDisplayButtonGroup</string>
-              </attribute>
-             </widget>
-             <widget class="QPushButton" name="openPaintTabButton">
-              <property name="geometry">
-               <rect>
-                <x>120</x>
-                <y>380</y>
-                <width>100</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="text">
-               <string>Paint</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">widgetDisplayButtonGroup</string>
-              </attribute>
-             </widget>
-             <widget class="QPushButton" name="openApplicationSettingsTabButton">
-              <property name="geometry">
-               <rect>
-                <x>40</x>
-                <y>420</y>
-                <width>150</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>150</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>150</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="text">
-               <string>Settings</string>
               </property>
              </widget>
              <widget class="QListWidget" name="layersListWidget">
@@ -759,65 +661,6 @@ QListWidget::item::selected
                <string>-</string>
               </property>
              </widget>
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>120</x>
-                <y>170</y>
-                <width>111</width>
-                <height>91</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <property name="spacing">
-                <number>3</number>
-               </property>
-               <item>
-                <widget class="QPushButton" name="startTrainingButton">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>Start training</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="startTestButton">
-                 <property name="minimumSize">
-                  <size>
-                   <width>100</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>30</height>
-                  </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>Start testing</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
              <widget class="QLabel" name="labelProportion">
               <property name="geometry">
                <rect>
@@ -862,58 +705,24 @@ QListWidget::item::selected
                <number>5</number>
               </property>
              </widget>
-             <widget class="QPushButton" name="openCrossValidationGraphButton">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>340</y>
-                <width>100</width>
-                <height>30</height>
-               </rect>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>30</height>
-               </size>
-              </property>
-              <property name="toolTip">
-               <string/>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="text">
-               <string>Diagram</string>
-              </property>
-              <attribute name="buttonGroup">
-               <string notr="true">widgetDisplayButtonGroup</string>
-              </attribute>
-             </widget>
              <widget class="QPushButton" name="startCrossValidationButton">
               <property name="geometry">
                <rect>
-                <x>120</x>
-                <y>340</y>
-                <width>100</width>
+                <x>40</x>
+                <y>430</y>
+                <width>150</width>
                 <height>30</height>
                </rect>
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
+                <width>150</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>100</width>
+                <width>150</width>
                 <height>30</height>
                </size>
               </property>
@@ -922,6 +731,62 @@ QListWidget::item::selected
               </property>
               <property name="text">
                <string>Start validation</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="startTrainingButton">
+              <property name="geometry">
+               <rect>
+                <x>40</x>
+                <y>350</y>
+                <width>150</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Start training</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="startTestButton">
+              <property name="geometry">
+               <rect>
+                <x>40</x>
+                <y>390</y>
+                <width>150</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>150</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>150</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true"/>
+              </property>
+              <property name="text">
+               <string>Start testing</string>
               </property>
              </widget>
             </widget>
@@ -1179,17 +1044,11 @@ QToolTip
 	border: 1px solid grey;
 }</string>
           </property>
-          <widget class="QWidget" name="layoutWidget">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>10</y>
-             <width>52</width>
-             <height>108</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="tabVerticalLayout"/>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QVBoxLayout" name="tabVerticalLayout"/>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -2471,7 +2330,4 @@ QLineEdit::hover
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="widgetDisplayButtonGroup"/>
- </buttongroups>
 </ui>

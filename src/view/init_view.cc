@@ -20,20 +20,42 @@ void MainWindow::InitDefaultUISettings_()
     ui_->learningRateDecayByLayer->setValidator(fp_type_validator_);
 
     graph_widget_->SetYRange(Const::target.first, Const::target.second);
+
+    ui_->tabVerticalLayout->addWidget(diagram_button_);
+    ui_->tabVerticalLayout->addWidget(graph_button_);
+    ui_->tabVerticalLayout->addWidget(paint_button_);
+    ui_->tabVerticalLayout->addWidget(settings_button_);
+    ui_->tabVerticalLayout->addSpacerItem(tab_spacer_);
 }
 
 void MainWindow::ConnectUISlots_()
 {
     connect(ui_->startTrainingButton, &QPushButton::clicked, this, &MainWindow::Manager_);
     connect(ui_->startTestButton, &QPushButton::clicked, this, &MainWindow::EmitStartTesting_);
+    connect(ui_->startCrossValidationButton, &QPushButton::clicked, this, &MainWindow::EmitStartCrossValidation_);
     connect(ui_->addLayerButton, &QPushButton::clicked, this, &MainWindow::AddLayer_);
     connect(ui_->removeLayerButton, &QPushButton::clicked, this, &MainWindow::RemoveLayer_);
 
-    connect(ui_->openApplicationSettingsTabButton, &QPushButton::clicked, this, &MainWindow::ChangeApplicationTab_);
-    connect(ui_->exitApplicationSettingsTabButton, &QPushButton::clicked, this, &MainWindow::ChangeApplicationTab_);
-
-    connect(ui_->widgetDisplayButtonGroup, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonClicked),
-            this, &MainWindow::ChangeDisplayWidgetTab_);
+    connect(graph_button_, &QPushButton::clicked, this, [&]()
+    {
+        ui_->tabDisplayWidget->setCurrentIndex(0);
+    });
+    connect(paint_button_, &QPushButton::clicked, this, [&]()
+    {
+        ui_->tabDisplayWidget->setCurrentIndex(1);
+    });
+    connect(diagram_button_, &QPushButton::clicked, this, [&]()
+    {
+        ui_->tabDisplayWidget->setCurrentIndex(2);
+    });
+    connect(settings_button_, &QPushButton::clicked, this, [&]()
+    {
+        ui_->applicationTabWidget->setCurrentIndex(1);
+    });
+    connect(ui_->exitApplicationSettingsTabButton, &QPushButton::clicked, this, [&]()
+    {
+        ui_->applicationTabWidget->setCurrentIndex(0);
+    });
 
     connect(ui_->browseDatasetForTraining, &QPushButton::clicked, this, [&]()
     {
@@ -71,20 +93,6 @@ void MainWindow::ConnectUISlots_()
     connect(paint_widget_, &PaintWidget::SendImage, this, [&](std::vector<double> image)
     {
         emit PredictLetter(image);
-    });
-
-    connect(ui_->startCrossValidationButton, &QPushButton::clicked, this, [&]()
-    {
-        std::string dataset = ui_->datasetTrainingPath->text().toStdString();
-        PerceptronSettings settings = GetPerceptronSettings();
-        std::size_t groups = ui_->numberOfGroups->text().toUInt();
-        std::size_t epochs = ui_->numberOfEpochs->text().toUInt();
-        ModelType type = static_cast<ModelType>(ui_->modelType->currentIndex());
-
-        graph_widget_->Clear();
-        graph_widget_->SetXRange(Const::target.second / Const::error_updates, epochs * groups);
-        metrics_widget_->Clear();
-        emit StartCrossValidation(dataset, settings, groups, epochs, type);
     });
 
     connect(ui_->actionOpenModel, &QAction::triggered, this, [&]()

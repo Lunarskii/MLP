@@ -9,8 +9,11 @@ MainWindow::MainWindow(QWidget *parent)
     , graph_widget_(new GraphWidget("Epochs", "Error", this))
     , paint_widget_(new PaintWidget(this))
     , metrics_widget_(new MetricsWidget(this))
-    , diagram_button_(new AnimatedButton("url(:/resources/images/diagram3.png)"))
-    , graph_button_(new AnimatedButton("url(:/resources/images/graph4.png)"))
+    , diagram_button_(new AnimatedButton("url(:/resources/images/diagram3.png)", "#74c2e1"))
+    , graph_button_(new AnimatedButton("url(:/resources/images/graph4.png)", "#324a5e"))
+    , paint_button_(new AnimatedButton("url(:/resources/images/brush3.png)", "#000000"))
+    , settings_button_(new AnimatedButton("url(:/resources/images/gear7.png)", "#ffffff"))
+    , tab_spacer_(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding))
     , view_settings_(new QSettings("School21", "MLP"))
     , fp_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?"), this))
     , int_type_validator_(new QRegularExpressionValidator(QRegularExpression("[0-9]*"), this))
@@ -28,6 +31,11 @@ MainWindow::~MainWindow()
     delete graph_widget_;
     delete paint_widget_;
     delete metrics_widget_;
+    delete diagram_button_;
+    delete graph_button_;
+    delete paint_button_;
+    delete settings_button_;
+//    delete tab_spacer_; // почему-то из-за этого приложение завершается крашем при закрытии
     delete view_settings_;
     delete fp_type_validator_;
     delete int_type_validator_;
@@ -36,7 +44,6 @@ MainWindow::~MainWindow()
 void MainWindow::ReadModelSettings_()
 {
     emit SetModelSettings(GetPerceptronSettings(), static_cast<ModelType>(ui_->modelType->currentIndex()));
-    model_is_setted_up_ = true;
 }
 
 void MainWindow::EmitStartTraining_()
@@ -54,8 +61,33 @@ void MainWindow::EmitStartTraining_()
         metrics_widget_->Clear();
         graph_widget_->SetXRange(Const::target.second / Const::error_updates, number_of_epochs);
         emit StartTraining(training_path, number_of_epochs, proportion);
-        model_is_trained_ = true;
     }
+}
+
+void MainWindow::EmitStartTesting_()
+{
+    if (ui_->datasetTestsPath->text().isEmpty())
+    {
+        ui_->browseDatasetForTesting->click();
+    }
+    else
+    {
+        emit StartTesting(ui_->datasetTestsPath->text().toStdString());
+    }
+}
+
+void MainWindow::EmitStartCrossValidation_()
+{
+    std::string dataset = ui_->datasetTrainingPath->text().toStdString();
+    PerceptronSettings settings = GetPerceptronSettings();
+    std::size_t groups = ui_->numberOfGroups->text().toUInt();
+    std::size_t epochs = ui_->numberOfEpochs->text().toUInt();
+    ModelType type = static_cast<ModelType>(ui_->modelType->currentIndex());
+
+    graph_widget_->Clear();
+    graph_widget_->SetXRange(Const::target.second / Const::error_updates, epochs * groups);
+    metrics_widget_->Clear();
+    emit StartCrossValidation(dataset, settings, groups, epochs, type);
 }
 
 void MainWindow::Manager_()
@@ -106,18 +138,6 @@ void MainWindow::Manager_()
     {
         ReadModelSettings_();
         Manager_();
-    }
-}
-
-void MainWindow::EmitStartTesting_()
-{
-    if (ui_->datasetTestsPath->text().isEmpty())
-    {
-        ui_->browseDatasetForTesting->click();
-    }
-    else
-    {
-        emit StartTesting(ui_->datasetTestsPath->text().toStdString());
     }
 }
 
@@ -192,16 +212,6 @@ PerceptronSettings MainWindow::GetPerceptronSettings()
 void MainWindow::SetCrossMetrics(Metrics metrics)
 {
     metrics_widget_->SetMetrics(metrics);
-}
-
-void MainWindow::ShowMessage(std::string msg)
-{
-    QMessageBox::information(nullptr, "Notification", QString::fromStdString(msg));
-}
-
-void MainWindow::ShowErrorMessage(std::string msg)
-{
-    QMessageBox::critical(nullptr, "Error", QString::fromStdString(msg));
 }
 
 } // namespace s21
