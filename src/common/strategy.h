@@ -3,9 +3,7 @@
 #include "types.h"
 #include <math.h>
 #include "../lib/random.h"
-// #include <iostream>
 #include "types.h"
-// #include <functional>
 #include <fstream>
 #include <numeric>
 
@@ -24,27 +22,20 @@ struct Const {
     constexpr static size_t letter_height = 28;
     constexpr static size_t max_layer = letter_width * letter_height;
     constexpr static size_t min_layer = 26;
-    // constexpr static int start_layer_count = 5;
-    // constexpr static int max_layer_count = 5;
-    // constexpr static int min_layer_count = 2;
     inline static std::pair<fp_type, fp_type> target = { 0.0, 1.0 };
     inline static int default_train_proportion = 8;
-    
-    // number of updates in one epoch
     inline static int error_updates = 10;
 };
 
 struct Func {
-    inline static fp_type xavier = 2.0; //1.55
-    inline static fp_type w_mean = 0;
-    inline static fp_type w_sd = 1.0;
+    inline static fp_type xavier = 2.0;
 
     static fp_type XavierWeightsInit(int rows, int cols) {
         fp_type variance = std::sqrt(xavier / (fp_type)(rows + cols));
         return s21::Random::Normal<fp_type>(0.0, variance);
     }
-    static fp_type NormalWeightsInit(int rows [[maybe_unused]], int cols [[maybe_unused]]) {
-        return s21::Random::Normal<fp_type>(w_mean, w_sd);
+    static fp_type NormalWeightsInit(fp_type mean, fp_type sd) {
+        return s21::Random::Normal<fp_type>(mean, sd);
     }
     static fp_type ActivationReLU(const fp_type x) {
         return x > 0 ? x : 0;

@@ -32,16 +32,7 @@ int main() {
     DataManager letters_train("../datasets/emnist-letters-train.csv", -1, k90Rotate);
 
 
-    if (Random::Bool(0.5)) {
-        CrossValidation<GraphModel>::Run(letters_train, ps, CROSS, epochs, [] (Metrics &m) {
-            std::cout << m.accuracy << "\n";
-        });
-    } else {
-        CrossValidation<MatrixModel>::Run(letters_train, ps, CROSS, epochs, [] (Metrics &m) {
-            std::cout << m.accuracy << "\n";
-        });
-
-    }
+    MatrixModel mm(ps);
 
 
     return 0;
