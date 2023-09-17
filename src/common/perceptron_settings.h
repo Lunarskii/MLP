@@ -24,7 +24,7 @@ struct PerceptronSettings {
         std::function<fp_type(int, int)> weight_init;
         ActivationFunctions activation_i;
         WeightInitFunctions weight_init_i;
-    
+        
     public:
         PerceptronSettings() = default;
         size_vector layers;
@@ -32,6 +32,8 @@ struct PerceptronSettings {
         fp_type momentum = 0.0;
         fp_type lr_epoch_k = 1.0;
         fp_type lr_layers_k = 1.0;
+        fp_type weight_mean = 0.0;
+        fp_type weight_sd = 1.0;
         
 
         void SetActivation(ActivationFunctions index);

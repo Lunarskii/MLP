@@ -24,7 +24,10 @@ void PerceptronSettings::SetWeightInit(WeightInitFunctions index) {
     weight_init_i = index;
     switch (index) {
         case kNormal:
-            weight_init = Func::NormalWeightsInit;
+            // weight_init = Func::NormalWeightsInit;
+            weight_init = [mean=weight_mean, sd=weight_sd] (int rows [[maybe_unused]], int cols [[maybe_unused]]) {
+                return Func::NormalWeightsInit(mean, sd);
+            };
             break;
         case kXavier:
             weight_init = Func::XavierWeightsInit;
@@ -71,8 +74,8 @@ PerceptronSettings::PerceptronSettings(std::ifstream &os) {
     learning_rate = parse_double("\tlearning rate ");
     activation_i = ActivationFunctions(parse_int("\tactivation function "));
     weight_init_i = WeightInitFunctions(parse_int("\tweight init function "));
-    Func::w_mean = parse_double("\tweight mean ");
-    Func::w_sd = parse_double("\tweight sd ");
+    weight_mean = parse_double("\tweight mean ");
+    weight_sd = parse_double("\tweight sd ");
     Func::xavier = parse_double("\tweight xavier k ");
     momentum = parse_double("\tmomentum ");
     lr_epoch_k = parse_double("\tlr epoch k ");
@@ -94,8 +97,8 @@ void PerceptronSettings::ToFile(std::ostream& os) {
     os << "\n\tlearning rate " << learning_rate;
     os << "\n\tactivation function " << activation_i;
     os << "\n\tweight init function " << weight_init_i;
-    os << "\n\tweight mean " << Func::w_mean;
-    os << "\n\tweight sd " << Func::w_sd;
+    os << "\n\tweight mean " << weight_mean;
+    os << "\n\tweight sd " << weight_sd;
     os << "\n\tweight xavier k " << Func::xavier;
     os << "\n\tmomentum " << momentum;
     os << "\n\tlr epoch k " << lr_epoch_k;
