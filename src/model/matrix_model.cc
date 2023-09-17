@@ -136,19 +136,35 @@ void MatrixModel::UpdateLR() {
 
 
 MatrixLayer::MatrixLayer(size_t rows, size_t cols, fp_type lr, const PerceptronSettings &settings, std::ifstream &file) :
-        weights_(file), delta_weights_(rows, cols, 0), biases_(cols),
+        weights_(rows, cols, 0), delta_weights_(rows, cols, 0), biases_(cols),
         destination_(cols), gradients_(cols), error_(cols), settings_(settings),
         learning_rate_(lr) {
         
     std::string line;
+
     std::getline(file, line);
-    if (line != "biases:") {
-        throw std::runtime_error("MatrixLayer: Invalid file format in line \"" + line + "\"");
+    if (line != "weights:") {
+        file.close();
+        std::cout << cols << ' ' << rows << '\n';
+        throw std::runtime_error("MatrixLayer: Invalid file format in line \"weight:\": " + line);
     }
-    for (auto &b : biases_) {
-        file >> b;
+    for (unsigned int i = 0; i < weights_.GetRows(); ++i) {
+        for (unsigned int j = 0; j < weights_.GetCols(); ++j) {
+            file >> weights_(i, j);
+        }
     }
-    file .ignore();
+    file .ignore(2);
+    std::getline(file, line);
+    if (line == "biases:") {
+        for (auto &b : biases_) {
+            file >> b;
+        }
+        file .ignore(2);
+    } else if (line != "empty biases") {
+        file.close();
+        throw std::runtime_error("MatrixLayer: Invalid file format in line \"biases:\": " + line);
+    }
+
 }
 
 
@@ -157,12 +173,16 @@ MatrixModel::MatrixModel(const std::string &file_name) {
     settings_ = PerceptronSettings(file);
 
     fp_type lr = settings_.learning_rate;
+    // for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
+    //     std::string line;
+    //     std::getline(file, line);
+    //     if (line != "layer " + std::to_string(k) + " weights:") {
+    //         throw std::runtime_error("MatrixModel: Invalid file format in line \"" + line + "\"");
+    //     }
+    //     layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], lr, settings_, file);
+    //     lr *= settings_.lr_layers_k;
+    // }
     for (unsigned int k = 0; k < settings_.layers.size() - 1; ++k) {
-        std::string line;
-        std::getline(file, line);
-        if (line != "layer " + std::to_string(k) + " weights:") {
-            throw std::runtime_error("MatrixModel: Invalid file format in line \"" + line + "\"");
-        }
         layers_.emplace_back(settings_.layers[k], settings_.layers[k + 1], lr, settings_, file);
         lr *= settings_.lr_layers_k;
     }
@@ -175,15 +195,25 @@ void MatrixModel::ToFile(const std::string &file_name) {
     std::ofstream file(file_name);
     settings_.ToFile(file);
 
-    for (unsigned int k = 0; k < layers_.size(); ++k) {
-        file << "layer " << k << " weights:\n";
-        file << layers_[k].weights_;
-        file << "biases:\n";
-        unsigned int g = 0;
-        for ( ; g < layers_[k].biases_.size() - 1; ++g) {
-            file << layers_[k].biases_[g] << ' ';
+    // for (unsigned int k = 0; k < layers_.size(); ++k) {
+    for (auto &layer : layers_) {
+        file << "weights:\n";
+        // file << layers_[k].weights_;
+        auto &lw = layer.weights_;
+        for (unsigned int i = 0; i < lw.GetRows(); ++i) {
+            for (unsigned int j = 0; j < lw.GetCols(); ++j) {
+                file << lw(i, j) << ' ';
+            }
         }
-        file << layers_[k].biases_[g] << '\n';
+        file << "\nbiases:\n";
+        for (auto &b : layer.biases_) {
+            file << b << ' ';
+        }
+        file << '\n';
+        // for ( ; g < layers_[k].biases_.size() - 1; ++g) {
+        //     file << layers_[k].biases_[g] << ' ';
+        // }
+        // file << layers_[k].biases_[g] << '\n';
     }
     file.close();
 }

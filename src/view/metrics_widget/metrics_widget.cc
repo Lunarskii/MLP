@@ -3,14 +3,30 @@
 using namespace s21;
 
 MetricsWidget::MetricsWidget(QWidget *parent) :
-        QWidget(parent), image_(QSize(1, 1), QImage::Format_RGB32)  {
+        QWidget(parent), image_(QSize(1, 1), QImage::Format_RGB32),
+        classes_precision_(Style::classes), classes_recall_(Style::classes), classes_f1_(Style::classes) {
 
     image_.fill(Style::background_color);
 
 }
 
 void MetricsWidget::SetMetrics(Metrics &m) {
-    metrics_.push_back(m);
+    accuracy_.push_back(m.accuracy);
+    precision_.push_back(Func::MeanError(m.precision));
+    recall_.push_back(Func::MeanError(m.recall));
+    f1_.push_back(Func::MeanError(m.F1));
+    if (count_ == 0) {
+        classes_precision_ = m.precision;
+        classes_recall_ = m.recall;
+        classes_f1_ = m.F1;
+    } else {
+        for (int i = 0; i < classes_precision_.size(); ++i) {
+            classes_precision_[i] = (classes_precision_[i] * count_ + m.precision[i]) / (count_ + 1);
+            classes_recall_[i] = (classes_recall_[i] * count_ + m.recall[i]) / (count_ + 1);
+            classes_f1_[i] = (classes_f1_[i] * count_ + m.F1[i]) / (count_ + 1);
+        }
+    }
+    ++count_;
     Draw();
 }
 
@@ -27,46 +43,41 @@ void MetricsWidget::resizeEvent(QResizeEvent *event) {
     Draw();
 }
 
-void MetricsWidget::DrawCrossCharts() {
-    unsigned int size = metrics_.size();
+void MetricsWidget::DrawCharts(const std::vector<QColor> &colors,
+                const std::vector<QString> &names, const std::vector<std::vector<double>*> data,
+                const std::function<QString(int)> &chart_name) {
+
+    unsigned int size = data[0]->size();
+    unsigned int metrics_size = data.size();
     int w = width_ - 2 * Style::indent;
-    int chart_size = 0.25 * Style::chart_size_coef * w / size;
-    int x = w / (size + 1) - 1.5 * chart_size + Style::indent;
-    int step = w / (size + 1) - 3 * chart_size;
+    int chart_size = (Style::chart_size_coef * w / size) / metrics_size;
+    int x = w / (size + 1) - (metrics_size - 1) * chart_size / 2 + Style::indent;
+    int step = w / (size + 1) - (metrics_size - 1) * chart_size;
     int y_low = height_ - Style::indent - chart_size * 0.5;
 
-    for (unsigned int i = 0; i < size; x += step) {
-        painter_.setPen(QPen(Style::accuracy_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(metrics_[i].accuracy));
-
-        x += chart_size;
-        painter_.setPen(QPen(Style::precision_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(Func::MeanError(metrics_[i].precision)));
-
-        x += chart_size;
-        painter_.setPen(QPen(Style::recall_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(Func::MeanError(metrics_[i].recall)));
-
-        x += chart_size;
-        painter_.setPen(QPen(Style::f1_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(Func::MeanError(metrics_[i].F1)));
-
+    for (unsigned int i = 0; i < size; ++i, x += step) {
+        for (unsigned int k = 0; k < metrics_size; ++k) {
+            painter_.setPen(QPen(colors[k], chart_size));
+            painter_.drawLine(x, y_low, x, ChartHeight((*data[k])[i]));
+            if (k != metrics_size - 1) x += chart_size;
+        }
         painter_.setPen(QPen(Style::axes_text_color, Style::axes_text_size));
-        painter_.drawText(x - chart_size * 1.5, height_ - Style::indent * 0.5, QString::number(++i));
+        painter_.drawText(x - chart_size * 1.5, height_ - Style::indent * 0.5, chart_name(i));
     }
+    int distanse = w / (metrics_size + 1);
+    x = distanse;
+    for (unsigned int k = 0; k < metrics_size; ++k, x += distanse) {
+        painter_.setPen(QPen(colors[k], Style::metrics_text_size));
+        painter_.drawText(x, Style::indent * 0.5, names[k]);
+    }
+}
 
-    // draw metrics names
-    painter_.setPen(QPen(Style::accuracy_color, Style::metrics_text_size));
-    painter_.drawText(0.2 * w, Style::indent * 0.5, "Accuracy");
-
-    painter_.setPen(QPen(Style::precision_color, Style::metrics_text_size));
-    painter_.drawText(0.4 * w, Style::indent * 0.5, "Precision");
-
-    painter_.setPen(QPen(Style::recall_color, Style::metrics_text_size));
-    painter_.drawText(0.6 * w, Style::indent * 0.5, "Recall");
-
-    painter_.setPen(QPen(Style::f1_color, Style::metrics_text_size));
-    painter_.drawText(0.8 * w, Style::indent * 0.5, "F1");
+void MetricsWidget::DrawCrossCharts() {
+    std::vector<QColor> colors = {Style::accuracy_color, Style::precision_color,
+                                  Style::recall_color, Style::f1_color};
+    std::vector<QString> names = {"Accuracy", "Precision", "Recall", "F1"};
+    std::vector<std::vector<double>*> data = {&accuracy_, &precision_, &recall_, &f1_};
+    DrawCharts(colors, names, data, [](int i) { return QString::number(i + 1); });
 }
 
 int MetricsWidget::ChartHeight(double value) {
@@ -111,55 +122,14 @@ void MetricsWidget::DrawAxes() {
 }
 
 void MetricsWidget::DrawClassCharts() {
-    
-    const unsigned int size = 26;
-    unsigned int metrics_size = metrics_.size();
-
-    int w = width_ - 2 * Style::indent;
-    int chart_size = 0.333 * Style::chart_size_coef * w / size;
-    int x = w / (size + 1) - chart_size + Style::indent;
-    int step = w / (size + 1) - 2 * chart_size;
-    int y_low = height_ - Style::indent - chart_size * 0.5;
-
-    std::vector<float> mean_recall(size), mean_precision(size), mean_f1(size);
-    for (int k = 0; k < metrics_size; ++k) {
-        for (int g = 0; g < 26; ++g) {
-            mean_recall[g] += metrics_[k].recall[g];
-            mean_precision[g] += metrics_[k].precision[g];
-            mean_f1[g] += metrics_[k].F1[g];
-        }
-    }
-
-    for (unsigned int i = 0; i < size; x += step) {
-        painter_.setPen(QPen(Style::precision_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(mean_precision[i] / metrics_size));
-
-        x += chart_size;
-        painter_.setPen(QPen(Style::recall_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(mean_recall[i] / metrics_size));
-
-        x += chart_size;
-        painter_.setPen(QPen(Style::f1_color, chart_size));
-        painter_.drawLine(x, y_low, x, ChartHeight(mean_f1[i] / metrics_size));
-
-        painter_.setPen(QPen(Style::axes_text_color, Style::axes_text_size));
-        painter_.drawText(x - chart_size * 1.5, height_ - Style::indent * 0.5, QString((char)(i++ + 'A')));
-    }
-
-    // draw metrics names
-    painter_.setPen(QPen(Style::precision_color, Style::metrics_text_size));
-    painter_.drawText(0.25 * w, Style::indent * 0.5, "Precision");
-
-    painter_.setPen(QPen(Style::recall_color, Style::metrics_text_size));
-    painter_.drawText(0.5 * w, Style::indent * 0.5, "Recall");
-
-    painter_.setPen(QPen(Style::f1_color, Style::metrics_text_size));
-    painter_.drawText(0.75 * w, Style::indent * 0.5, "F1");
-
+    std::vector<QColor> colors = {Style::precision_color, Style::recall_color, Style::f1_color};
+    std::vector<QString> names = {"Precision", "Recall", "F1"};
+    std::vector<std::vector<double>*> data = {&classes_precision_, &classes_recall_, &classes_f1_};
+    DrawCharts(colors, names, data, [](int i) { return QString((char)(i + 'A')); }); 
 }
 
 void MetricsWidget::Draw() {
-    if (metrics_.empty()) {
+    if (accuracy_.empty()) {
         return;
     }
     image_.fill(Style::background_color);
@@ -178,8 +148,15 @@ void MetricsWidget::Draw() {
 }
 
 void MetricsWidget::Clear() {
-    metrics_.clear();
+    accuracy_.clear();
+    precision_.clear();
+    recall_.clear();
+    f1_.clear();
+    std::fill(classes_precision_.begin(), classes_precision_.end(), 0);
+    std::fill(classes_recall_.begin(), classes_recall_.end(), 0);
+    std::fill(classes_f1_.begin(), classes_f1_.end(), 0);
     image_.fill(Style::background_color);
+    count_ = 0;
     update();
 }
 
