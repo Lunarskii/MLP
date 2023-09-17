@@ -31,6 +31,7 @@ struct Style {
     inline static unsigned int grid_size = 1;
     inline static QColor grid_color = Qt::white;
     inline static unsigned int grid_number = 10;
+    inline static unsigned int classes = 26;
 };
 
 class MetricsWidget : public QWidget {
@@ -57,7 +58,11 @@ class MetricsWidget : public QWidget {
 
         bool classes_ = false;
 
-        std::vector<Metrics> metrics_;
+        std::vector<double> accuracy_, precision_, recall_, f1_,
+                classes_precision_, classes_recall_, classes_f1_;
+        unsigned int count_ = 0;
+
+
         unsigned int height_, width_;
 
         void DrawCrossCharts();
@@ -65,6 +70,10 @@ class MetricsWidget : public QWidget {
         void Draw();
         void DrawAxes();
         int ChartHeight(double value);
+
+        void DrawCharts(const std::vector<QColor> &colors,
+                        const std::vector<QString> &names, const std::vector<std::vector<double>*> data,
+                        const std::function<QString(int)> &chart_name);
 
 };
 
