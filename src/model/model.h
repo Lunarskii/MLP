@@ -29,6 +29,10 @@ class Model {
 
         virtual ~Model() = default;
 
+        void SetLetter(data_vector *letter) {
+            letter_ = letter;
+        }
+
     protected:
         data_vector *letter_;
         PerceptronSettings settings_;
