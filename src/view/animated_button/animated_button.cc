@@ -3,6 +3,9 @@
 #include <QEvent>
 #include <QDebug>
 
+namespace s21
+{
+
 AnimatedButton::AnimatedButton(QString image, QString background_color, QWidget *parent)
     : QPushButton(parent)
     , image_url_(image)
@@ -74,3 +77,4 @@ void AnimatedButton::StartHoverLeaveAnimation()
     animation_.start();
 }
 
+} // namespace s21

@@ -5,6 +5,9 @@
 #include <QColor>
 #include <QPropertyAnimation>
 
+namespace s21
+{
+
 class AnimatedButton : public QPushButton
 {
     Q_OBJECT
@@ -29,5 +32,7 @@ private:
     void StartHoverEnterAnimation();
     void StartHoverLeaveAnimation();
 };
+
+} // namespace s21
 
 #endif // CPP7_MLP_VIEW_ANIMATED_BUTTON_ANIMATED_BUTTON_H_
