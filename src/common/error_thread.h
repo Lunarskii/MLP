@@ -2,8 +2,6 @@
 
 #include "strategy.h"
 
-#include <condition_variable>
-#include <thread>
 
 namespace s21 {
 
