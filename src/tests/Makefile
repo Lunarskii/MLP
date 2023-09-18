@@ -10,8 +10,9 @@ GM_SRC=../model/graph_model.cc
 OPTIMIZATION=-Ofast -march=native
 VALGRIND_FLAGS=--track-origins=yes --trace-children=yes --leak-check=full --leak-resolution=med
 
-all: file_test settings_test learn_test
+all: tests
 
+tests: file_test settings_test learn_test
 
 file_test:
 	$(CC) $(FLAGS) $(SRC) file.cc $(TESTFLAGS) -o file_test $(OPTIMIZATION)
