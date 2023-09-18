@@ -1,5 +1,5 @@
-#ifndef ANIMATEDBUTTON_H
-#define ANIMATEDBUTTON_H
+#ifndef CPP7_MLP_VIEW_ANIMATED_BUTTON_ANIMATED_BUTTON_H_
+#define CPP7_MLP_VIEW_ANIMATED_BUTTON_ANIMATED_BUTTON_H_
 
 #include <QPushButton>
 #include <QColor>
@@ -30,4 +30,4 @@ private:
     void StartHoverLeaveAnimation();
 };
 
-#endif // ANIMATEDBUTTON_H
+#endif // CPP7_MLP_VIEW_ANIMATED_BUTTON_ANIMATED_BUTTON_H_

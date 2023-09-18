@@ -137,7 +137,7 @@ void MainWindow::Manager_()
     else
     {
         ReadModelSettings_();
-        Manager_();
+        EmitStartTraining_();
     }
 }
 
