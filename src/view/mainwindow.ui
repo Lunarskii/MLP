@@ -45,7 +45,7 @@ QWidget#applicationTabWidget
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="iconSize">
        <size>
@@ -1163,17 +1163,17 @@ QToolTip
           <property name="minimumSize">
            <size>
             <width>300</width>
-            <height>100</height>
+            <height>170</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
-            <height>100</height>
+            <width>16777214</width>
+            <height>170</height>
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">QWidget::hover
+           <string notr="true">QWidget#weightWidget::hover
 {
 	border: 0.5px solid #6495ED;
 }
@@ -1191,7 +1191,7 @@ QComboBox
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="spacing">
-            <number>0</number>
+            <number>6</number>
            </property>
            <item>
             <widget class="QLabel" name="labelWeight">
@@ -1334,6 +1334,196 @@ QComboBox::hover
                <string>Xavier</string>
               </property>
              </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QTabWidget" name="weightTabWidget">
+             <property name="styleSheet">
+              <string notr="true">border: 0px;</string>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="tab_5">
+              <attribute name="title">
+               <string>Tab 1</string>
+              </attribute>
+              <layout class="QFormLayout" name="formLayout_4">
+               <item row="0" column="0">
+                <widget class="QLabel" name="labelMean">
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Mean</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="labelStandardDeviation">
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLabel
+{
+	border: 0px;
+	color: #AAAAAA;
+	font-weight: bold;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Standard deviation</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLineEdit" name="standardDeviation">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>200</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+QLineEdit::hover
+{
+	border: 0.5px solid #CED4DA;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>1.0</string>
+                 </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                 <property name="echoMode">
+                  <enum>QLineEdit::Normal</enum>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="mean">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>200</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QLineEdit
+{
+	background-color: #3C3C3C;
+	color: #AAAAAA;
+	border-radius: 4px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+QLineEdit::hover
+{
+	border: 0.5px solid #CED4DA;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>0.0</string>
+                 </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                 <property name="echoMode">
+                  <enum>QLineEdit::Normal</enum>
+                 </property>
+                 <property name="clearButtonEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_6">
+              <attribute name="title">
+               <string>Tab 2</string>
+              </attribute>
+             </widget>
             </widget>
            </item>
           </layout>

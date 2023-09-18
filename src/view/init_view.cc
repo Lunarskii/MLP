@@ -6,6 +6,7 @@ namespace s21
 void MainWindow::InitDefaultUISettings_()
 {
     ui_->applicationTabWidget->tabBar()->hide();
+    ui_->weightTabWidget->tabBar()->hide();
     ui_->tabDisplayWidget->tabBar()->hide();
     ui_->tabDisplayWidget->clear();
     ui_->tabDisplayWidget->addTab(graph_widget_, "Graph");
@@ -18,6 +19,8 @@ void MainWindow::InitDefaultUISettings_()
     ui_->momentum->setValidator(fp_type_validator_);
     ui_->learningRateDecayByEpoch->setValidator(fp_type_validator_);
     ui_->learningRateDecayByLayer->setValidator(fp_type_validator_);
+    ui_->mean->setValidator(fp_type_validator_);
+    ui_->standardDeviation->setValidator(fp_type_validator_);
 
     graph_widget_->SetYRange(Const::target.first, Const::target.second);
 
@@ -113,6 +116,19 @@ void MainWindow::ConnectUISlots_()
         if (!file_path.isEmpty())
         {
             emit SaveModel(file_path.toStdString());
+        }
+    });
+
+    connect(ui_->weightFunction, &QComboBox::currentIndexChanged, [&](int index)
+    {
+        ui_->weightTabWidget->setCurrentIndex(index);
+        if (index == 0)
+        {
+            ui_->weightWidget->setFixedHeight(170);
+        }
+        else
+        {
+            ui_->weightWidget->setFixedHeight(110);
         }
     });
 }

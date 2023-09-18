@@ -1,10 +1,13 @@
 #ifndef CPP7_MLP_VIEW_CONSTANTS_H_
 #define CPP7_MLP_VIEW_CONSTANTS_H_
 
+#include <QColor>
+
 namespace s21
 {
 
-struct MetricsWidgetStyle {
+struct MetricsWidgetStyle
+{
     inline static unsigned int indent = 35;
     inline static unsigned int axes_size = 3;
     inline static unsigned int axes_text_size = 10;
@@ -32,6 +35,8 @@ struct ConfigConstants
     static constexpr const char* kTestProportion = "testProportion";
     static constexpr const char* kActivationFunction = "activationFunctionType";
     static constexpr const char* kWeightFunction = "weightFunctionType";
+    static constexpr const char* kMean = "meanWeight";
+    static constexpr const char* kStandardDeviation = "weightStandardDeviation";
     static constexpr const char* kMomentum = "momentum";
     static constexpr const char* kLRDecayByEpoch = "reductionRatioByEpoch";
     static constexpr const char* kLRDecayByLayer = "reductionRatioByLayer";

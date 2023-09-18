@@ -13,6 +13,8 @@ void MainWindow::SaveViewSettings_()
     view_settings_->setValue(ConfigConstants::kTestProportion, ui_->datasetProportion->value());
     view_settings_->setValue(ConfigConstants::kActivationFunction, ui_->activationFunction->currentIndex());
     view_settings_->setValue(ConfigConstants::kWeightFunction, ui_->weightFunction->currentIndex());
+    view_settings_->setValue(ConfigConstants::kMean, ui_->mean->text());
+    view_settings_->setValue(ConfigConstants::kStandardDeviation, ui_->standardDeviation->text());
     view_settings_->setValue(ConfigConstants::kMomentum, ui_->momentum->text());
     view_settings_->setValue(ConfigConstants::kLRDecayByEpoch, ui_->learningRateDecayByEpoch->text());
     view_settings_->setValue(ConfigConstants::kLRDecayByLayer, ui_->learningRateDecayByLayer->text());
@@ -29,6 +31,8 @@ void MainWindow::RestoreViewSettings_()
     int test_proportion = view_settings_->value(ConfigConstants::kTestProportion, 5).toInt();
     int activation_function_type = view_settings_->value(ConfigConstants::kActivationFunction, 0).toInt();
     int weight_function_type = view_settings_->value(ConfigConstants::kWeightFunction, 0).toInt();
+    QString mean_weight = view_settings_->value(ConfigConstants::kMean, 0.0).toString();
+    QString standard_deviation = view_settings_->value(ConfigConstants::kStandardDeviation, 1.0).toString();
     QString momentum = view_settings_->value(ConfigConstants::kMomentum, 0.2).toString();
     QString reduction_ratio_by_epoch = view_settings_->value(ConfigConstants::kLRDecayByEpoch, 1).toString();
     QString reduction_ratio_by_layer = view_settings_->value(ConfigConstants::kLRDecayByLayer, 1).toString();
@@ -42,6 +46,8 @@ void MainWindow::RestoreViewSettings_()
     ui_->datasetProportion->setValue(test_proportion);
     ui_->activationFunction->setCurrentIndex(activation_function_type);
     ui_->weightFunction->setCurrentIndex(weight_function_type);
+    ui_->mean->setText(mean_weight);
+    ui_->standardDeviation->setText(standard_deviation);
     ui_->momentum->setText(momentum);
     ui_->learningRateDecayByEpoch->setText(reduction_ratio_by_epoch);
     ui_->learningRateDecayByLayer->setText(reduction_ratio_by_layer);

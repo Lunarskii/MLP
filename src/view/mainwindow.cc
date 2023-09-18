@@ -201,6 +201,8 @@ PerceptronSettings MainWindow::GetPerceptronSettings()
 
     settings.SetActivation(static_cast<ActivationFunctions>(ui_->activationFunction->currentIndex()));
     settings.SetWeightInit(static_cast<WeightInitFunctions>(ui_->weightFunction->currentIndex()));
+    settings.weight_mean = ui_->mean->text().toDouble();
+    settings.weight_sd = ui_->standardDeviation->text().toDouble();
     settings.learning_rate = ui_->learningRate->text().toDouble();
     settings.momentum = ui_->momentum->text().toDouble();
     settings.lr_epoch_k = ui_->learningRateDecayByEpoch->text().toDouble();
