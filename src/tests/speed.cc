@@ -15,7 +15,7 @@ void s21Test(DataManager& data) {
         }, [&] {
             GM.Test(data);
         });
-        std::cout << "\033[1;32m" << iter << " iterations:\033[0m\n";
+        std::cout << "\033[1;32m" << iter << "s21 test. iterations:\033[0m\n";
         std::cout << "\tMatrix: " << result[0] << "\n";
         std::cout << "\tGraph: " << result[1] << "\n";
     }
@@ -60,11 +60,17 @@ void Test(PerceptronSettings &ps, unsigned int repeat = 10) {
 };
 
 int main() {
+    DataManager data(rp("materials/letters.data"), -1, k90Rotate);
+    std::cout << "\033[1;31m" << "s21Test:" << "\033[0m\n";
+    s21Test(data);
+    std::cout << "/n/n";
 
-    // DataManager data(rp("materials/letters.data"), -1, k90Rotate);
-    // std::cout << "\033[1;31m" << "s21Test:" << "\033[0m\n";
-    // s21Test(data);
-    // std::cout << "/n/n";
+    std::cout << "Whould you like to run next test (not required for school task)? (y/n)\n";
+    char c;
+    std::cin >> c;
+    if (c != 'y') {
+        return 0;
+    }
 
     PerceptronSettings ps = CorrectSettings();
 
