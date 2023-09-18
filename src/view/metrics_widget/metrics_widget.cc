@@ -20,7 +20,8 @@ void MetricsWidget::SetMetrics(Metrics &m) {
         classes_recall_ = m.recall;
         classes_f1_ = m.F1;
     } else {
-        for (int i = 0; i < classes_precision_.size(); ++i) {
+        unsigned int size = classes_precision_.size();            
+        for (unsigned int i = 0; i < size; ++i) {
             classes_precision_[i] = (classes_precision_[i] * count_ + m.precision[i]) / (count_ + 1);
             classes_recall_[i] = (classes_recall_[i] * count_ + m.recall[i]) / (count_ + 1);
             classes_f1_[i] = (classes_f1_[i] * count_ + m.F1[i]) / (count_ + 1);
@@ -86,6 +87,9 @@ int MetricsWidget::ChartHeight(double value) {
 
 
 void MetricsWidget::DrawAxes() {
+    image_.fill(Style::background_color);
+    painter_.begin(&image_);
+
     // draw gorizontal line
     painter_.setPen(QPen(Style::axes_color, Style::axes_size));
     int y = height_ - Style::indent;
@@ -129,22 +133,13 @@ void MetricsWidget::DrawClassCharts() {
 }
 
 void MetricsWidget::Draw() {
-    if (accuracy_.empty()) {
-        return;
-    }
-    image_.fill(Style::background_color);
-    painter_.begin(&image_);
     DrawAxes();
 
-    if (classes_) {
-        DrawClassCharts();
-    } else {
-        DrawCrossCharts();
+    if (!accuracy_.empty()) {
+        classes_ ? DrawClassCharts() : DrawCrossCharts();
     }
-
     painter_.end();
-    // update();
-    repaint();
+    update();
 }
 
 void MetricsWidget::Clear() {
@@ -152,11 +147,14 @@ void MetricsWidget::Clear() {
     precision_.clear();
     recall_.clear();
     f1_.clear();
+    count_ = 0;
     std::fill(classes_precision_.begin(), classes_precision_.end(), 0);
     std::fill(classes_recall_.begin(), classes_recall_.end(), 0);
     std::fill(classes_f1_.begin(), classes_f1_.end(), 0);
-    image_.fill(Style::background_color);
-    count_ = 0;
+
+    DrawAxes();
+    painter_.end();
+
     update();
 }
 
