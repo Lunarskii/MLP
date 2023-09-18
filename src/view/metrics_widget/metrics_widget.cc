@@ -20,7 +20,8 @@ void MetricsWidget::SetMetrics(Metrics &m) {
         classes_recall_ = m.recall;
         classes_f1_ = m.F1;
     } else {
-        for (int i = 0; i < classes_precision_.size(); ++i) {
+        unsigned int size = classes_precision_.size();            
+        for (unsigned int i = 0; i < size; ++i) {
             classes_precision_[i] = (classes_precision_[i] * count_ + m.precision[i]) / (count_ + 1);
             classes_recall_[i] = (classes_recall_[i] * count_ + m.recall[i]) / (count_ + 1);
             classes_f1_[i] = (classes_f1_[i] * count_ + m.F1[i]) / (count_ + 1);
@@ -53,12 +54,13 @@ void MetricsWidget::DrawCharts(const std::vector<QColor> &colors,
     int chart_size = (Style::chart_size_coef * w / size) / metrics_size;
     int x = w / (size + 1) - (metrics_size - 1) * chart_size / 2 + Style::indent;
     int step = w / (size + 1) - (metrics_size - 1) * chart_size;
-    int y_low = height_ - Style::indent - chart_size * 0.5;
+    int y_delta = chart_size * 0.5;
+    int y_low = height_ - Style::indent - y_delta;
 
     for (unsigned int i = 0; i < size; ++i, x += step) {
         for (unsigned int k = 0; k < metrics_size; ++k) {
             painter_.setPen(QPen(colors[k], chart_size));
-            painter_.drawLine(x, y_low, x, ChartHeight((*data[k])[i]));
+            painter_.drawLine(x, y_low, x, y_low - ChartHeight((*data[k])[i]) + 2 * y_delta);
             if (k != metrics_size - 1) x += chart_size;
         }
         painter_.setPen(QPen(Style::axes_text_color, Style::axes_text_size));
@@ -75,17 +77,23 @@ void MetricsWidget::DrawCharts(const std::vector<QColor> &colors,
 void MetricsWidget::DrawCrossCharts() {
     std::vector<QColor> colors = {Style::accuracy_color, Style::precision_color,
                                   Style::recall_color, Style::f1_color};
+
     std::vector<QString> names = {"Accuracy", "Precision", "Recall", "F1"};
     std::vector<std::vector<double>*> data = {&accuracy_, &precision_, &recall_, &f1_};
+
     DrawCharts(colors, names, data, [](int i) { return QString::number(i + 1); });
 }
 
 int MetricsWidget::ChartHeight(double value) {
-    return height_ - Style::indent - value * (height_ - 2 * Style::indent);
+    if (isnan(value)) return 0;
+    return value * (height_ - 2 * Style::indent);
 }
 
 
 void MetricsWidget::DrawAxes() {
+    image_.fill(Style::background_color);
+    painter_.begin(&image_);
+
     // draw gorizontal line
     painter_.setPen(QPen(Style::axes_color, Style::axes_size));
     int y = height_ - Style::indent;
@@ -129,22 +137,13 @@ void MetricsWidget::DrawClassCharts() {
 }
 
 void MetricsWidget::Draw() {
-    if (accuracy_.empty()) {
-        return;
-    }
-    image_.fill(Style::background_color);
-    painter_.begin(&image_);
     DrawAxes();
 
-    if (classes_) {
-        DrawClassCharts();
-    } else {
-        DrawCrossCharts();
+    if (!accuracy_.empty()) {
+        classes_ ? DrawClassCharts() : DrawCrossCharts();
     }
-
     painter_.end();
-    // update();
-    repaint();
+    update();
 }
 
 void MetricsWidget::Clear() {
@@ -152,11 +151,14 @@ void MetricsWidget::Clear() {
     precision_.clear();
     recall_.clear();
     f1_.clear();
+    count_ = 0;
     std::fill(classes_precision_.begin(), classes_precision_.end(), 0);
     std::fill(classes_recall_.begin(), classes_recall_.end(), 0);
     std::fill(classes_f1_.begin(), classes_f1_.end(), 0);
-    image_.fill(Style::background_color);
-    count_ = 0;
+
+    DrawAxes();
+    painter_.end();
+
     update();
 }
 

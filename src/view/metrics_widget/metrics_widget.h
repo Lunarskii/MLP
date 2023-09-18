@@ -7,6 +7,7 @@
 #include <QColor>
 #include <QMouseEvent>
 #include "../../common/metrics.h"
+#include "../view_constants.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -15,40 +16,47 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
-struct Style {
-    inline static unsigned int indent = 35;
-    inline static unsigned int axes_size = 3;
-    inline static unsigned int axes_text_size = 10;
-    inline static unsigned int metrics_text_size = 12;
-    inline static QColor background_color = QColor(15, 15, 15);
-    inline static QColor axes_color = QColor(184, 134, 11);
-    inline static QColor accuracy_color = QColor(132, 169, 141);
-    inline static QColor precision_color = QColor(174, 124, 124);
-    inline static QColor recall_color = QColor(92, 108, 124);
-    inline static QColor f1_color = QColor(149, 149, 149);
-    inline static QColor axes_text_color = QColor(184, 134, 11);
-    inline static double chart_size_coef = 0.5;
-    inline static unsigned int grid_size = 1;
-    inline static QColor grid_color = Qt::white;
-    inline static unsigned int grid_number = 10;
-    inline static unsigned int classes = 26;
-};
-
+/**
+ * @brief Widget for displaying metrics
+ */
 class MetricsWidget : public QWidget {
     Q_OBJECT
 
+    using Style = MetricsWidgetStyle;
     public:
+        /**
+         * @brief Construct a new Metrics Widget object
+         * 
+         * @param parent 
+         */
         MetricsWidget(QWidget *parent = nullptr);
         virtual ~MetricsWidget() = default;
 
+        /**
+         * @brief Set the Metrics object
+         * Udate the metrics and repaint the widget
+         * @param m new metrix
+         */
         void SetMetrics(Metrics &m);
         
-
+        /**
+         * @brief Clear the metrics and repaint the widget
+         * 
+         */
         void Clear();
 
     protected:
         void paintEvent(QPaintEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
+
+        /**
+         * @brief change the view of the metrics
+         * Types of view:
+         * 1. Metrices charts. One chart for each metric
+         * 2. Classes charts. One chart for each class
+         * 
+         * @param event 
+         */
         void mouseDoubleClickEvent(QMouseEvent *event) override;
 
     private:
@@ -61,7 +69,6 @@ class MetricsWidget : public QWidget {
         std::vector<double> accuracy_, precision_, recall_, f1_,
                 classes_precision_, classes_recall_, classes_f1_;
         unsigned int count_ = 0;
-
 
         unsigned int height_, width_;
 

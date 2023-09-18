@@ -21,10 +21,13 @@ Controller::Controller(MainWindow* v)
     connect(this, &Controller::Notification, view_, &MainWindow::ShowMessage);
     connect(this, &Controller::ModelIsSettedUp, view_, &MainWindow::ModelIsSettedUp);
     connect(this, &Controller::ModelIsTrained, view_, &MainWindow::ModelIsTrained);
+    connect(this, &Controller::BlockButtons, view_, &MainWindow::BlockButtons_);
+    connect(this, &Controller::UnblockButtons, view_, &MainWindow::UnblockButtons_);
 
     connect(&thread_, &QThread::finished, [&]
     {
         disconnect(&thread_, &QThread::started, nullptr, nullptr);
+        emit UnblockButtons();
         std::cout << "finished" << std::endl;
     });
 
@@ -32,6 +35,7 @@ Controller::Controller(MainWindow* v)
     view_->setWindowTitle("MLP");
     qRegisterMetaType<Metrics>("Metrics");
     qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
+    qRegisterMetaType<std::string>("std::string");
 }
 
 Controller::~Controller() 
@@ -83,6 +87,7 @@ void Controller::StartTraining_(std::string file_path, std::size_t number_of_epo
     {
         connect(&thread_, &QThread::started, [file_path, number_of_epochs, proportion, this]
         {
+            emit BlockButtons();
             try
             {
                 DataManager dm(file_path, -1, k90Rotate);
@@ -130,6 +135,7 @@ void Controller::StartTesting_(std::string file_path)
 
     if (model_ != nullptr)
     {
+        emit BlockButtons();
         connect(&thread_, &QThread::started, [file_path, this]
         {
             try
@@ -166,6 +172,7 @@ void Controller::StartCrossValidation_(std::string file_path, PerceptronSettings
 
     connect(&thread_, &QThread::started, [file_path, settings, number_of_groups, number_of_epochs, type, this]
     {
+        emit BlockButtons();
         try
         {
             DataManager dm(file_path, -1, k90Rotate);

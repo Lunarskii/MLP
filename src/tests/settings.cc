@@ -3,9 +3,16 @@
 using namespace s21;
 
 
-TEST(Settings, settings_constructor) {
+TEST(Settings, settings_constructor_1) {
   EXPECT_NO_THROW(MatrixModel MM(CorrectSettings()));
   EXPECT_NO_THROW(GraphModel GM(CorrectSettings()));
+}
+
+TEST(Settings, settings_constructor_2) {
+  auto ps = CorrectSettings();
+  ps.SetWeightInit(kNormal);
+  EXPECT_NO_THROW(MatrixModel MM(ps));
+  EXPECT_NO_THROW(GraphModel GM(ps));
 }
 
 void IncorrectSettingsTest(std::function<void(PerceptronSettings&)> set) {
@@ -40,10 +47,5 @@ TEST(Settings, error_settings_constructor_3) {
   PS.layers = {784, 345, 26};
   PS.learning_rate = 0.5;
   PS.SetWeightInit(kXavier);
-  EXPECT_ANY_THROW(MatrixModel MM(PS));
-}
-
-TEST(Settings, error_settings_constructor_4) {
-  PerceptronSettings PS;
   EXPECT_ANY_THROW(MatrixModel MM(PS));
 }

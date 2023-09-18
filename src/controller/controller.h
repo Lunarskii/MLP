@@ -27,6 +27,8 @@ signals:
     void MetricsReady(MappedLettersMetrics metrics);
     void CrossMetricsReady(Metrics metrics);
     void PredictReady(char c);
+    void UnblockButtons();
+    void BlockButtons();
 
 private slots:
     void SetModel_(PerceptronSettings settings, ModelType type);

@@ -51,6 +51,8 @@ public slots:
     void ShowErrorMessage(std::string msg);
     void ModelIsSettedUp();
     void ModelIsTrained();
+    void BlockButtons_();
+    void UnblockButtons_();
 
 private slots:
     void ReadModelSettings_();
