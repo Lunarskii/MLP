@@ -25,7 +25,7 @@ void MainWindow::SaveViewSettings_()
 void MainWindow::RestoreViewSettings_()
 {
     int model_type = view_settings_->value(ConfigConstants::kModelType, 0).toInt();
-    QString learning_rate = view_settings_->value(ConfigConstants::kLearningRate, 0.25).toString();
+    QString learning_rate = view_settings_->value(ConfigConstants::kLearningRate, 0.0075).toString();
     QString number_of_epochs = view_settings_->value(ConfigConstants::kNumberOfEpochs, 1).toString();
     QString number_of_groups = view_settings_->value(ConfigConstants::kNumberOfGroups, 1).toString();
     int test_proportion = view_settings_->value(ConfigConstants::kTestProportion, 5).toInt();
@@ -33,7 +33,7 @@ void MainWindow::RestoreViewSettings_()
     int weight_function_type = view_settings_->value(ConfigConstants::kWeightFunction, 0).toInt();
     QString mean_weight = view_settings_->value(ConfigConstants::kMean, 0.0).toString();
     QString standard_deviation = view_settings_->value(ConfigConstants::kStandardDeviation, 1.0).toString();
-    QString momentum = view_settings_->value(ConfigConstants::kMomentum, 0.2).toString();
+    QString momentum = view_settings_->value(ConfigConstants::kMomentum, 0.15).toString();
     QString reduction_ratio_by_epoch = view_settings_->value(ConfigConstants::kLRDecayByEpoch, 1).toString();
     QString reduction_ratio_by_layer = view_settings_->value(ConfigConstants::kLRDecayByLayer, 1).toString();
     QString training_path = view_settings_->value(ConfigConstants::kDatasetTrainingPath, "").toString();
