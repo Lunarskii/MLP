@@ -1,7 +1,5 @@
 #include "graph_model.h"
 
-#include <iostream>
-
 namespace s21
 {
 
