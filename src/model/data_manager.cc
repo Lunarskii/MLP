@@ -4,6 +4,10 @@ using namespace s21;
 
 void DataManager::ReadNoRotate(std::fstream &file, data_vector &letter) {
     for (auto &i : letter) {
+        if (!file) {
+            file.close();
+            throw std::runtime_error("DataManager: incorrect file");
+        }
         file >> i;
         i /= 256.0;
         file.ignore();
@@ -13,6 +17,10 @@ void DataManager::ReadNoRotate(std::fstream &file, data_vector &letter) {
 void DataManager::Read90Rotate(std::fstream &file, data_vector &letter) {
     for (unsigned int k = 0; k < height_; ++k) {
         for (unsigned int g = 0; g < width_; ++g) {
+            if (!file) {
+                file.close();
+                throw std::runtime_error("DataManager: incorrect file");
+            }
             file >> letter[g * height_ + k];
             letter[g * height_ + k] /= 256.0;
             file.ignore();
@@ -33,16 +41,22 @@ auto DataManager::ReadFunctionSwitch(LetterRotate rotate) {
 DataManager::DataManager(const std::string &file_path, int bias, LetterRotate rotate,
                         size_t width, size_t height, unsigned int classes) :
         letters_(classes), width_(width), height_(height), classes_(classes) {
-
+    
     std::fstream file(file_path);
 
+    if (!file.is_open()) {
+        throw std::runtime_error("DataManager: file not found");
+    }
     auto read_func = ReadFunctionSwitch(rotate);
-
     unsigned int len = width_ * height_;
+
     while (file) {
-        int name;
+        int name = 0;
         file >> name;
         name += bias;
+        if (name >= (int)classes_ || name < 0) {
+            break;
+        }
         file.ignore();
         letters_[name].emplace_back(len);
         (this->*read_func)(file, letters_[name].back());
