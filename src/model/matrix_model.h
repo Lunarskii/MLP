@@ -5,9 +5,7 @@
 #include "../lib/m_sstr.h"
 #include "model.h"
 #include <numeric>
-
 #include <limits>
-#include <vector>
 
 namespace s21 {
 

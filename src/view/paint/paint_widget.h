@@ -9,7 +9,6 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QFileDialog>
-#include <QMessageBox>
 #include "../../common/types.h"
 
 QT_BEGIN_NAMESPACE
