@@ -41,18 +41,6 @@ MainWindow::~MainWindow()
     delete int_type_validator_;
 }
 
-void MainWindow::BlockButtons_() {
-    ui_->startTrainingButton->setEnabled(false);
-    ui_->startTestButton->setEnabled(false);
-    ui_->startCrossValidationButton->setEnabled(false);
-}
-
-void MainWindow::UnblockButtons_() {
-    ui_->startTrainingButton->setEnabled(true);
-    ui_->startTestButton->setEnabled(true);
-    ui_->startCrossValidationButton->setEnabled(true);
-}
-
 void MainWindow::ReadModelSettings_()
 {
     emit SetModelSettings(GetPerceptronSettings(), static_cast<ModelType>(ui_->modelType->currentIndex()));
