@@ -11,14 +11,49 @@
 namespace s21
 {
 
+/**
+ * @brief Widget for displaying error graph using qciustomplot
+ */
 class GraphWidget : public QWidget
 {
 public:
+    /**
+     * @brief Construct a new Graph Widget object
+     * 
+     * @param x_label 
+     * @param y_label 
+     * @param parent 
+     */
     GraphWidget(QString x_label, QString y_label, QWidget* parent = nullptr);
     ~GraphWidget();
+
+    /**
+     * @brief Push a new value to the graph
+     * 
+     * @param value 
+     */
     void PushBack(double value);
+
+    /**
+     * @brief Set the X Range object
+     * 
+     * @param lower 
+     * @param upper 
+     */
     void SetXRange(double lower, double upper);
+
+    /**
+     * @brief Set the Y Range object
+     * 
+     * @param lower 
+     * @param upper 
+     */
     void SetYRange(double lower, double upper);
+
+    /**
+     * @brief Clear the graph
+     * 
+     */
     void Clear();
 
 protected:
