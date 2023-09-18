@@ -119,7 +119,7 @@ void MainWindow::ConnectUISlots_()
         }
     });
 
-    connect(ui_->weightFunction, &QComboBox::currentIndexChanged, [&](int index)
+    connect(ui_->weightFunction, &QComboBox::currentIndexChanged, this, [&](int index)
     {
         ui_->weightTabWidget->setCurrentIndex(index);
         if (index == 0)
