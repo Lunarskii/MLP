@@ -11,30 +11,111 @@
 
 namespace s21 {
 
+
+
+/**
+ * @enum LetterRotate
+ * @brief Enum for letter rotation
+ * @var LetterRotate::kNoRotate
+ * No rotation
+ * @var LetterRotate::k90Rotate
+ * 90 degrees rotation
+ */
 enum LetterRotate {
-    kNoRotate, k90Rotate
+    kNoRotate,
+    k90Rotate
 };
 
+
+/**
+ * @class DataManager
+ * @brief Class for managing and processing data
+ */
 class DataManager {
     public:
-
+        /**
+         * @brief Construct a new Data Manager object.
+         * @param file_path Path to the file with data.
+         * @param bias Bias for the letter name (default is 0).
+         * @param rotate Letter rotation option (default is kNoRotate).
+         * @param width Letter width (default is Const::letter_width).
+         * @param height Letter height (default is Const::letter_height).
+         * @param classes Number of classes (default is Const::min_layer).
+         */
         DataManager(const std::string &file_path, int bias = 0, LetterRotate rotate = kNoRotate,
                     size_t width = Const::letter_width, size_t height = Const::letter_height, unsigned int classes = Const::min_layer);
+
+        /**
+         * @brief default Construct a new Data Manager object
+         */
         DataManager() = default;
+
+        /**
+         * @brief Shuffle the dataset
+         */
         void Shuffle();
+
+        /**
+         * @brief Split the dataset into train and test
+         * test dataset is (1 / proportion) of the whole dataset
+         * train dataset is (1 - 1 / proportion) of the whole dataset
+         * @param proportion proportion of the test dataset
+         */
+        void Split(unsigned int proportion);
+
+        /**
+         * @brief Sets the metric for the dataset manager.
+         * if SetMetrics have been called, dataset will process more often to the letters with the worst metrics
+         * @param metric A vector of floating-point values representing the metric for evaluating model predictions.
+         * The metrics coulb be precision, recall, F1, etc.
+         */
+        void SetMetric(const std::vector<fp_type> &metric);
+
+        /**
+         * @brief passes throw the test part of dataset and applies the function to each letter
+         * @param func A user-defined function that processes each letter in the testing dataset.
+         */
         void ForTest(const std::function<void(data_vector&, int)> func);
+
+        /**
+         * @brief passes throw the train part of dataset and applies the function to each letter
+         * if SetMetrics have been called, then the function will be applied more often to the letters with the worst metrics
+         * @param func A user-defined function that processes each letter in the training dataset.
+         */
         void ForTrain(const std::function<void(data_vector&, int)> func);
         
-        void SetMetric(const std::vector<fp_type> &metric);
-        void Split(unsigned int proportion);
+        /**
+         * @brief change part of train dataset. Creates new part of train dataset from test dataset
+         */
         void CrossUpdate();
+
+        /**
+         * @brief Get the Size of the dataset
+         * @return unsigned int size of the dataset
+         */
         unsigned int Size() { return size_; }
+
+        /**
+         * @brief Get the Size of the test dataset
+         * @return unsigned int size of the test dataset
+         */
         unsigned int TrainSize() { return size_ * train_proportion_; }
 
-        // throw an error if the dataset is of a different size
+        /**
+         * @brief throw an error if the dataset is of a different size
+         */
         void Validate(size_t letter_size, unsigned int classes);
 
+        /**
+         * @brief Prints the letter to the console
+         * @param one the letter to be printed
+         */
         static void PrintLetter(const data_vector &one);
+
+        /**
+         * @brief Prints n letters to the console
+         * @param n the number of letters to be printed
+         */
         void Printn(int n);
     
     private:

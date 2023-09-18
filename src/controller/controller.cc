@@ -35,6 +35,7 @@ Controller::Controller(MainWindow* v)
     view_->setWindowTitle("MLP");
     qRegisterMetaType<Metrics>("Metrics");
     qRegisterMetaType<MappedLettersMetrics>("MappedLettersMetrics");
+    qRegisterMetaType<std::string>("std::string");
 }
 
 Controller::~Controller() 

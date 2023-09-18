@@ -25,7 +25,8 @@ MatrixModel::MatrixModel(const PerceptronSettings &settings) {
 // FORWARD
 
 void MatrixLayer::Signal(const std::vector<fp_type> *source) {
-    Arithmetic<fp_type>::MulClassic(*source, weights_, destination_);
+    // Arithmetic<fp_type>::MulClassic(*source, weights_, destination_);
+    matrix_t::Mul(*source, weights_, destination_);
 
     for (unsigned int g = 0; g < weights_.GetCols(); ++g) {
         destination_[g] = settings_.activation(destination_[g] + biases_[g]);
@@ -92,7 +93,8 @@ void MatrixLayer::UpdateFirst(const std::vector<fp_type> *source) {
 
 void MatrixLayer::Update(MatrixLayer &prev_layer) {
     UpdateGradientsBiases();
-    Arithmetic<fp_type>::MulBTClassic(gradients_, weights_, prev_layer.error_);
+    // Arithmetic<fp_type>::MulBTClassic(gradients_, weights_, prev_layer.error_);
+    matrix_t::MulBT(gradients_, weights_, prev_layer.error_);
     UpdateWeights(&prev_layer.destination_);
 }
 

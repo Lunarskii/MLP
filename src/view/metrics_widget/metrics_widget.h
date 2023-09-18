@@ -16,22 +16,47 @@ QT_END_NAMESPACE
 
 namespace s21 {
 
+/**
+ * @brief Widget for displaying metrics
+ */
 class MetricsWidget : public QWidget {
     Q_OBJECT
 
     using Style = MetricsWidgetStyle;
     public:
+        /**
+         * @brief Construct a new Metrics Widget object
+         * 
+         * @param parent 
+         */
         MetricsWidget(QWidget *parent = nullptr);
         virtual ~MetricsWidget() = default;
 
+        /**
+         * @brief Set the Metrics object
+         * Udate the metrics and repaint the widget
+         * @param m new metrix
+         */
         void SetMetrics(Metrics &m);
         
-
+        /**
+         * @brief Clear the metrics and repaint the widget
+         * 
+         */
         void Clear();
 
     protected:
         void paintEvent(QPaintEvent *event) override;
         void resizeEvent(QResizeEvent *event) override;
+
+        /**
+         * @brief change the view of the metrics
+         * Types of view:
+         * 1. Metrices charts. One chart for each metric
+         * 2. Classes charts. One chart for each class
+         * 
+         * @param event 
+         */
         void mouseDoubleClickEvent(QMouseEvent *event) override;
 
     private:
@@ -44,7 +69,6 @@ class MetricsWidget : public QWidget {
         std::vector<double> accuracy_, precision_, recall_, f1_,
                 classes_precision_, classes_recall_, classes_f1_;
         unsigned int count_ = 0;
-
 
         unsigned int height_, width_;
 
