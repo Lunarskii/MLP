@@ -232,4 +232,9 @@ void GraphModel::ToFile(const std::string &file_name) {
     file.close();
 }
 
+void GraphModel::UpdateLR()
+{
+    settings_.learning_rate *= settings_.lr_epoch_k;
+}
+
 } // namespace s21

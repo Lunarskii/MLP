@@ -86,6 +86,11 @@ public:
 	 */
 	void ToFile(const std::string &file_name) override;
 
+	/**
+	 * @brief Overrides the method to update the learning rate for the model.
+	 */
+	void UpdateLR() override;
+
 private:
 	void UpdateOutputLayer(std::size_t answer);
 	void UpdateHiddenLayers();
