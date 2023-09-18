@@ -17,7 +17,7 @@ class GraphLayer
 
 public:
 	GraphLayer(Graph* graph, std::size_t size);
-	void LinkLayers(GraphLayer& next_layer);
+    void LinkLayers(GraphLayer& next_layer, const PerceptronSettings& settings);
 
 private:
 	Graph* graph_;

@@ -15,14 +15,14 @@ GraphLayer::GraphLayer(Graph* graph, std::size_t size)
     }
 }
 
-void GraphLayer::LinkLayers(GraphLayer& next_layer)
+void GraphLayer::LinkLayers(GraphLayer& next_layer, const PerceptronSettings& settings)
 {
     for (auto first_vertex : vertex_indexes_)
     {
         for (auto second_vertex : next_layer.vertex_indexes_)
         {
             Edge& edge = graph_->AddEdge(first_vertex, second_vertex);
-            edge.weight = Func::XavierWeightsInit(vertex_indexes_.size(), next_layer.vertex_indexes_.size()); // поменять инициализацию
+            edge.weight = settings.weight_init(vertex_indexes_.size(), next_layer.vertex_indexes_.size());
         }
     }
     next_layer.number_of_edges_of_previous_layers = vertex_indexes_.size() * next_layer.vertex_indexes_.size() + number_of_edges_of_previous_layers;
@@ -39,7 +39,7 @@ GraphModel::GraphModel(const PerceptronSettings& settings)
 
     for (unsigned int i = 0; i < layers_.size() - 1; ++i)
     {
-        layers_[i].LinkLayers(layers_[i + 1]);
+        layers_[i].LinkLayers(layers_[i + 1], settings_);
     }
 }
 
@@ -175,7 +175,7 @@ GraphModel::GraphModel(const std::string &file_name)
 
     for (unsigned int i = 0; i < layers_.size() - 1; ++i)
     {
-        layers_[i].LinkLayers(layers_[i + 1]);
+        layers_[i].LinkLayers(layers_[i + 1], settings_);
     }
 
     std::string line;
