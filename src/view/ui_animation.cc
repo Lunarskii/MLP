@@ -43,7 +43,7 @@ void MainWindow::AddLayer_()
 void MainWindow::RemoveLayer_()
 {
     int row = ui_->layersListWidget->currentRow();
-    std::size_t size = ui_->layersListWidget->count();
+    int size = ui_->layersListWidget->count();
 
     if (row != 0 && row != size - 1 && size != 2)
     {

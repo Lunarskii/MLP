@@ -44,7 +44,7 @@ const unsigned int& AnimatedButton::GetRadius() const
     return current_radius_;
 }
 
-bool AnimatedButton::eventFilter(QObject *obj, QEvent *e)
+bool AnimatedButton::eventFilter(QObject *obj [[maybe_unused]], QEvent *e)
 {
     if (e->type() == QEvent::HoverEnter)
     {

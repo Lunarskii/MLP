@@ -141,7 +141,7 @@ void MainWindow::Manager_()
     }
 }
 
-void MainWindow::AddErrorToGraph(double error, unsigned int epoch)
+void MainWindow::AddErrorToGraph(double error, unsigned int epoch [[maybe_unused]])
 {
     graph_widget_->PushBack(error);
 }

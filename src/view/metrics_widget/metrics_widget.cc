@@ -112,7 +112,7 @@ void MetricsWidget::DrawAxes() {
     painter_.setPen(QPen(Style::grid_color, Style::grid_size));
 
     // draw gorizontal grid
-    for (int k = 0; k < Style::grid_number; ++k) {
+    for (unsigned int k = 0; k < Style::grid_number; ++k) {
         painter_.drawLine(x,
                             Style::indent + k * (height_ - 2 * Style::indent) / Style::grid_number,
                             width_ - Style::indent,
@@ -122,7 +122,7 @@ void MetricsWidget::DrawAxes() {
     // draw y axis text
     double step = 1.0 / Style::grid_number;
     painter_.setPen(QPen(Style::axes_text_color, Style::axes_text_size));
-    for (int k = 0; k < Style::grid_number; ++k) {
+    for (unsigned int k = 0; k < Style::grid_number; ++k) {
         painter_.drawText(Style::indent * 0.2,
                             Style::indent + k * (height_ - 2 * Style::indent) / Style::grid_number,
                             QString::number(1.0 - k * step, 'f', 1));
